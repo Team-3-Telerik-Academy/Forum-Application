@@ -1,0 +1,54 @@
+#background {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.9);
+    gap: 10px;
+    font-family: "Gill Sans Ultra Bold", "Helvetica Neue Ultra Bold",
+        "Futura Bold", "Arial Black", sans-serif;
+}
+
+#success {
+    background-color: white;
+    width: 25vw;
+    height: 50vh;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+#success-top {
+    background-color: #89C623;
+    width: 25vw;
+    height: 25vh;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#success-top span {
+    color: white;
+    font-size: 5vh;
+}
+
+#success-top img {
+    height: 5vh;
+    width: 5vh;
+}
+
+#success-bottom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    padding: 10px;
+    font-size: 15px;
+    line-height: 30px;
+}
