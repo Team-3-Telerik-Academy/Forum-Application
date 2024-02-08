@@ -6,7 +6,6 @@
     height: 100vh;
     width: 100vw;
     background-color: rgba(0, 0, 0, 0.9);
-    gap: 10px;
 }
 
 #sign-up {
@@ -42,13 +41,14 @@
     height: 50px;
     margin-top: 1vh;
     cursor: pointer;
+    margin-bottom: 10px;
 }
 
 #sign-up-buttons {
     display: flex;
     justify-content: end;
     align-items: end;
-    width: 22.5vw;
+    width: 22.7vw;
 }
 
 #sign-up-buttons a {
@@ -62,4 +62,5 @@
     color: white;
     background-color: #89c623;
     border-radius: 10px;
+    font-size: 20px;
 }

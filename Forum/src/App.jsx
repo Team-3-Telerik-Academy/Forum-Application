@@ -5,19 +5,23 @@ import SignIn from "./Components/Views/SignIn/SignIn";
 import SignUp from "./Components/Views/SignUp/SignUp";
 import AppContext from "./AppContext/AppContext";
 import { useState } from "react";
+import Footer from "./Components/Footer/Footer";
 
 const App = () => {
   const [isRegistered, setRegistered] = useState(false);
+  const [isLogged, setIsLogged] = useState(true);
 
   return (
     <BrowserRouter>
-      <AppContext.Provider value={{isRegistered, setRegistered}}>
+      <AppContext.Provider value={{isRegistered, setRegistered, isLogged, setIsLogged}}>
         <Routes>
           <Route index element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/create-new-post" element={<SignUp />} />
         </Routes>
+        <Footer />
       </AppContext.Provider>
     </BrowserRouter>
   );

@@ -44,12 +44,12 @@ input:focus {
 }
 
 .footer {
-  margin-top: 10px;
   height: 20vh;
-  width: 20vw;
+  width: 21.5vw;
   display: flex;
   justify-content: flex-end;
   gap: 10px;
+  font-size: 20px;
 }
 
 .sign-up-nav {
@@ -58,7 +58,7 @@ input:focus {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 120px;
+  width: 150px;
   text-decoration: none;
   color: white;
 }
