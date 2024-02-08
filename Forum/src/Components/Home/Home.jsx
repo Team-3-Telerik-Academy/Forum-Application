@@ -16,7 +16,7 @@ const Home = () => {
             name={"Art"}
             posts={5}
             image={"/src/Images/art.jpg"}
-            color={"#9DCEC9"}
+            color={"#60AEBB"}
           />
           <Category
             name={"Gaming"}
