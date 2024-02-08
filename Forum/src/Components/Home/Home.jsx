@@ -1,5 +1,4 @@
 import "./Home.css";
-import Button from "../Button.jsx/Button";
 import Header from "../Header/Header";
 
 const Home = () => {

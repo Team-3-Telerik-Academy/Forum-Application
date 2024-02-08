@@ -1,46 +1,48 @@
 .header-content {
-    display: flex;
-    height: 10vh;
-    width: 100%;
-    background-color: transparent;
-    justify-content: space-between;
-    padding: 15px;
+  display: flex;
+  height: 10vh;
+  width: 100%;
+  background-color: transparent;
+  justify-content: space-between;
+  padding: 15px;
 }
 
 .button-content {
-    width: 180px;
-    display: flex;
-    gap: 15px;
+  width: 180px;
+  display: flex;
+  gap: 15px;
 }
 
 #logo img {
-    width: 50px;
-    height: 50px;
-    margin-left: 1vh;
+  width: 50px;
+  height: 50px;
+  margin-left: 1vh;
 }
 
 #logo span {
-    font-family: 'Gill Sans Ultra Bold', 'Helvetica Neue Ultra Bold', 'Futura Bold', 'Arial Black', sans-serif;
-    font-size: 4vh;
-    font-weight: bold;
-    color: white;
+  font-family: "Gill Sans Ultra Bold", "Helvetica Neue Ultra Bold",
+    "Futura Bold", "Arial Black", sans-serif;
+  font-size: 4vh;
+  font-weight: bold;
+  color: white;
 }
 
 #logo {
-    display: flex;
-    gap: 15px;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
 }
 
 .button-content a {
-    width: 60px;
-    height: 25px;
-    color: white;
-    padding: 10px;
-    font-size: 18px;
-    text-decoration: none;
-    border: none;
-    border-radius: 10px;
-    font-weight: bold;
+  width: 60px;
+  height: 23px;
+  color: white;
+  padding: 10px;
+  font-size: 18px;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
 }

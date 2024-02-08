@@ -5,7 +5,7 @@ const Header = () => {
   return (
     <div className="header-content">
       <div id="logo">
-      <img src="/src/Images/logo.png" alt="" />
+      <img src="/src/Images/logo.png" alt="logo" />
       {/* <span>GAMING FORUM 2024</span> */}
       </div>
       <div className="button-content">
