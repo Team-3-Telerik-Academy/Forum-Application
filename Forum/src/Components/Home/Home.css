@@ -1,0 +1,14 @@
+.home-content {
+  margin: 0;
+  padding: 0;
+  background-color: rgba(245, 243, 243, 0.186);
+  color: black;
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  width: 100%;
+  background-image: url("/src/Images/background.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
