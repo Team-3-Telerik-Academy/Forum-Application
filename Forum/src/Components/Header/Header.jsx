@@ -1,13 +1,18 @@
-import Button from "../Button.jsx/Button";
 import "./Header.css";
+import { NavLink } from 'react-router-dom';
 
 const Header = () => {
   return (
     <div className="header-content">
-      <span>GAMING FORUM 2024</span>
+      <div id="logo">
+      <img src="/src/Images/logo.png" alt="" />
+      {/* <span>GAMING FORUM 2024</span> */}
+      </div>
       <div className="button-content">
-        <Button color={"#CD4D95"}>Sign in</Button>
-        <Button color={"#1BB76E"}>Sign up</Button>
+        {/* <Button color={"#CD4D95"}>Sign in</Button> */}
+        {/* <Button color={"#89C623"}>Sign up</Button> */}
+        <NavLink style={{ backgroundColor: "#CD4D95" }} to={'/sign-in'}>Sign in</NavLink>
+        <NavLink style={{ backgroundColor: "#89C623" }} to={'/sign-up'}>Sign up</NavLink>
       </div>
     </div>
   );
