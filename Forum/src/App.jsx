@@ -9,11 +9,24 @@ import Footer from "./Components/Footer/Footer";
 
 const App = () => {
   const [isRegistered, setRegistered] = useState(false);
-  const [isLogged, setIsLogged] = useState(true);
+  // const [isLogged, setIsLogged] = useState(true);
+  const [appState, setAppState] = useState({
+    user: null,
+    userData: null,
+  });
 
   return (
     <BrowserRouter>
-      <AppContext.Provider value={{isRegistered, setRegistered, isLogged, setIsLogged}}>
+      <AppContext.Provider
+        value={{
+          isRegistered,
+          setRegistered,
+          // isLogged,
+          // setIsLogged,
+          ...appState,
+          setContext: setAppState,
+        }}
+      >
         <Routes>
           <Route index element={<Home />} />
           <Route path="/home" element={<Home />} />

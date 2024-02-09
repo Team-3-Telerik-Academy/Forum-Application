@@ -5,12 +5,12 @@ import AppContext from "../../AppContext/AppContext";
 import Category from "../Category/Category";
 
 const Home = () => {
-  const { isLogged } = useContext(AppContext);
+  const { user, userData } = useContext(AppContext);
 
   return (
     <div className="home-content">
       <Header />
-      {isLogged && (
+      {user && (
         <div id="categories-content">
           <Category
             name={"Art"}
