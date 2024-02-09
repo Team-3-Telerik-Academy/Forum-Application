@@ -2,6 +2,7 @@ import { useContext } from "react";
 import "./Header.css";
 import { NavLink } from "react-router-dom";
 import AppContext from "../../AppContext/AppContext";
+import { logoutUser } from "../../services/auth.service";
 
 const Header = () => {
   const { user, userData, setAppState } = useContext(AppContext);
@@ -19,7 +20,7 @@ const Header = () => {
     <div className="header-content">
       <div id="logo">
         <img src="/src/Images/logo.png" alt="logo" />
-        {user && <NavLink to="">+ New post</NavLink>}
+        {user && <NavLink to="/create-new-post">+ New post</NavLink>}
       </div>
       {user && (
         <div id="search">
@@ -39,7 +40,7 @@ const Header = () => {
       )}
       {user ? (
         <div id="logged-in">
-          <span>Welcome, ...</span>{" "}
+          <span>Welcome, {userData?.handle}</span>{" "}
           <NavLink
             onClick={onLogout}
             style={{ backgroundColor: "#89C623" }}

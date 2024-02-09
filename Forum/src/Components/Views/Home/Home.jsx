@@ -1,11 +1,11 @@
 import "./Home.css";
-import Header from "../Header/Header";
 import { useContext } from "react";
-import AppContext from "../../AppContext/AppContext";
-import Category from "../Category/Category";
+import Header from "../../Header/Header";
+import AppContext from "../../../AppContext/AppContext";
+import Category from "../../Category/Category";
 
 const Home = () => {
-  const { user, userData } = useContext(AppContext);
+  const { user } = useContext(AppContext);
 
   return (
     <div className="home-content">
@@ -14,25 +14,21 @@ const Home = () => {
         <div id="categories-content">
           <Category
             name={"Art"}
-            posts={5}
             image={"/src/Images/art.jpg"}
             color={"#60AEBB"}
           />
           <Category
             name={"Gaming"}
-            posts={5}
             image={"/src/Images/gaming.png"}
             color={"#2B1A5A"}
           />
           <Category
             name={"Lego"}
-            posts={5}
             image={"/src/Images/lego.png"}
             color={"#328D67"}
           />
           <Category
             name={"Photography"}
-            posts={5}
             image={"/src/Images/photography.jpg"}
             color={"#AA81B4"}
           />

@@ -1,11 +1,13 @@
 footer {
+    font-size: 14px;
     color: white;
     background-color: black;
     text-align: center;
     height: 30px;
-    font-weight: bold;
     padding-top: 7px;
     position: fixed;
     bottom: 0;
     width: 100%;
+    font-family: "Gill Sans Ultra Bold", "Helvetica Neue Ultra Bold",
+        "Futura Bold", "Arial Black", sans-serif;
 }

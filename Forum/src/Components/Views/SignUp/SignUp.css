@@ -29,6 +29,8 @@
     padding: 10px;
     color: white;
     background-color: #191919;
+    font-family: "Gill Sans Ultra Bold", "Helvetica Neue Ultra Bold",
+        "Futura Bold", "Arial Black", sans-serif;
 }
 
 #sign-up input:focus {
@@ -49,6 +51,8 @@
     justify-content: end;
     align-items: end;
     width: 22.7vw;
+    font-family: "Gill Sans Ultra Bold", "Helvetica Neue Ultra Bold",
+        "Futura Bold", "Arial Black", sans-serif;
 }
 
 #sign-up-buttons a {
@@ -62,5 +66,5 @@
     color: white;
     background-color: #89c623;
     border-radius: 10px;
-    font-size: 20px;
+    font-size: 15px;
 }

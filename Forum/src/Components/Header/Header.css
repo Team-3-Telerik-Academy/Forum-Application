@@ -11,14 +11,12 @@
     "Futura Bold", "Arial Black", sans-serif;
 }
 
-a {
-  margin-top: 15px;
-}
 
 .button-content {
   width: 180px;
   display: flex;
   gap: 15px;
+  margin-top: 15px;
 }
 
 #logo {
@@ -33,8 +31,14 @@ a {
   background-color: #89C623;
   padding: 8px;
   border-radius: 10px;
-  font-size: 13px;
+  font-size: 15px;
   margin: 0;
+  width: 100px;
+  height: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
 }
 
 #logo img {
@@ -73,7 +77,6 @@ a {
   font-size: 2.5vh;
   font-weight: bold;
   color: white;
-  margin-top: 30px;
 }
 
 #logged-in a {
@@ -100,7 +103,7 @@ a {
 
 #search input {
   width: 300px;
-  height: 20px;
+  height: 22px;
   border-radius: 10px;
   border: none;
   padding: 10px;
@@ -111,10 +114,11 @@ a {
 
 #search #magnifying-glass {
   width: 45px;
-  height: 40px;
+  height: 42px;
   border-radius: 10px;
   border: none;
-  background-color: #89C623;
+  /* background-color: #89C623; */
+  background-color: #CD4D95;
   cursor: pointer;
   position: absolute;
   right: -10px;

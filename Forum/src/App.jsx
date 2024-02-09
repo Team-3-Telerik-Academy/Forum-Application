@@ -1,19 +1,46 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import Home from "./Components/Home/Home";
 import SignIn from "./Components/Views/SignIn/SignIn";
 import SignUp from "./Components/Views/SignUp/SignUp";
 import AppContext from "./AppContext/AppContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Footer from "./Components/Footer/Footer";
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { getUserData } from "./services/users.service";
+import { auth } from "./config/firebase-config";
+import Home from "./Components/Views/Home/Home";
+import CreatePost from "./Components/Views/CreatePost/CreatePost";
+import Posts from "./Components/Views/Posts/Posts";
 
 const App = () => {
+  const [user, loading, error] = useAuthState(auth);
   const [isRegistered, setRegistered] = useState(false);
   // const [isLogged, setIsLogged] = useState(true);
   const [appState, setAppState] = useState({
     user: null,
     userData: null,
   });
+
+  if (appState.user !== user) {
+    setAppState({ user });
+  }
+
+  useEffect(() => {
+    if (user === null) return;
+
+    getUserData(user.uid)
+      .then(snapshot => {
+        if (!snapshot.exists()) {
+          throw new Error('Something went wrong!');
+        }
+
+        setAppState({
+          ...appState,
+          userData: snapshot.val()[Object.keys(snapshot.val())[0]],
+        });
+      })
+      .catch(e => alert(e.message));
+  }, [user]);
 
   return (
     <BrowserRouter>
@@ -32,7 +59,8 @@ const App = () => {
           <Route path="/home" element={<Home />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
-          <Route path="/create-new-post" element={<SignUp />} />
+          <Route path="/create-new-post" element={<CreatePost />} />
+          <Route path="/:type" element={<Posts/>} />
         </Routes>
         <Footer />
       </AppContext.Provider>
