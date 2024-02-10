@@ -1,0 +1,54 @@
+#not-found-background {
+    height: 100vh;
+    background-image: url('https://assets.codepen.io/1538474/star.svg'),
+        linear-gradient(to bottom, #020027, #180027);
+    margin: 0;
+    background-attachment: fixed;
+    overflow: hidden;
+    font-family: "Gill Sans Ultra Bold", "Helvetica Neue Ultra Bold",
+        "Futura Bold", "Arial Black", sans-serif;
+}
+
+.logo-404 {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    top: 22vmin;
+    width: 30vmin;
+}
+
+.not-found-title {
+    color: white;
+    font-weight: 600;
+    text-align: center;
+    font-size: 5vmin;
+    margin-top: 31vmin;
+}
+
+.subtitle {
+    color: white;
+    font-weight: 400;
+    text-align: center;
+    font-size: 3vmin;
+    margin-top: -1vmin;
+    margin-bottom: 7vmin;
+}
+
+.btn-back {
+    border: 1px solid white;
+    border-radius: 10px;
+    color: white;
+    height: 5vmin;
+    padding: 12px;
+    text-decoration: none;
+    font-size: 2vh;
+    font-family: "Gill Sans Ultra Bold", "Helvetica Neue Ultra Bold",
+    "Futura Bold", "Arial Black", sans-serif;
+}
+
+.btn-back:hover {
+    outline: none;
+    background-image: linear-gradient(to bottom, #D84315, #FC9E00);
+}

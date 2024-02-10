@@ -19,8 +19,10 @@ const SignUp = () => {
     firstName: "",
     lastName: "",
   });
+  const [error, setError] = useState("");
 
   const updateForm = (prop) => (e) => {
+    setError("");
     setForm({
       ...form,
       [prop]: e.target.value,
@@ -30,17 +32,17 @@ const SignUp = () => {
   const onRegister = () => {
 
     if (form.firstName.length < 4 || form.firstName.length > 32) {
-      window.alert("First Name should be between 4 and 32 characters long!");
+      setError("First Name should be between 4 and 32 characters long!");
       return;
     }
 
     if (form.lastName.length < 4 || form.lastName.length > 32) {
-      window.alert("Last Name should be between 4 and 32 characters long!");
+      setError("Last Name should be between 4 and 32 characters long!");
       return;
     }
 
     if (!form.handle) {
-      window.alert("Handle is required!");
+      setError("Username is required!");
       return;
     }
 
@@ -52,12 +54,12 @@ const SignUp = () => {
     const isValid = isValidEmail(form.email);
 
     if (!isValid) {
-      window.alert("Invalid email!");
+      setError("Email is not valid!");
       return;
     }
 
     if (!form.password) {
-      window.alert("Password is required!");
+      setError("Password is required!");
       return;
     }
 
@@ -86,13 +88,11 @@ const SignUp = () => {
       })
       .catch((e) => {
         if (e.message.includes("email")) {
-          window.alert(
-            "An account with this email already exists! Please sign in!"
-          );
+          setError("Email is already in use!");
         } else if (e.message.includes("weak-password")) {
-          window.alert("Password should be at least 6 characters long!");
+          setError("Password should be at least 6 characters long!");
         } else {
-          window.alert(e.message);
+          setError(e.message);
         }
       });
   };
@@ -103,12 +103,16 @@ const SignUp = () => {
         <SuccessfullyRegistered />
       ) : (
         <div id="sign-up-page">
+          <div id="observatory">
+            <img src="/src/Images/observatory.svg" alt="observatory" />
+          </div>
           <img
             onClick={() => navigate("/home")}
             src="/src/Images/logo.png"
-            alt=""
+            alt="logo"
           />
           <div id="sign-up">
+            {error && <div className="error">{error}</div>}
             <input
               type="text"
               value={form.firstName}

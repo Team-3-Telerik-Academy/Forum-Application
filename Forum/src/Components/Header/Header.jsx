@@ -1,12 +1,29 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./Header.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import AppContext from "../../AppContext/AppContext";
 import { logoutUser } from "../../services/auth.service";
+import { getAllPosts } from "../../services/posts.service";
+import { getAllUsers } from "../../services/users.service";
 
-const Header = ({ magnifiedGlassColor }) => {
+const Header = ({magnifiedGlassColor}) => {
   const { user, userData, setAppState } = useContext(AppContext);
   const navigate = useNavigate();
+  const [numbers, setNumbers] = useState({
+    users: 0,
+    posts: 0,
+  });
+
+  useEffect(() => {
+    getAllPosts().then((posts) =>
+      getAllUsers().then((users) => {
+        setNumbers({
+          users: Object.keys(users).length,
+          posts: posts.length,
+        });
+      })
+    );
+  }, []);
 
   const onLogout = () => {
     logoutUser().then(() => {
@@ -25,6 +42,16 @@ const Header = ({ magnifiedGlassColor }) => {
           src="/src/Images/logo.png"
           alt="logo"
         />
+        {!user && (
+          <div id="no-logged-in-info">
+            <span id="users">
+              Registered users: {numbers.users}
+            </span>
+            <span id="posts">
+              Created posts: {numbers.posts}
+            </span>
+          </div>
+        )}
         {user && <NavLink to="/create-new-post">+ New post</NavLink>}
       </div>
       {user && (
@@ -35,14 +62,7 @@ const Header = ({ magnifiedGlassColor }) => {
             id="search"
             placeholder="Trends, posts, #tags"
           />
-          <div
-            id="magnifying-glass"
-            style={
-              magnifiedGlassColor
-                ? { backgroundColor: magnifiedGlassColor }
-                : { backgroundColor: "#CD4D95" }
-            }
-          >
+          <div style={{backgroundColor: magnifiedGlassColor}} id="magnifying-glass">
             <img
               src="/src/Images/magnifying-glass.svg"
               alt="magnifying-glass"
@@ -58,7 +78,7 @@ const Header = ({ magnifiedGlassColor }) => {
             style={{ backgroundColor: "#89C623" }}
             to={"/home"}
           >
-            Log Out
+            Sign Out
           </NavLink>
         </div>
       ) : (

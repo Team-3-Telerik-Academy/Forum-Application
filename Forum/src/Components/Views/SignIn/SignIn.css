@@ -82,3 +82,17 @@ input:focus {
   border-radius: 10px;
   font-size: 15px;
 }
+
+#observatory img {
+  position: absolute;
+  bottom: 25px;
+  left: 0;
+  height: 200px;
+  width: 300px;
+}
+
+.error {
+  color: red;
+  font-size: 15px;
+  text-align: center;
+}

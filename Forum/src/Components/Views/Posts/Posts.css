@@ -1,4 +1,4 @@
-#post-content {
+.post-content {
   width: 100%;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.9);
@@ -84,7 +84,7 @@ hr {
   gap: 10px;
 }
 
-a {
+.post-main-content a {
   color: #d98f40;
   text-decoration: none;
   font-size: 22px;
@@ -94,7 +94,7 @@ a {
   line-height: 1.5;
 }
 
-span {
+.post-content span {
   color: white;
   font-size: 14px;
   font-family: -apple-system, BlinkMacSystemFont, segoe ui, Roboto, Helvetica,

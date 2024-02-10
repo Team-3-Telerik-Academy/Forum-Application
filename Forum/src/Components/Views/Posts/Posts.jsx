@@ -16,7 +16,7 @@ const Posts = () => {
   }, []);
 
   return (
-    <div id="post-content">
+    <div className="post-content">
       <Header magnifiedGlassColor="#d98f40" />
       <div className="title">
         <span>{type.charAt(0).toUpperCase() + type.slice(1)} category</span>

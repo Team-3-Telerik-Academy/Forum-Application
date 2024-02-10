@@ -16,10 +16,10 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 30vh;
+    height: 35vh;
     width: 20vw;
     background-color: #2C2F34;
-    padding: 3vh;
+    padding: 6vh;
     border-radius: 10px;
     gap: 10px;
 }
@@ -53,7 +53,7 @@
     display: flex;
     justify-content: end;
     align-items: end;
-    width: 22.7vw;
+    width: 25.5vw;
     font-family: "Gill Sans Ultra Bold", "Helvetica Neue Ultra Bold",
         "Futura Bold", "Arial Black", sans-serif;
 }
@@ -70,4 +70,18 @@
     background-color: #89c623;
     border-radius: 10px;
     font-size: 15px;
+}
+
+#observatory img {
+    position: absolute;
+    bottom: 25px;
+    left: 0;
+    height: 200px;
+    width: 300px;
+}
+
+.error {
+    color: red;
+    font-size: 15px;
+    text-align: center;
 }

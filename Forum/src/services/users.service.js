@@ -15,3 +15,15 @@ export const getUserData = (uid) => {
 
   return get(query(ref(db, 'users'), orderByChild('uid'), equalTo(uid)));
 };
+
+export const getAllUsers = () => {
+
+  return get(ref(db, 'users'))
+      .then(snapshot => {
+          if (!snapshot.exists()) {
+              return [];
+          }
+
+          return snapshot.val();
+      });
+};

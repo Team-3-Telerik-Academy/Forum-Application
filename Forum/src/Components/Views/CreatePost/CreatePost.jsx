@@ -12,21 +12,22 @@ const CreatePost = () => {
     content: "",
     category: "",
   });
+  const [error, setError] = useState("");
 
   const createPost = async () => {
 
     if (post.title.length < 16 || post.title.length > 64) {
-      window.alert("Title should be between 16 and 64 characters long!");
+      setError("Title should be between 16 and 64 characters long!");
       return;
     }
 
     if (post.content.length < 32 || post.content.length > 8192) {
-      window.alert("Content should be between 32 and 8192 characters long!");
+      setError("Content should be between 32 and 8192 characters long!");
       return;
     }
 
     if (!post.category) {
-      window.alert("Category is required!");
+      setError("Category is required!");
       return;
     }
 
@@ -39,6 +40,7 @@ const CreatePost = () => {
   };
 
   const updatePost = (prop) => (e) => {
+    setError("");
     setPost({
       ...post,
       [prop]: e.target.value,
@@ -52,6 +54,7 @@ const CreatePost = () => {
       </div>
       <div id="over-the-form">
         <div id="create-post-content">
+          {error && <div className="error">{error}</div>}
           <div>
             <label htmlFor="title">Title:</label>
             <input

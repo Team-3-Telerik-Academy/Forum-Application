@@ -5,6 +5,7 @@ import AppContext from "../../../AppContext/AppContext";
 import { loginUser } from "../../../services/auth.service";
 
 const SignIn = () => {
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   const { setRegistered, setContext } = useContext(AppContext);
   const [form, setForm] = useState({
@@ -13,15 +14,32 @@ const SignIn = () => {
   });
 
   const updateForm = (prop) => (e) => {
+    setError("");
     setForm({
       ...form,
       [prop]: e.target.value,
     });
   };
 
-  //TODO
   const onLogin = () => {
-    // TODO: validate form before submitting
+
+    if (!form.email) {
+      setError("Email is required!");
+      setForm({
+        ...form,
+        password: "",
+      });
+      return;
+    }
+
+    if (!form.password) {
+      setError("Password is required!");
+      setForm({
+        ...form,
+        password: "",
+      });
+      return;
+    }
 
     loginUser(form.email, form.password)
       .then((credential) => {
@@ -32,7 +50,14 @@ const SignIn = () => {
       .then(() => {
         navigate("/");
       })
-      .catch((e) => console.log(e.message));
+      .catch((e) => {
+        console.log(e.message);
+        setError('Your login information was incorrect! Please try again.');
+        setForm({
+          ...form,
+          password: "",
+        });
+      });
   };
 
   useEffect(() => {
@@ -41,6 +66,9 @@ const SignIn = () => {
 
   return (
     <div className="signin-content">
+      <div id="observatory">
+        <img src="/src/Images/observatory.svg" alt="observatory" />
+      </div>
       <div className="logo">
         <img
           onClick={() => navigate("/home")}
@@ -49,6 +77,7 @@ const SignIn = () => {
         />
       </div>
       <div className="form-content">
+        {error && <div className="error">{error}</div>}
         <input
           type="email"
           onChange={updateForm("email")}
