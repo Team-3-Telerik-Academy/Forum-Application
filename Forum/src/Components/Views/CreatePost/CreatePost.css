@@ -14,10 +14,23 @@
 #header {
     position: absolute;
     top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 0;
+}
 
+#over-the-form {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 #create-post-content {
+    padding-top: 25px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -28,30 +41,35 @@
     /* background-image: linear-gradient(to bottom left, #cd4d96d2, #89C623); */
     /* background-color: #8ac623; */
     border: 2px solid #cd4d96;
+    box-shadow: 0px 0px 10px 0px #e0b1cbb8;
     width: 35vw;
-    height: 60vh;
+    height: 70vh;
     border-radius: 10px;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    gap: 20px;
+    gap: 40px;
 }
 
 #create-post-content div {
     display: flex;
-    /* flex-direction: column; */
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
-    /* display: flex;
-    justify-content: flex-start;
-    flex-direction: column; */
-
+    position: relative;
 }
 
 #create-post-content div label {
-    margin-right: 20px;
+    position: absolute;
+    top: -30px;
+    left: 103px;
+}
+
+#create-post-content div label#categories {
+    position: absolute;
+    top: -20px;
 }
 
 #create-post-content div input,
@@ -69,15 +87,13 @@ select {
 #create-post-content div input:focus,
 textarea:focus,
 select:focus {
-    /* border: 1px solid white; */
     border: 1px solid #cd4d96;
     outline: none;
 }
 
 #create-post-content div input {
     width: 60%;
-    height: 80%;
-    margin-left: 3.5vh;
+    height: 3.3vh;
 }
 
 #create-post-content div textarea {
@@ -85,10 +101,14 @@ select:focus {
 }
 
 #create-post-content div select {
-    /* background-color: #89C623; */
-    background-color: #e0b1cb3f;
-    height: 110%;
+    background-color: #41353B;
+    /* background-color: #e0b1cb3f; */
+    height: 5vh;
+    width: 43.3%;
     color: white;
+    position: absolute;
+    top: -25px;
+    left: 38%;
 }
 
 .close-create-post-button {
@@ -98,8 +118,9 @@ select:focus {
     width: 45px;
     height: 45px;
     border-radius: 50%;
-    /* background-color: #1DA1F2; */
-    background-color: #e0b1cbb8;
+    background-color: #cd4d96;
+    /* background-color: #8ac6238f; */
+    /* background-color: #e0b1cbb8; */
     color: white;
     font-size: 20px;
     cursor: pointer;
@@ -112,8 +133,9 @@ select:focus {
 #create-post-button {
     width: 150px;
     height: 45px;
-    /* background-color: #8ac623; */
-    background-color: #e0b1cbb8;
+    background-color: #cd4d96;
+    /* background-color: #8ac6238f; */
+    /* background-color: #e0b1cbb8; */
     border: none;
     border-radius: 10px;
     color: white;
@@ -123,5 +145,5 @@ select:focus {
     display: flex;
     align-items: center;
     justify-content: center;
-    /* margin-left: 50px; */
+    margin-top: 5px;
 }

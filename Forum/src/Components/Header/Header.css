@@ -1,12 +1,11 @@
 .header-content {
   display: flex;
   height: 10vh;
-  width: 98vw;
-  margin-right: 1vw;
-  margin-left: 1vw;
+  width: 97vw;
+  margin-right: 1.5vw;
+  margin-left: 1.5vw;
   background-color: transparent;
   justify-content: space-between;
-  /* padding-top: 5px; */
   font-family: "Gill Sans Ultra Bold", "Helvetica Neue Ultra Bold",
     "Futura Bold", "Arial Black", sans-serif;
 }
@@ -44,6 +43,7 @@
 #logo img {
   width: 50px;
   height: 50px;
+  cursor: pointer;
 }
 
 #logo span {
@@ -110,6 +110,7 @@
   font-size: 15px;
   font-weight: bold;
   margin-left: 40px;
+  margin-top: 5px;
 }
 
 #search #magnifying-glass {
@@ -121,7 +122,9 @@
   background-color: #CD4D95;
   cursor: pointer;
   position: absolute;
-  right: -10px;
+  top: 16.3px;
+  /* right: -10px; */
+  right: -47px;
   text-align: center;
 }
 

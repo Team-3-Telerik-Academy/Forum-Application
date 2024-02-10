@@ -6,6 +6,9 @@
   align-items: center;
   background-color: rgba(0, 0, 0, 0.9);
   flex-direction: column;
+  gap: 20px;
+  font-family: "Gill Sans Ultra Bold", "Helvetica Neue Ultra Bold",
+    "Futura Bold", "Arial Black", sans-serif;
 }
 
 .logo img {
@@ -36,6 +39,8 @@
   padding: 5px;
   border-radius: 7px;
   padding: 5px;
+  font-family: "Gill Sans Ultra Bold", "Helvetica Neue Ultra Bold",
+    "Futura Bold", "Arial Black", sans-serif;
 }
 
 input:focus {
@@ -61,6 +66,7 @@ input:focus {
   width: 150px;
   text-decoration: none;
   color: white;
+  font-size: 15px;
 }
 
 .sign-in-nav {
@@ -74,4 +80,5 @@ input:focus {
   color: white;
   background-color: #89c623;
   border-radius: 10px;
+  font-size: 15px;
 }

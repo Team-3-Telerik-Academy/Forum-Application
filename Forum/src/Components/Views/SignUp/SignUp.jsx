@@ -16,6 +16,8 @@ const SignUp = () => {
     handle: "",
     email: "",
     password: "",
+    firstName: "",
+    lastName: "",
   });
 
   const updateForm = (prop) => (e) => {
@@ -25,24 +27,55 @@ const SignUp = () => {
     });
   };
 
-  //TODO validation
   const onRegister = () => {
-    // TODO: validate the form before submitting request
 
-    // check if an user with the handle exist
+    if (form.firstName.length < 4 || form.firstName.length > 32) {
+      window.alert("First Name should be between 4 and 32 characters long!");
+      return;
+    }
+
+    if (form.lastName.length < 4 || form.lastName.length > 32) {
+      window.alert("Last Name should be between 4 and 32 characters long!");
+      return;
+    }
+
+    if (!form.handle) {
+      window.alert("Handle is required!");
+      return;
+    }
+
+    const isValidEmail = (email) => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    };
+    
+    const isValid = isValidEmail(form.email);
+
+    if (!isValid) {
+      window.alert("Invalid email!");
+      return;
+    }
+
+    if (!form.password) {
+      window.alert("Password is required!");
+      return;
+    }
+
     getUserByHandle(form.handle)
       .then((snapshot) => {
         if (snapshot.exists()) {
-          throw new Error(`Handle @${form.handle} has already been taken!`);
+          window.alert(`Handle @${form.handle} has already been taken!`);
+          return;
         }
 
         return registerUser(form.email, form.password);
       })
       .then((credential) => {
         setRegistered(true);
-        // the handle is unique, so create a user record with the handle, user id, data of creation, email and a map to liked tweets (an empty object initially)
         return createUserHandle(
           form.handle,
+          form.firstName,
+          form.lastName,
           credential.user.uid,
           credential.user.email
         ).then(() => {
@@ -51,10 +84,17 @@ const SignUp = () => {
           });
         });
       })
-      // .then(() => {
-      //   navigate("/");
-      // })
-      .catch((e) => console.log(e));
+      .catch((e) => {
+        if (e.message.includes("email")) {
+          window.alert(
+            "An account with this email already exists! Please sign in!"
+          );
+        } else if (e.message.includes("weak-password")) {
+          window.alert("Password should be at least 6 characters long!");
+        } else {
+          window.alert(e.message);
+        }
+      });
   };
 
   return (
@@ -69,6 +109,22 @@ const SignUp = () => {
             alt=""
           />
           <div id="sign-up">
+            <input
+              type="text"
+              value={form.firstName}
+              onChange={updateForm("firstName")}
+              placeholder="First Name"
+              name="firstName"
+              id="firstName"
+            />
+            <input
+              type="text"
+              value={form.lastName}
+              onChange={updateForm("lastName")}
+              placeholder="Last Name"
+              name="lastName"
+              id="lastName"
+            />
             <input
               type="text"
               value={form.handle}

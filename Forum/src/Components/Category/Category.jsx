@@ -2,7 +2,7 @@ import "./Category.css";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getPostsByCategory } from "../../services/tweets.service";
+import { getPostsByCategory } from "../../services/posts.service";
 
 const Category = ({ image, name, color }) => {
   const [postLength, setPostLength] = useState(null);
@@ -13,7 +13,10 @@ const Category = ({ image, name, color }) => {
   }, []);
 
   return (
-    <div onClick={() => navigate(`/${name.toLowerCase()}`)} id="category-content">
+    <div
+      onClick={() => navigate(`/${name.toLowerCase()}`)}
+      id="category-content"
+    >
       <div id="image-content">
         <img src={image} alt="gaming" />
         <div style={{ backgroundColor: color }} id="category-name">

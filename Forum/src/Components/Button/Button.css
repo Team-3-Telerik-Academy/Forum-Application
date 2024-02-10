@@ -1,11 +1,21 @@
 .button {
-  width: 70px;
-  height: 40px;
+  width: 200px;
+  height: 55px;
   color: white;
   padding: 10px;
-  font-size: 13px;
+  font-size: 17px;
   border: none;
   border-radius: 10px;
   font-weight: bold;
   cursor: pointer;
+  font-family: "Gill Sans Ultra Bold", "Helvetica Neue Ultra Bold",
+    "Futura Bold", "Arial Black", sans-serif;
+}
+
+.button:hover {
+  opacity: 0.8;
+}
+
+.button:active {
+  transform: scale(0.95);
 }

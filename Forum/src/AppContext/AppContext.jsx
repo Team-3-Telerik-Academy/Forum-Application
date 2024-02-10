@@ -7,9 +7,7 @@ const AppContext = createContext({
   setIsLogged: () => {},
   user: null,
   userData: null,
-  setContext() {
-    // real implementation comes from App.jsx
-  },
+  setContext() {},
 });
 
 export default AppContext;

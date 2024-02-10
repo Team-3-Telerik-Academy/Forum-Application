@@ -1,11 +1,12 @@
 import { useContext } from "react";
 import "./Header.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import AppContext from "../../AppContext/AppContext";
 import { logoutUser } from "../../services/auth.service";
 
 const Header = () => {
   const { user, userData, setAppState } = useContext(AppContext);
+  const navigate = useNavigate();
 
   const onLogout = () => {
     logoutUser().then(() => {
@@ -19,7 +20,7 @@ const Header = () => {
   return (
     <div className="header-content">
       <div id="logo">
-        <img src="/src/Images/logo.png" alt="logo" />
+        <img onClick={() => navigate('/home')} src="/src/Images/logo.png" alt="logo" />
         {user && <NavLink to="/create-new-post">+ New post</NavLink>}
       </div>
       {user && (
