@@ -1,0 +1,132 @@
+#post-content {
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.title {
+  color: #aaaaaa;
+  background-color: #2b2d2f;
+  height: 12vh;
+  width: 80%;
+  border-radius: 5px;
+  font-size: 20px;
+  padding: 15px;
+  font-family: montserrat, helvetica neue, Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  margin-top: 30px;
+  margin-left: 135px;
+}
+
+hr {
+  margin: 15px 0;
+}
+
+#posts-count {
+  background-color: rgba(0, 0, 0, 0.9);
+  width: 100px;
+  height: 30px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 2px;
+  color: #d98f40;
+  font-size: 13px;
+  line-height: 2.33;
+}
+
+#count {
+  color: white;
+  width: 23px;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 18px;
+  background-color: red;
+  font-size: 11px;
+  background-color: #aaaaaa;
+}
+
+.post-main {
+  width: 82%;
+  margin-left: 135px;
+  margin-top: 20px;
+  border-radius: 10px;
+}
+.post-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+  align-items: center;
+  gap: 8px;
+}
+.post-header,
+.post-footer {
+  background-color: #222222;
+  height: 5vh;
+  border-radius: 5px;
+}
+
+.post-main-content {
+  background-color: #2b2d2f;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #aaaaaa;
+  border-top: 1px solid #aaaaaa;
+}
+.title-author {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+a {
+  color: #d98f40;
+  text-decoration: none;
+  font-size: 22px;
+  font-family: -apple-system, BlinkMacSystemFont, segoe ui, Roboto, Helvetica,
+    Arial, sans-serif, apple color emoji, segoe ui emoji, segoe ui symbol;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+span {
+  color: white;
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, segoe ui, Roboto, Helvetica,
+    Arial, sans-serif, apple color emoji, segoe ui emoji, segoe ui symbol;
+}
+
+.replies-views {
+  display: flex;
+  gap: 15px;
+}
+
+.left,
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+#label-sortBy {
+  color: white;
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, segoe ui, Roboto, Helvetica,
+    Arial, sans-serif, apple color emoji, segoe ui emoji, segoe ui symbol;
+}
+
+#sortBy {
+  background-color: black;
+  font-size: 15px;
+  font-family: -apple-system, BlinkMacSystemFont, segoe ui, Roboto, Helvetica,
+    Arial, sans-serif, apple color emoji, segoe ui emoji, segoe ui symbol;
+}
+
+#sortBy:focus {
+  border: none;
+}

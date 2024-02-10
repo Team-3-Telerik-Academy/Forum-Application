@@ -4,7 +4,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import AppContext from "../../AppContext/AppContext";
 import { logoutUser } from "../../services/auth.service";
 
-const Header = () => {
+const Header = ({ magnifiedGlassColor }) => {
   const { user, userData, setAppState } = useContext(AppContext);
   const navigate = useNavigate();
 
@@ -20,7 +20,11 @@ const Header = () => {
   return (
     <div className="header-content">
       <div id="logo">
-        <img onClick={() => navigate('/home')} src="/src/Images/logo.png" alt="logo" />
+        <img
+          onClick={() => navigate("/home")}
+          src="/src/Images/logo.png"
+          alt="logo"
+        />
         {user && <NavLink to="/create-new-post">+ New post</NavLink>}
       </div>
       {user && (
@@ -31,7 +35,14 @@ const Header = () => {
             id="search"
             placeholder="Trends, posts, #tags"
           />
-          <div id="magnifying-glass">
+          <div
+            id="magnifying-glass"
+            style={
+              magnifiedGlassColor
+                ? { backgroundColor: magnifiedGlassColor }
+                : { backgroundColor: "#CD4D95" }
+            }
+          >
             <img
               src="/src/Images/magnifying-glass.svg"
               alt="magnifying-glass"
