@@ -6,6 +6,8 @@ import {
   equalTo,
   orderByChild,
   update,
+  set,
+  remove,
 } from "firebase/database";
 import { db } from "../config/firebase-config";
 
@@ -39,11 +41,23 @@ export const addPost = (title, content, category, handle) => {
     author: handle,
     createdOn: new Date().toString(),
     comments: {},
-    likes: {},
+    likes: 0,
     likedBy: {},
   }).then((result) => {
     return getPostById(result.key);
   });
+};
+
+export const editPost = (postId, title, content) => {
+  const postToEdit = ref(db, `/posts/${postId}`);
+
+  return update(postToEdit, { title: title, content: content });
+};
+
+export const deletePost = (postId) => {
+  const postToDelete = ref(db, `/posts/${postId}`);
+
+  return remove(postToDelete);
 };
 
 export const getPostById = (id) => {
@@ -57,7 +71,6 @@ export const getPostById = (id) => {
     post.createdOn = new Date(post.createdOn);
     if (!post.likedBy) post.likedBy = [];
 
-    // console.log(post);
     return post;
   });
 };
@@ -122,26 +135,63 @@ export const getAllPosts = () => {
   });
 };
 
-export const commentPost = (handle, postId) => {
-  const updateLikes = {};
-  updateLikes[`/posts/${postId}/likedBy/${handle}`] = true;
-  updateLikes[`/users/${handle}/likedPosts/${postId}`] = true;
+export const addCommentPost = (handle, postId, comment, firstName, lastName) => {
+  const commentKey = push(ref(db, `/posts/${postId}/comments`));
 
-  return update(ref(db), updateLikes);
+  return set(commentKey, {
+    handle: handle,
+    firstName: firstName,
+    lastName: lastName,
+    content: comment,
+    createdOn: new Date().toString(),
+  });
+};
+
+export const editCommentPost = (postId, commentId, content) => {
+  const commentToEdit = ref(db, `/posts/${postId}/comments/${commentId}`);
+
+  return update(commentToEdit, { content: content });
+};
+
+export const deleteCommentPost = (postId, commentId) => {
+  const commentToDelete = ref(db, `/posts/${postId}/comments/${commentId}`);
+
+  return remove(commentToDelete);
+};
+
+export const getCommentsOfAPost = (id) => {
+  return get(ref(db, `posts/${id}/comments`)).then((result) => {
+    if (!result.exists()) {
+      throw new Error(`Post with id ${id} does not exist!`);
+    }
+
+    const comments = result.val();
+
+    return comments;
+  });
 };
 
 export const likePost = (handle, postId) => {
   const updateLikes = {};
-  updateLikes[`/posts/${postId}/likedBy/${handle}`] = true;
-  updateLikes[`/users/${handle}/likedPosts/${postId}`] = true;
 
-  return update(ref(db), updateLikes);
+  get(ref(db, `/posts/${postId}/likes`)).then((result) => {
+    updateLikes[`/posts/${postId}/likes`] = result.val() + 1;
+    updateLikes[`/posts/${postId}/likedBy/${handle}`] = true;
+    updateLikes[`/users/${handle}/likedPosts/${postId}`] = true;
+
+    return update(ref(db), updateLikes);
+  });
+
 };
 
 export const dislikePost = (handle, postId) => {
   const updateLikes = {};
-  updateLikes[`/posts/${postId}/likedBy/${handle}`] = null;
-  updateLikes[`/users/${handle}/likedPosts/${postId}`] = null;
 
-  return update(ref(db), updateLikes);
+  get(ref(db, `/posts/${postId}/likes`)).then((result) => {
+    updateLikes[`/posts/${postId}/likes`] = result.val() - 1;
+    updateLikes[`/posts/${postId}/likedBy/${handle}`] = null;
+    updateLikes[`/users/${handle}/likedPosts/${postId}`] = null;
+
+    return update(ref(db), updateLikes);
+  });
 };
