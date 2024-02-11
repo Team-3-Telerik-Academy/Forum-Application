@@ -57,6 +57,7 @@ export const getPostById = (id) => {
     post.createdOn = new Date(post.createdOn);
     if (!post.likedBy) post.likedBy = [];
 
+    // console.log(post);
     return post;
   });
 };
@@ -119,6 +120,14 @@ export const getAllPosts = () => {
 
     return fromPostsDocument(snapshot);
   });
+};
+
+export const commentPost = (handle, postId) => {
+  const updateLikes = {};
+  updateLikes[`/posts/${postId}/likedBy/${handle}`] = true;
+  updateLikes[`/users/${handle}/likedPosts/${postId}`] = true;
+
+  return update(ref(db), updateLikes);
 };
 
 export const likePost = (handle, postId) => {

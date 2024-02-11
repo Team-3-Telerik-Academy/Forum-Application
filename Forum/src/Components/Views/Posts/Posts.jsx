@@ -70,7 +70,7 @@ const Posts = () => {
           return (
             <div className="post-main-content" key={post.id}>
               <div className="title-author">
-                <NavLink to="">{post.title}</NavLink>
+                <NavLink to={`/post/${post.id}`}>{post.title}</NavLink>
                 <span>
                   By {post.author},
                   {post.createdOn.toLocaleString("bg-BG", {
