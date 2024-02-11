@@ -80,6 +80,9 @@
 }
 
 #logged-in a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 8px;
   border-radius: 10px;
   font-size: 15px;

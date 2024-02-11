@@ -18,13 +18,14 @@ export const fromPostsDocument = (snapshot) => {
     return {
       ...post,
       id: key,
-      createdOn: new Date(post.createdOn).toLocaleString("bg-BG", {
-        year: "numeric",
-        month: "numeric",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
+      createdOn: new Date(post.createdOn),
+      // .toLocaleString("bg-BG", {
+      //   year: "numeric",
+      //   month: "numeric",
+      //   day: "numeric",
+      //   hour: "2-digit",
+      //   minute: "2-digit",
+      // }),
       likedBy: post.likedBy ? Object.keys(post.likedBy) : [],
     };
   });

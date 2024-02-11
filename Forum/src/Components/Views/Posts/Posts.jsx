@@ -3,17 +3,39 @@ import { getPostsByCategory } from "../../../services/posts.service";
 import { NavLink, useParams } from "react-router-dom";
 import Header from "../../Header/Header";
 import "./Posts.css";
-import { useNavigate } from "react-router-dom";
 
-//to write the view
 const Posts = () => {
   const { type } = useParams();
-  const [posts, setPosts] = useState(null);
-  const navigate = useNavigate();
+  const [posts, setPosts] = useState();
+  const [selected, setSelected] = useState("");
+
+  const handleChange = (e) => {
+    setSelected(e.target.value);
+  };
 
   useEffect(() => {
     getPostsByCategory(type).then(setPosts);
   }, []);
+
+  useEffect(() => {
+    if (selected === "title") {
+      const sortByTitle = [...posts].sort((a, b) => {
+        return a.title > b.title ? 1 : -1;
+      });
+      setPosts(sortByTitle);
+    } else if (selected === "newest") {
+      const sortByDate = [...posts].sort((a, b) => {
+        return a.createdOn - b.createdOn;
+      });
+      setPosts(sortByDate);
+    } else if (selected === "oldest") {
+      const sortByDate = [...posts].sort((a, b) => {
+        return b.createdOn - a.createdOn;
+      });
+      setPosts(sortByDate);
+    }
+    // by Viewed and Replies
+  }, [selected]);
 
   return (
     <div className="post-content">
@@ -31,11 +53,17 @@ const Posts = () => {
           <label id="label-sortBy" htmlFor="sortBy">
             Sort by
           </label>
-          <select name="sortBy" id="sortBy">
-            <option value="">Start Date</option>
-            <option value="">Title</option>
-            <option value="">Most viewed</option>
-            <option value="">Most replied</option>
+          <select
+            value={selected}
+            name="sortBy"
+            id="sortBy"
+            onChange={handleChange}
+          >
+            <option value="newest">Newest to oldest</option>
+            <option value="oldest">Oldest to newest</option>
+            <option value="title">Title</option>
+            <option value="viewed">Most viewed</option>
+            <option value="replied">Most replied</option>
           </select>
         </div>
         {posts?.map((post) => {
@@ -44,7 +72,14 @@ const Posts = () => {
               <div className="title-author">
                 <NavLink to="">{post.title}</NavLink>
                 <span>
-                  By {post.author}, {post.createdOn}
+                  By {post.author},
+                  {post.createdOn.toLocaleString("bg-BG", {
+                    year: "numeric",
+                    month: "numeric",
+                    day: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
                 </span>
               </div>
               <div className="replies-views">
@@ -54,7 +89,15 @@ const Posts = () => {
                 </div>
                 <div className="right">
                   <span>{post.author}</span>
-                  <span>{post.createdOn}</span>
+                  <span>
+                    {post.createdOn.toLocaleString("bg-BG", {
+                      year: "numeric",
+                      month: "numeric",
+                      day: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </span>
                 </div>
               </div>
             </div>
