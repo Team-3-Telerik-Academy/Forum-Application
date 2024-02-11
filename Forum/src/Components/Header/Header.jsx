@@ -6,7 +6,7 @@ import { logoutUser } from "../../services/auth.service";
 import { getAllPosts } from "../../services/posts.service";
 import { getAllUsers } from "../../services/users.service";
 
-const Header = ({magnifiedGlassColor}) => {
+const Header = ({ magnifiedGlassColor }) => {
   const { user, userData, setAppState } = useContext(AppContext);
   const navigate = useNavigate();
   const [numbers, setNumbers] = useState({
@@ -44,12 +44,8 @@ const Header = ({magnifiedGlassColor}) => {
         />
         {!user && (
           <div id="no-logged-in-info">
-            <span id="users">
-              Registered users: {numbers.users}
-            </span>
-            <span id="posts">
-              Created posts: {numbers.posts}
-            </span>
+            <span id="users">Registered users: {numbers.users}</span>
+            <span id="posts">Created posts: {numbers.posts}</span>
           </div>
         )}
         {user && <NavLink to="/create-new-post">+ New post</NavLink>}
@@ -62,11 +58,15 @@ const Header = ({magnifiedGlassColor}) => {
             id="search"
             placeholder="Trends, posts, #tags"
           />
-          <div style={{backgroundColor: magnifiedGlassColor}} id="magnifying-glass">
+          <div
+            style={{ backgroundColor: magnifiedGlassColor }}
+            id="magnifying-glass"
+          >
             <img
               src="/src/Images/magnifying-glass.svg"
               alt="magnifying-glass"
             />
+            <NavLink to="/admin-dashboard">Admin </NavLink>
           </div>
         </div>
       )}

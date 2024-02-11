@@ -18,23 +18,24 @@ const Posts = () => {
   }, []);
 
   useEffect(() => {
-    if (selected === "title") {
-      const sortByTitle = [...posts].sort((a, b) => {
-        return a.title > b.title ? 1 : -1;
-      });
-      setPosts(sortByTitle);
-    } else if (selected === "newest") {
-      const sortByDate = [...posts].sort((a, b) => {
-        return a.createdOn - b.createdOn;
-      });
-      setPosts(sortByDate);
-    } else if (selected === "oldest") {
-      const sortByDate = [...posts].sort((a, b) => {
-        return b.createdOn - a.createdOn;
-      });
-      setPosts(sortByDate);
+    const sortPosts = () => {
+      switch (selected) {
+        case "title":
+          return (a, b) => a.title.localeCompare(b.title);
+        case "title-ZA":
+          return (a, b) => b.title.localeCompare(a.title);
+        case "newest":
+          return (a, b) => a.createdOn - b.createdOn;
+        case "oldest":
+          return (a, b) => b.createdOn - a.createdOn;
+        default:
+          return null;
+      }
+    };
+
+    if (selected && sortPosts()) {
+      setPosts([...posts].sort(sortPosts()));
     }
-    // by Viewed and Replies
   }, [selected]);
 
   return (
@@ -61,7 +62,8 @@ const Posts = () => {
           >
             <option value="newest">Newest to oldest</option>
             <option value="oldest">Oldest to newest</option>
-            <option value="title">Title</option>
+            <option value="title">Title A-Z</option>
+            <option value="title-ZA">Title Z-A</option>
             <option value="viewed">Most viewed</option>
             <option value="replied">Most replied</option>
           </select>
