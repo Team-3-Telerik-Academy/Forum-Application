@@ -72,7 +72,7 @@ const Header = ({ magnifiedGlassColor }) => {
       )}
       {user ? (
         <div id="logged-in">
-          <span>Welcome, {userData?.handle}</span>{" "}
+          {userData && <span>Welcome, {userData?.username}</span>}
           <NavLink
             onClick={onLogout}
             style={{ backgroundColor: "#89C623" }}

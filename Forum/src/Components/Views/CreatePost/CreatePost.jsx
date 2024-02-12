@@ -31,7 +31,7 @@ const CreatePost = () => {
       return;
     }
 
-    await addPost(post.title, post.content, post.category, userData.handle);
+    await addPost(post.title, post.content, post.category, userData.username);
     setPost({
       title: "",
       content: "",

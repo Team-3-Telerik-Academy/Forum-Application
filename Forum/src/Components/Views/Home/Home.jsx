@@ -92,7 +92,7 @@ const Home = () => {
     <div className="home-content">
       <Header />
       {user ? (
-        <div id="categories-content">
+        <div className="categories-content">
           <Category
             name={"Art"}
             image={"/src/Images/art.jpg"}

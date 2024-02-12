@@ -16,8 +16,9 @@
   position: relative;
 }
 
-#categories-content {
+.categories-content {
   margin-top: 20px;
+  margin-bottom: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -74,7 +75,7 @@
 #posts-content {
   display: flex;
   gap: 15px;
-  margin-top: 5px;
+  /* margin-top: 15px; */
   background-color: #2C2F34;
   /* background-color: rgba(245, 243, 243, 0.186); */
   border-radius: 10px;

@@ -88,7 +88,7 @@ const AdminDashboard = () => {
               {users?.map((user) => (
                 <tr key={user.uid}>
                   <td>{user.email}</td>
-                  <td>{user.handle}</td>
+                  <td>{user.username}</td>
                   <td>{user.firstName}</td>
                   <td>{user.lastName}</td>
                   <td>No</td>

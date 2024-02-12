@@ -10,6 +10,7 @@ import {
   remove,
 } from "firebase/database";
 import { db } from "../config/firebase-config";
+import { updateUserPosts } from "./users.service";
 
 export const fromPostsDocument = (snapshot) => {
   const postsDocument = snapshot.val();
@@ -33,17 +34,18 @@ export const fromPostsDocument = (snapshot) => {
   });
 };
 
-export const addPost = (title, content, category, handle) => {
+export const addPost = (title, content, category, username) => {
   return push(ref(db, "posts"), {
     title,
     content,
     category,
-    author: handle,
+    author: username,
     createdOn: new Date().toString(),
     comments: {},
     likes: 0,
     likedBy: {},
   }).then((result) => {
+    updateUserPosts(username, result.key, title);
     return getPostById(result.key);
   });
 };
@@ -75,10 +77,10 @@ export const getPostById = (id) => {
   });
 };
 
-export const getLikedPosts = (handle) => {
-  return get(ref(db, `users/${handle}`)).then((snapshot) => {
+export const getLikedPosts = (username) => {
+  return get(ref(db, `users/${username}`)).then((snapshot) => {
     if (!snapshot.val()) {
-      throw new Error(`User with handle @${handle} does not exist!`);
+      throw new Error(`User with username @${username} does not exist!`);
     }
 
     const user = snapshot.val();
@@ -101,9 +103,9 @@ export const getLikedPosts = (handle) => {
   });
 };
 
-export const getPostsByAuthor = (handle) => {
+export const getPostsByAuthor = (username) => {
   return get(
-    query(ref(db, "posts"), orderByChild("author"), equalTo(handle))
+    query(ref(db, "posts"), orderByChild("author"), equalTo(username))
   ).then((snapshot) => {
     if (!snapshot.exists()) return [];
 
@@ -135,11 +137,13 @@ export const getAllPosts = () => {
   });
 };
 
-export const addCommentPost = (handle, postId, comment, firstName, lastName) => {
+export const addCommentPost = (username, postId, comment, firstName, lastName) => {
   const commentKey = push(ref(db, `/posts/${postId}/comments`));
 
+  // updateUserComments(username);
+
   return set(commentKey, {
-    handle: handle,
+    username: username,
     firstName: firstName,
     lastName: lastName,
     content: comment,
@@ -171,26 +175,26 @@ export const getCommentsOfAPost = (id) => {
   });
 };
 
-export const likePost = (handle, postId) => {
+export const likePost = (username, postId) => {
   const updateLikes = {};
 
-  get(ref(db, `/posts/${postId}/likes`)).then((result) => {
+  return get(ref(db, `/posts/${postId}/likes`)).then((result) => {
     updateLikes[`/posts/${postId}/likes`] = result.val() + 1;
-    updateLikes[`/posts/${postId}/likedBy/${handle}`] = true;
-    updateLikes[`/users/${handle}/likedPosts/${postId}`] = true;
+    updateLikes[`/posts/${postId}/likedBy/${username}`] = true;
+    updateLikes[`/users/${username}/likedPosts/${postId}`] = true;
 
     return update(ref(db), updateLikes);
   });
 
 };
 
-export const dislikePost = (handle, postId) => {
+export const dislikePost = (username, postId) => {
   const updateLikes = {};
 
-  get(ref(db, `/posts/${postId}/likes`)).then((result) => {
+  return get(ref(db, `/posts/${postId}/likes`)).then((result) => {
     updateLikes[`/posts/${postId}/likes`] = result.val() - 1;
-    updateLikes[`/posts/${postId}/likedBy/${handle}`] = null;
-    updateLikes[`/users/${handle}/likedPosts/${postId}`] = null;
+    updateLikes[`/posts/${postId}/likedBy/${username}`] = null;
+    updateLikes[`/users/${username}/likedPosts/${postId}`] = null;
 
     return update(ref(db), updateLikes);
   });

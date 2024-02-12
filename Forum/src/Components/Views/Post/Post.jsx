@@ -11,7 +11,7 @@ import {
   getPostById,
   likePost,
 } from "../../../services/posts.service";
-import { getUserByHandle } from "../../../services/users.service";
+import { getUserByUsername } from "../../../services/users.service";
 import "./Post.css";
 import Header from "../../Header/Header";
 import Button from "../../Button/Button";
@@ -43,13 +43,17 @@ const Post = () => {
 
   useEffect(() => {
     if (post) {
-      getUserByHandle(post.author).then(setPostAuthor);
+      console.log("liking");
+      getUserByUsername(post.author).then((snapshot) =>
+        setPostAuthor(snapshot.val())
+      );
     }
+
   }, [post]);
 
   const addComment = () => {
     addCommentPost(
-      userData.handle,
+      userData.username,
       id,
       comment,
       userData.firstName,
@@ -59,7 +63,9 @@ const Post = () => {
 
   const deleteComment = (commentId) => {
     deleteCommentPost(id, commentId);
-    setComments({ ...comments, [commentId]: null });
+    const copyComments = { ...comments };
+    delete copyComments[commentId];
+    setComments(copyComments);
   };
 
   const editComment = (commentId) => {
@@ -101,20 +107,22 @@ const Post = () => {
   };
 
   const dislikeHandle = () => {
-    dislikePost(userData?.handle, id);
-    setPost({
-      ...post,
-      likes: post.likes - 1,
-      likedBy: { ...post.likedBy, [userData?.handle]: null },
+    dislikePost(userData.username, id).then(() => {
+      return setPost({
+        ...post,
+        likes: post.likes - 1,
+        likedBy: { ...post.likedBy, [userData.username]: null },
+      });
     });
   };
 
   const likeHandle = () => {
-    likePost(userData?.handle, id);
-    setPost({
-      ...post,
-      likes: post.likes + 1,
-      likedBy: { ...post.likedBy, [userData?.handle]: true },
+    likePost(userData.username, id).then(() => {
+      return setPost({
+        ...post,
+        likes: post.likes + 1,
+        likedBy: { ...post.likedBy, [userData.username]: true },
+      });
     });
   };
 
@@ -136,7 +144,7 @@ const Post = () => {
             <h1>{post?.title}</h1>
           )}
           <span id="single-post-buttons">
-            {post?.likedBy && post?.likedBy[userData?.handle] ? (
+            {post?.likedBy && post?.likedBy[userData?.username] ? (
               <Button onClick={dislikeHandle} color={"#d98f40"}>
                 Dislike
               </Button>
@@ -145,7 +153,7 @@ const Post = () => {
                 Like
               </Button>
             )}
-            {userData?.handle === postAuthor?.handle && (
+            {userData?.username === postAuthor?.username && (
               <>
                 {toPostEdit ? (
                   <Button onClick={editPostHandle} color={"#d98f40"}>
@@ -171,19 +179,29 @@ const Post = () => {
       </div>
       <div id="single-post-content">
         <div className="single-post-left-side">
-          <h3>{postAuthor?.handle}</h3>
+          <h3>{postAuthor?.username}</h3>
           <h4>
             {postAuthor?.firstName} {postAuthor?.lastName}
           </h4>
           <span>
             <img src="/src/Images/post-icon.png" alt="post-image" />
-            15 posts
+            {postAuthor?.posts ? Object.keys(postAuthor.posts).length : 0} posts
           </span>
-          <span>15 comments</span>
-          <span>15 likes</span>
+          <span>
+            {userData?.username === postAuthor?.username
+              ? userData?.comments
+              : postAuthor?.comments}{" "}
+            comments
+          </span>
+          <span>
+            {postAuthor?.likedPosts
+              ? Object.keys(postAuthor.likedPosts).length
+              : 0}{" "}
+            likes
+          </span>
         </div>
         <div className="single-post-right-side">
-          <span>Posted {post?.createdOn.toLocaleDateString()}</span>
+          <span>Posted {post?.createdOn.toLocaleDateString("BG-bg")}</span>
           {toPostEdit ? (
             <textarea
               value={post?.content}
@@ -206,7 +224,7 @@ const Post = () => {
                       cols="30"
                       rows="10"
                     />
-                    {userData?.handle === comments[commentId].handle && (
+                    {userData?.username === comments[commentId].username && (
                       <>
                         <Button
                           id="edit-comment-button"
@@ -224,7 +242,7 @@ const Post = () => {
                       </>
                     )}
                     <span>
-                      {comments[commentId].firstName}{" "}
+                      {comments[commentId].firstName}
                       {comments[commentId].lastName}
                     </span>
                   </div>
@@ -233,7 +251,7 @@ const Post = () => {
                     <p>
                       {index + 1}. {comments[commentId].content}
                     </p>
-                    {userData?.handle === comments[commentId].handle && (
+                    {userData?.username === comments[commentId].username && (
                       <>
                         <Button
                           id="edit-comment-button"
@@ -254,7 +272,7 @@ const Post = () => {
                       </>
                     )}
                     <span>
-                      {comments[commentId].firstName}{" "}
+                      {comments[commentId].firstName}
                       {comments[commentId].lastName}
                     </span>
                   </div>

@@ -1,7 +1,9 @@
 .post-content {
   width: 100%;
+  /* height: 100%; */
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.9);
+  padding-bottom: 60px;
 }
 
 .title {
@@ -56,6 +58,7 @@ hr {
   margin-top: 20px;
   border-radius: 10px;
 }
+
 .post-header {
   display: flex;
   justify-content: flex-end;
@@ -63,6 +66,7 @@ hr {
   align-items: center;
   gap: 8px;
 }
+
 .post-header,
 .post-footer {
   background-color: #222222;
@@ -78,6 +82,7 @@ hr {
   border-bottom: 1px solid #aaaaaa;
   border-top: 1px solid #aaaaaa;
 }
+
 .title-author {
   display: flex;
   flex-direction: column;

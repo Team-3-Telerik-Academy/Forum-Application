@@ -4,8 +4,8 @@ import { useContext, useState } from "react";
 import AppContext from "../../../AppContext/AppContext";
 import SuccessfullyRegistered from "../SuccessfullyRegistered/SuccessfullyRegistered";
 import {
-  getUserByHandle,
-  createUserHandle,
+  getUserByUsername,
+  createUserUsername,
 } from "../../../services/users.service";
 import { registerUser } from "../../../services/auth.service";
 
@@ -13,7 +13,7 @@ const SignUp = () => {
   const navigate = useNavigate();
   const { setRegistered, isRegistered, setContext } = useContext(AppContext);
   const [form, setForm] = useState({
-    handle: "",
+    username: "",
     email: "",
     password: "",
     firstName: "",
@@ -41,7 +41,7 @@ const SignUp = () => {
       return;
     }
 
-    if (!form.handle) {
+    if (!form.username) {
       setError("Username is required!");
       return;
     }
@@ -63,10 +63,10 @@ const SignUp = () => {
       return;
     }
 
-    getUserByHandle(form.handle)
+    getUserByUsername(form.username)
       .then((snapshot) => {
         if (snapshot.exists()) {
-          window.alert(`Handle @${form.handle} has already been taken!`);
+          window.alert(`Username @${form.username} has already been taken!`);
           return;
         }
 
@@ -74,8 +74,8 @@ const SignUp = () => {
       })
       .then((credential) => {
         setRegistered(true);
-        return createUserHandle(
-          form.handle,
+        return createUserUsername(
+          form.username,
           form.firstName,
           form.lastName,
           credential.user.uid,
@@ -131,8 +131,8 @@ const SignUp = () => {
             />
             <input
               type="text"
-              value={form.handle}
-              onChange={updateForm("handle")}
+              value={form.username}
+              onChange={updateForm("username")}
               placeholder="Username"
               name="username"
               id="username"
