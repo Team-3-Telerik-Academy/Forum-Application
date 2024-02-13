@@ -1,10 +1,9 @@
-import "./AdminDashboard.css";
 import AdminDashboardHeader from "../AdminDashboardHeader/AdminDashboardHeader";
-import { getAllUsers } from "../../../services/users.service";
+import { getBlockedUsers } from "../../../services/users.service";
+import { unblockUser } from "../../../services/users.service";
 import { useEffect, useState } from "react";
-import { blockUser } from "../../../services/users.service";
 
-const AdminDashboard = () => {
+const AdminDashboardBlockedUsers = () => {
   const [users, setUsers] = useState(null);
   const [selected, setSelected] = useState("firstName");
   const [value, setValue] = useState("");
@@ -18,11 +17,11 @@ const AdminDashboard = () => {
   };
 
   useEffect(() => {
-    getAllUsers().then((data) => setUsers(Object.values(data)));
+    getBlockedUsers().then((data) => setUsers(Object.values(data)));
   }, []);
 
   const searchUserBy = (value, selected, fn) => {
-    getAllUsers()
+    getBlockedUsers()
       .then((data) => Object.values(data))
       .then((data) => {
         return data.filter((user) =>
@@ -38,7 +37,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="dashboard">
-      <AdminDashboardHeader usersNavColor="#d98f40" usersFontColor="black" />
+      <AdminDashboardHeader blockedUsersNavColor="#d98f40" blockedUsersFontColor="black" />
       <div className="dashboard-main">
         <div className="search-box">
           <div className="panel-selected">
@@ -85,7 +84,7 @@ const AdminDashboard = () => {
                 <th>First name</th>
                 <th>Last name</th>
                 <th>Admin</th>
-                <th>Block User</th>
+                <th>Unblock User</th>
               </tr>
             </thead>
             <tbody>
@@ -97,14 +96,14 @@ const AdminDashboard = () => {
                   <td>{user.lastName}</td>
                   <td>No</td>
                   <td
+                    onClick={() => unblockUser(users, setUsers, user)}
                     className="block-cell"
-                    onClick={() => blockUser(users, setUsers, user)}
                     style={{
                       backgroundColor: "red",
                       cursor: "pointer",
                     }}
                   >
-                    Block
+                    Unblock
                   </td>
                 </tr>
               ))}
@@ -116,14 +115,4 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard;
-
-// 1.Accessible to users with administrative privileges.
-
-// 2.Admin must be able to search for a user by their username, email, or display name.
-
-// 3.Admin must be able to block or unblock individual users. A blocked user must not be able to create posts or comments.
-
-// 4.Admin must be able to delete any post.
-
-// 5.Admin must be able to view a list of all posts with an option to filter and sort them.
+export default AdminDashboardBlockedUsers;

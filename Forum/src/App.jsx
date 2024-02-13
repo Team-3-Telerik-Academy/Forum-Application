@@ -14,6 +14,7 @@ import Posts from "./Components/Views/Posts/Posts";
 import Post from "./Components/Views/Post/Post";
 import NotFound from "./Components/Views/NotFound/NotFound";
 import AdminDashboard from "./Components/Views/AdminDashboard/AdminDashboard";
+import AdminDashboardBlockedUsers from "./Components/Views/AdminDashboardBlockedUsers/AdminDashboardBlockedUsers";
 
 const App = () => {
   const [user, loading, error] = useAuthState(auth);
@@ -67,6 +68,10 @@ const App = () => {
           <Route path="/post/:id" element={<Post />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route
+            path="admin-dashboard-blocked-users"
+            element={<AdminDashboardBlockedUsers />}
+          />
         </Routes>
         <Footer />
       </AppContext.Provider>
