@@ -55,7 +55,7 @@ export const unblockUser = (users, fn, user) => {
     comments
   );
   fn([...users].filter((user) => user.username !== username));
-  return remove(ref(db, `admin-dashboard-blocked-users/${username}`));
+  return remove(ref(db, `blockedUsers/${username}`));
 };
 
 export const blockUser = (users, fn, user) => {

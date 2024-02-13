@@ -56,8 +56,9 @@ export const editPost = (postId, title, content) => {
   return update(postToEdit, { title: title, content: content });
 };
 
-export const deletePost = (postId) => {
+export const deletePost = (postId, posts = null, setFn = null) => {
   const postToDelete = ref(db, `/posts/${postId}`);
+  setFn([...posts].filter((post) => post.id !== postId));
 
   return remove(postToDelete);
 };
@@ -137,7 +138,13 @@ export const getAllPosts = () => {
   });
 };
 
-export const addCommentPost = (username, postId, comment, firstName, lastName) => {
+export const addCommentPost = (
+  username,
+  postId,
+  comment,
+  firstName,
+  lastName
+) => {
   const commentKey = push(ref(db, `/posts/${postId}/comments`));
 
   // updateUserComments(username);
@@ -185,7 +192,6 @@ export const likePost = (username, postId) => {
 
     return update(ref(db), updateLikes);
   });
-
 };
 
 export const dislikePost = (username, postId) => {

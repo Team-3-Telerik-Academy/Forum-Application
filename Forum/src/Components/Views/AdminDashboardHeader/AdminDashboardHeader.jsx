@@ -35,6 +35,7 @@ const AdminDashboardHeader = ({
         Blocked users
       </NavLink>
       <NavLink
+      to="/admin-dashboard-posts"
         style={{
           backgroundColor: postsNavColor ? postsNavColor : "#000000E6",
           color: postsFontColor ? postsFontColor : "#d98f40",

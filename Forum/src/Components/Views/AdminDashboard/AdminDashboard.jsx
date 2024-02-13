@@ -95,7 +95,13 @@ const AdminDashboard = () => {
                   <td>{user.username}</td>
                   <td>{user.firstName}</td>
                   <td>{user.lastName}</td>
-                  <td>No</td>
+                  <td
+                    style={{
+                      cursor: "pointer",
+                    }}
+                  >
+                    No
+                  </td>
                   <td
                     className="block-cell"
                     onClick={() => blockUser(users, setUsers, user)}
