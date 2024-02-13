@@ -1,7 +1,7 @@
 import AdminDashboardHeader from "../AdminDashboardHeader/AdminDashboardHeader";
 import { getAllPosts } from "../../../services/posts.service";
 import { useEffect, useState } from "react";
-import { deletePost } from "../../../services/posts.service";
+import { adminPanelDeletePost } from "../../../services/posts.service";
 
 const AdminDashboardPosts = () => {
   const [posts, setPosts] = useState(null);
@@ -14,6 +14,10 @@ const AdminDashboardPosts = () => {
 
   const handleSelected = (e) => {
     setSelected(e.target.value);
+  };
+
+  const deletePost = async (id, posts, fn) => {
+    await adminPanelDeletePost(id, posts, fn);
   };
 
   useEffect(() => {

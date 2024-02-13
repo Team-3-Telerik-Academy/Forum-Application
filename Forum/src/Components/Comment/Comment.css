@@ -1,0 +1,91 @@
+.single-post-comment {
+    width: 95%;
+    border-radius: 5px;
+    background-color: #d98f4036;
+    padding: 25px;
+    color: white;
+    font-family: montserrat, helvetica neue, Helvetica, Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    position: relative;
+}
+
+.single-post-comment span {
+    color: #aaaaaa;
+    font-size: 15px;
+    font-weight: bold;
+    position: absolute;
+    top: 8px;
+    left: 26.5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.single-post-comment button {
+    width: 55px;
+    height: 28px;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    position: absolute;
+    top: 40px;
+    right: 7px;
+}
+
+.single-post-comment textarea {
+    margin-top: 10px;
+    width: 90%;
+    height: 100px;
+    border-radius: 5px;
+    background-color: #2b2d2f;
+    color: white;
+    font-size: 16px;
+    font-family: montserrat, helvetica neue, Helvetica, Arial, sans-serif;
+    font-weight: bold;
+}
+
+.single-post-comment textarea:focus {
+    outline: none;
+    border: 1px solid #d98f40;
+}
+
+#like-dislike-comment {
+    margin: 0;
+    display: flex;
+    gap: 8px;
+    position: absolute;
+    bottom: 7px;
+    left: 29px
+}
+
+#like-dislike-comment img {
+    height: 17.5px;
+    width: 17.5px;
+    cursor: pointer;
+}
+
+#like-dislike-comment span {
+    color: white;
+    position: static;
+    font-size: 14px;
+    padding-bottom: 2px;
+}
+
+#edit-comment-button {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+}
+
+.single-post-comment div {
+    margin: 7px 0;
+    padding: 0;
+    font-size: 14px;
+    width: 92%;
+    word-break: break-all;
+    line-height: 1.5;
+}

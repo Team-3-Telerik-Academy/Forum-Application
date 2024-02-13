@@ -2,10 +2,8 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   addCommentPost,
-  deleteCommentPost,
   deletePost,
   dislikePost,
-  editCommentPost,
   editPost,
   getCommentsOfAPost,
   getPostById,
@@ -16,6 +14,7 @@ import "./Post.css";
 import Header from "../../Header/Header";
 import Button from "../../Button/Button";
 import AppContext from "../../../AppContext/AppContext";
+import Comment from "../../Comment/Comment";
 
 const Post = () => {
   const [post, setPost] = useState(null);
@@ -24,8 +23,6 @@ const Post = () => {
   const [postAuthor, setPostAuthor] = useState(null);
   const [comments, setComments] = useState(null);
   const [comment, setComment] = useState("");
-  const [editedComment, setEditedComment] = useState("");
-  const [isCommentEdited, setIsCommentEdited] = useState(null);
 
   const { id } = useParams();
   const { userData } = useContext(AppContext);
@@ -38,18 +35,13 @@ const Post = () => {
   }, []);
 
   useEffect(() => {
-    getCommentsOfAPost(id).then(setComments);
-  }, [comment]);
-
-  useEffect(() => {
     if (post) {
-      console.log("liking");
       getUserByUsername(post.author).then((snapshot) =>
         setPostAuthor(snapshot.val())
       );
     }
-
-  }, [post]);
+    getCommentsOfAPost(id).then(setComments);
+  }, [comment, post, comments]);
 
   const addComment = () => {
     addCommentPost(
@@ -61,26 +53,8 @@ const Post = () => {
     ).then(() => setComment(""));
   };
 
-  const deleteComment = (commentId) => {
-    deleteCommentPost(id, commentId);
-    const copyComments = { ...comments };
-    delete copyComments[commentId];
-    setComments(copyComments);
-  };
-
-  const editComment = (commentId) => {
-    editCommentPost(id, commentId, editedComment);
-    setComments({
-      ...comments,
-      [commentId]: { ...comments[commentId], content: editedComment },
-    });
-    setIsCommentEdited(null);
-    setEditedComment("");
-  };
-
   const deletePostHandle = () => {
-    navigate(-1);
-    deletePost(id);
+    deletePost(id, postAuthor.username).then(() => navigate(-1));
   };
 
   const updatePost = (prop) => (e) => {
@@ -106,7 +80,7 @@ const Post = () => {
     editPost(id, post.title, post.content);
   };
 
-  const dislikeHandle = () => {
+  const dislikePostHandle = () => {
     dislikePost(userData.username, id).then(() => {
       return setPost({
         ...post,
@@ -116,7 +90,7 @@ const Post = () => {
     });
   };
 
-  const likeHandle = () => {
+  const likePostHandle = () => {
     likePost(userData.username, id).then(() => {
       return setPost({
         ...post,
@@ -145,11 +119,11 @@ const Post = () => {
           )}
           <span id="single-post-buttons">
             {post?.likedBy && post?.likedBy[userData?.username] ? (
-              <Button onClick={dislikeHandle} color={"#d98f40"}>
+              <Button onClick={dislikePostHandle} color={"#d98f40"}>
                 Dislike
               </Button>
             ) : (
-              <Button onClick={likeHandle} color={"#d98f40"}>
+              <Button onClick={likePostHandle} color={"#d98f40"}>
                 Like
               </Button>
             )}
@@ -174,7 +148,13 @@ const Post = () => {
         <hr />
         <span>
           <strong>By {post?.author}</strong> <br />
-          {post?.createdOn.toLocaleDateString()}
+          {post?.createdOn.toLocaleString("bg-BG", {
+            year: "numeric",
+            month: "numeric",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
         </span>
       </div>
       <div id="single-post-content">
@@ -187,17 +167,9 @@ const Post = () => {
             <img src="/src/Images/post-icon.png" alt="post-image" />
             {postAuthor?.posts ? Object.keys(postAuthor.posts).length : 0} posts
           </span>
+          <span>{postAuthor?.comments} comments</span>
           <span>
-            {userData?.username === postAuthor?.username
-              ? userData?.comments
-              : postAuthor?.comments}{" "}
-            comments
-          </span>
-          <span>
-            {postAuthor?.likedPosts
-              ? Object.keys(postAuthor.likedPosts).length
-              : 0}{" "}
-            likes
+            {postAuthor?.likedPosts ? postAuthor.likedPosts : 0} liked posts
           </span>
         </div>
         <div className="single-post-right-side">
@@ -215,69 +187,14 @@ const Post = () => {
           <div id="single-post-comments-content">
             <h3>Comments:</h3>
             {comments &&
-              Object.keys(comments).map((commentId, index) => {
-                return isCommentEdited === commentId ? (
-                  <div key={commentId} className="single-post-comment">
-                    <textarea
-                      value={editedComment}
-                      onChange={(e) => setEditedComment(e.target.value)}
-                      cols="30"
-                      rows="10"
-                    />
-                    {userData?.username === comments[commentId].username && (
-                      <>
-                        <Button
-                          id="edit-comment-button"
-                          onClick={() => editComment(commentId)}
-                          color={"#d98f40"}
-                        >
-                          Done
-                        </Button>
-                        <Button
-                          onClick={() => deleteComment(commentId)}
-                          color={"#d98f40"}
-                        >
-                          Delete
-                        </Button>
-                      </>
-                    )}
-                    <span>
-                      {comments[commentId].firstName}
-                      {comments[commentId].lastName}
-                    </span>
-                  </div>
-                ) : (
-                  <div key={commentId} className="single-post-comment">
-                    <p>
-                      {index + 1}. {comments[commentId].content}
-                    </p>
-                    {userData?.username === comments[commentId].username && (
-                      <>
-                        <Button
-                          id="edit-comment-button"
-                          onClick={() => {
-                            setIsCommentEdited(commentId);
-                            setEditedComment(comments[commentId].content);
-                          }}
-                          color={"#d98f40"}
-                        >
-                          Edit
-                        </Button>
-                        <Button
-                          onClick={() => deleteComment(commentId)}
-                          color={"#d98f40"}
-                        >
-                          Delete
-                        </Button>
-                      </>
-                    )}
-                    <span>
-                      {comments[commentId].firstName}
-                      {comments[commentId].lastName}
-                    </span>
-                  </div>
-                );
-              })}
+              Object.keys(comments).map((commentId, index) => (
+                <Comment
+                  comment={comments[commentId]}
+                  commentId={commentId}
+                  index={index}
+                  key={commentId}
+                />
+              ))}
           </div>
         </div>
       </div>
