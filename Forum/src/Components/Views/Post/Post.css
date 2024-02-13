@@ -5,6 +5,10 @@
     padding-bottom: 60px;
 }
 
+#single-post-view textarea {
+    background-color: rgba(128, 128, 128, 0.3);
+}
+
 #single-post-view textarea:focus {
     outline: none;
     border: 1px solid #d98f40;
@@ -81,7 +85,7 @@
 #single-post-content {
     color: white;
     background-color: #2b2d2f;
-    width: 80%;
+    width: 80.7%;
     border-radius: 5px;
     font-size: 20px;
     padding: 15px;
@@ -162,79 +166,8 @@
     color: #aaaaaa;
 }
 
-.single-post-comment {
-    width: 95%;
-    border-radius: 5px;
-    background-color: #d98f4036;
-    padding: 25px;
-    color: white;
-    font-family: montserrat, helvetica neue, Helvetica, Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
-    position: relative;
-}
-
-.single-post-comment span {
-    color: #aaaaaa;
-    font-size: 15px;
-    font-weight: bold;
-    position: absolute;
-    top: 8px;
-    left: 26.5px;
-    display: flex;
-    flex-direction: column;
-}
-
-.single-post-comment button {
-    width: 55px;
-    height: 27px;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 5px;
-    position: absolute;
-    top: 40px;
-    right: 7px;
-}
-
-.single-post-comment textarea {
-    margin-top: 10px;
-    width: 90%;
-    height: 100px;
-    border-radius: 5px;
-    background-color: #2b2d2f;
-    color: white;
-    font-size: 16px;
-    font-family: montserrat, helvetica neue, Helvetica, Arial, sans-serif;
-    font-weight: bold;
-}
-
-.single-post-comment textarea:focus {
-    outline: none;
-    border: 1px solid #d98f40;
-}
-
-#edit-comment-button {
-    position: absolute;
-    top: 7px;
-    right: 7px;
-}
-
-.single-post-comment p {
-    margin: 0;
-    margin-top: 5px;
-    padding: 0;
-    font-size: 14px;
-    width: 92%;
-    word-break: break-all;
-    line-height: 1.5;
-}
-
 #single-post-create-comment {
-    width: 80%;
+    width: 80.75%;
     text-align: center;
     margin-left: 165px;
     display: flex;

@@ -2,8 +2,8 @@
   display: flex;
   height: 10vh;
   width: 97vw;
-  margin-right: 1.5vw;
-  margin-left: 1.5vw;
+  margin-right: 15px;
+  margin-left: 15px;
   background-color: transparent;
   justify-content: space-between;
   font-family: "Gill Sans Ultra Bold", "Helvetica Neue Ultra Bold",
@@ -126,8 +126,8 @@
   cursor: pointer;
   position: absolute;
   top: 16.3px;
-  /* right: -10px; */
-  right: -47px;
+  right: -10px;
+  /* right: -47px; */
   text-align: center;
 }
 

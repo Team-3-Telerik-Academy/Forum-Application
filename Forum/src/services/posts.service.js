@@ -13,57 +13,87 @@ import { db } from "../config/firebase-config";
 import { updateUserPosts } from "./users.service";
 
 export const fromPostsDocument = (snapshot) => {
-  const postsDocument = snapshot.val();
+  try {
+    const postsDocument = snapshot.val();
 
-  return Object.keys(postsDocument).map((key) => {
-    const post = postsDocument[key];
+    if (!postsDocument) {
+      throw new Error('Snapshot value is null or undefined');
+    }
 
-    return {
-      ...post,
-      id: key,
-      createdOn: new Date(post.createdOn),
-      // .toLocaleString("bg-BG", {
-      //   year: "numeric",
-      //   month: "numeric",
-      //   day: "numeric",
-      //   hour: "2-digit",
-      //   minute: "2-digit",
-      // }),
-      likedBy: post.likedBy ? Object.keys(post.likedBy) : [],
-    };
-  });
+    return Object.keys(postsDocument).map((key) => {
+      const post = postsDocument[key];
+
+      if (!post) {
+        throw new Error(`Post with key ${key} is null or undefined`);
+      }
+
+      return {
+        ...post,
+        id: key,
+        createdOn: new Date(post.createdOn),
+        likedBy: post.likedBy ? Object.keys(post.likedBy) : [],
+      };
+    });
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-export const addPost = (title, content, category, username) => {
-  return push(ref(db, "posts"), {
-    title,
-    content,
-    category,
-    author: username,
-    createdOn: new Date().toString(),
-    comments: {},
-    likes: 0,
-    likedBy: {},
-  }).then((result) => {
-    updateUserPosts(username, result.key, title);
+export const addPost = async (title, content, category, username) => {
+  try {
+    const result = await push(ref(db, "posts"), {
+      title,
+      content,
+      category,
+      author: username,
+      createdOn: new Date().toString(),
+      comments: {},
+      likes: 0,
+      likedBy: {},
+    });
+
+    await updateUserPosts(username, result.key, title);
     return getPostById(result.key);
-  });
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-export const editPost = (postId, title, content) => {
-  const postToEdit = ref(db, `/posts/${postId}`);
-
-  return update(postToEdit, { title: title, content: content });
+export const editPost = async (postId, title, content) => {
+  try {
+    const postToEdit = ref(db, `/posts/${postId}`);
+    await update(postToEdit, { title: title, content: content });
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-export const deletePost = (postId) => {
-  const postToDelete = ref(db, `/posts/${postId}`);
+export const deletePost = async (postId, username) => {
+  try {
+    const postComments = await get(ref(db, `/posts/${postId}/comments`));
+    if (postComments.exists()) {
+      await Promise.all(Object.keys(postComments.val()).map(comment => {
+        deleteCommentPost(postId, comment, postComments.val()[comment].username);
+      }));
+    }
+    const likedBy = await get(ref(db, `/posts/${postId}/likedBy`));
+    if (likedBy.exists()) {
+      await Promise.all(Object.keys(likedBy.val()).map(user => dislikePost(user, postId)));
+    }
 
-  return remove(postToDelete);
+    const postToDeleteInUser = ref(db, `/users/${username}/posts/${postId}`);
+    const postToDelete = ref(db, `/posts/${postId}`);
+    await remove(postToDeleteInUser);
+    await remove(postToDelete);
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-export const getPostById = (id) => {
-  return get(ref(db, `posts/${id}`)).then((result) => {
+export const getPostById = async (id) => {
+  try {
+    const result = await get(ref(db, `posts/${id}`));
+
     if (!result.exists()) {
       throw new Error(`Post with id ${id} does not exist!`);
     }
@@ -74,11 +104,15 @@ export const getPostById = (id) => {
     if (!post.likedBy) post.likedBy = [];
 
     return post;
-  });
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-export const getLikedPosts = (username) => {
-  return get(ref(db, `users/${username}`)).then((snapshot) => {
+export const getLikedPosts = async (username) => {
+  try {
+    const snapshot = await get(ref(db, `users/${username}`));
+
     if (!snapshot.val()) {
       throw new Error(`User with username @${username} does not exist!`);
     }
@@ -87,8 +121,9 @@ export const getLikedPosts = (username) => {
     if (!user.likedPosts) return [];
 
     return Promise.all(
-      Object.keys(user.likedPosts).map((key) => {
-        return get(ref(db, `posts/${key}`)).then((snapshot) => {
+      Object.keys(user.likedPosts).map(async (key) => {
+        try {
+          const snapshot = await get(ref(db, `posts/${key}`));
           const post = snapshot.val();
 
           return {
@@ -97,105 +132,228 @@ export const getLikedPosts = (username) => {
             id: key,
             likedBy: post.likedBy ? Object.keys(post.likedBy) : [],
           };
-        });
+        } catch (error) {
+          console.error(error);
+        }
       })
     );
-  });
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-export const getPostsByAuthor = (username) => {
-  return get(
-    query(ref(db, "posts"), orderByChild("author"), equalTo(username))
-  ).then((snapshot) => {
+export const getPostsByAuthor = async (username) => {
+  try {
+    const snapshot = await get(
+      query(ref(db, "posts"), orderByChild("author"), equalTo(username))
+    );
+
     if (!snapshot.exists()) return [];
 
     return fromPostsDocument(snapshot);
-  });
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-export const getPostsByCategory = (category) => {
-  return get(
-    query(
-      ref(db, "posts"),
-      orderByChild("category"),
-      equalTo(category.toLowerCase())
-    )
-  ).then((snapshot) => {
+export const getPostsByCategory = async (category) => {
+  try {
+    const snapshot = await get(
+      query(
+        ref(db, "posts"),
+        orderByChild("category"),
+        equalTo(category.toLowerCase())
+      )
+    );
+
     if (!snapshot.exists()) return [];
 
     return fromPostsDocument(snapshot);
-  });
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-export const getAllPosts = () => {
-  return get(ref(db, "posts")).then((snapshot) => {
+export const getAllPosts = async () => {
+  try {
+    const snapshot = await get(ref(db, "posts"));
+
     if (!snapshot.exists()) {
       return [];
     }
 
     return fromPostsDocument(snapshot);
-  });
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-export const addCommentPost = (username, postId, comment, firstName, lastName) => {
-  const commentKey = push(ref(db, `/posts/${postId}/comments`));
+export const addCommentPost = async (username, postId, comment, firstName, lastName) => {
+  try {
+    const commentKey = push(ref(db, `/posts/${postId}/comments`));
+    const result = await get(ref(db, `/users/${username}/comments`));
+    const newCommentCount = result.val() + 1;
+    await update(ref(db, `/users/${username}`), { comments: newCommentCount });
 
-  // updateUserComments(username);
-
-  return set(commentKey, {
-    username: username,
-    firstName: firstName,
-    lastName: lastName,
-    content: comment,
-    createdOn: new Date().toString(),
-  });
+    return set(commentKey, {
+      username: username,
+      firstName: firstName,
+      lastName: lastName,
+      content: comment,
+      createdOn: new Date().toString(),
+      likes: 0,
+      dislikes: 0,
+      likedBy: {},
+      dislikedBy: {},
+    });
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-export const editCommentPost = (postId, commentId, content) => {
-  const commentToEdit = ref(db, `/posts/${postId}/comments/${commentId}`);
-
-  return update(commentToEdit, { content: content });
+export const editCommentPost = async (postId, commentId, content) => {
+  try {
+    const commentToEdit = ref(db, `/posts/${postId}/comments/${commentId}`);
+    await update(commentToEdit, { content: content });
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-export const deleteCommentPost = (postId, commentId) => {
-  const commentToDelete = ref(db, `/posts/${postId}/comments/${commentId}`);
-
-  return remove(commentToDelete);
+export const deleteCommentPost = async (postId, commentId, username) => {
+  try {
+    const commentToDelete = ref(db, `/posts/${postId}/comments/${commentId}`);
+    const result = await get(ref(db, `/users/${username}/comments`));
+    await update(ref(db, `/users/${username}`), { comments: result.val() - 1 });
+    return remove(commentToDelete);
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-export const getCommentsOfAPost = (id) => {
-  return get(ref(db, `posts/${id}/comments`)).then((result) => {
+export const getCommentsOfAPost = async (id) => {
+  try {
+    const result = await get(ref(db, `posts/${id}/comments`));
+
     if (!result.exists()) {
       throw new Error(`Post with id ${id} does not exist!`);
     }
 
     const comments = result.val();
-
     return comments;
-  });
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-export const likePost = (username, postId) => {
-  const updateLikes = {};
+export const likeComment = async (postId, username, commentId) => {
+  try {
+    const updateCommentLikes = {};
+    const result = await get(ref(db, `/posts/${postId}/comments/${commentId}/dislikedBy/${username}`));
 
-  return get(ref(db, `/posts/${postId}/likes`)).then((result) => {
+    if (result.exists()) {
+      const dislikesResult = await get(ref(db, `/posts/${postId}/comments/${commentId}/dislikes`));
+      updateCommentLikes[`/posts/${postId}/comments/${commentId}/dislikes`] = dislikesResult.val() - 1;
+      updateCommentLikes[`/posts/${postId}/comments/${commentId}/dislikedBy/${username}`] = null;
+      // updateCommentLikes[`/users/${username}/dislikedComments/${commentId}`] = null;
+    }
+
+    const likesResult = await get(ref(db, `/posts/${postId}/comments/${commentId}/likes`));
+    updateCommentLikes[`/posts/${postId}/comments/${commentId}/likes`] = likesResult.val() + 1;
+    updateCommentLikes[`/posts/${postId}/comments/${commentId}/likedBy/${username}`] = true;
+    // updateCommentLikes[`/users/${username}/likedComments/${commentId}`] = true;
+
+    return update(ref(db), updateCommentLikes);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const stopLikingComment = async (postId, username, commentId) => {
+  try {
+    const updateCommentLikes = {};
+    const result = await get(ref(db, `/posts/${postId}/comments/${commentId}/likes`));
+
+    updateCommentLikes[`/posts/${postId}/comments/${commentId}/likes`] = result.val() - 1;
+    updateCommentLikes[`/posts/${postId}/comments/${commentId}/likedBy/${username}`] = null;
+    // updateCommentLikes[`/users/${username}/likedComments/${commentId}`] = null;
+
+    return update(ref(db), updateCommentLikes);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const dislikeComment = async (postId, username, commentId) => {
+  try {
+    const updateCommentDislikes = {};
+    const result = await get(ref(db, `/posts/${postId}/comments/${commentId}/likedBy/${username}`));
+
+    if (result.exists()) {
+      const likesResult = await get(ref(db, `/posts/${postId}/comments/${commentId}/likes`));
+      updateCommentDislikes[`/posts/${postId}/comments/${commentId}/likes`] = likesResult.val() - 1;
+      updateCommentDislikes[`/posts/${postId}/comments/${commentId}/likedBy/${username}`] = null;
+      // updateCommentDislikes[`/users/${username}/likedComments/${commentId}`] = null;
+    }
+
+    const dislikesResult = await get(ref(db, `/posts/${postId}/comments/${commentId}/dislikes`));
+    updateCommentDislikes[`/posts/${postId}/comments/${commentId}/dislikes`] = dislikesResult.val() + 1;
+    updateCommentDislikes[`/posts/${postId}/comments/${commentId}/dislikedBy/${username}`] = true;
+    // updateCommentDislikes[`/users/${username}/dislikedComments/${commentId}`] = true;
+
+    return update(ref(db), updateCommentDislikes);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const stopDislikingComment = async (postId, username, commentId) => {
+  try {
+    const updateCommentDislikes = {};
+    const result = await get(ref(db, `/posts/${postId}/comments/${commentId}/dislikes`));
+
+    updateCommentDislikes[`/posts/${postId}/comments/${commentId}/dislikes`] = result.val() - 1;
+    updateCommentDislikes[`/posts/${postId}/comments/${commentId}/dislikedBy/${username}`] = null;
+    // updateCommentDislikes[`/users/${username}/dislikedComments/${commentId}`] = null;
+
+    return update(ref(db), updateCommentDislikes);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const likePost = async (username, postId) => {
+  try {
+    const updateLikes = {};
+    const result = await get(ref(db, `/posts/${postId}/likes`));
+
     updateLikes[`/posts/${postId}/likes`] = result.val() + 1;
     updateLikes[`/posts/${postId}/likedBy/${username}`] = true;
-    updateLikes[`/users/${username}/likedPosts/${postId}`] = true;
+
+    const user = await get(ref(db, `/users/${username}/likedPosts`));
+    updateLikes[`/users/${username}/likedPosts/`] = user.val() + 1;
+    // updateLikes[`/users/${username}/likedPosts/${postId}`] = true;
 
     return update(ref(db), updateLikes);
-  });
-
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-export const dislikePost = (username, postId) => {
-  const updateLikes = {};
+export const dislikePost = async (username, postId) => {
+  try {
+    const updateLikes = {};
+    const result = await get(ref(db, `/posts/${postId}/likes`));
 
-  return get(ref(db, `/posts/${postId}/likes`)).then((result) => {
     updateLikes[`/posts/${postId}/likes`] = result.val() - 1;
     updateLikes[`/posts/${postId}/likedBy/${username}`] = null;
-    updateLikes[`/users/${username}/likedPosts/${postId}`] = null;
+
+    const user = await get(ref(db, `/users/${username}/likedPosts`));
+    updateLikes[`/users/${username}/likedPosts/`] = user.val() - 1;
+    // updateLikes[`/users/${username}/likedPosts/${postId}`] = null;
 
     return update(ref(db), updateLikes);
-  });
+  } catch (error) {
+    console.error(error);
+  }
 };

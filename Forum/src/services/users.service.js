@@ -123,9 +123,12 @@ export const createUserUsername = (
     uid,
     email,
     createdOn: new Date().toString(),
-    likedPosts: {},
+    likedPosts: 0,
     posts: {},
     comments: 0,
+    // likedPosts: {},
+    // likedComments: {},
+    // dislikedComments: {},
   });
 };
 
@@ -165,20 +168,5 @@ export const updateUserPosts = (username, postId, title) => {
 
     return update(ref(db, `users/${username}/posts/`), updatePosts);
   });
+
 };
-
-// to continue....
-
-// export const updateUserComments = (username) => {
-//   const updateComments = [];
-
-//   get(ref(db, `users/${username}/`)).then((result) => {
-
-//       updateComments[comments] = result.val() + 1;
-
-//     console.log(updateComments);
-
-//     return update(ref(db, `users/${username}/comments/`), updateComments);
-//   });
-
-// };

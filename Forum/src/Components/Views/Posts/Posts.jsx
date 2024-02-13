@@ -1,13 +1,22 @@
-import { useEffect, useState } from "react";
-import { getPostsByCategory } from "../../../services/posts.service";
+import { useContext, useEffect, useState } from "react";
+import {
+  deletePost,
+  dislikePost,
+  getPostsByCategory,
+  likePost,
+} from "../../../services/posts.service";
 import { NavLink, useParams } from "react-router-dom";
 import Header from "../../Header/Header";
 import "./Posts.css";
+import Button from "../../Button/Button";
+import AppContext from "../../../AppContext/AppContext";
 
 const Posts = () => {
   const { type } = useParams();
+  const { userData } = useContext(AppContext);
   const [posts, setPosts] = useState();
   const [selected, setSelected] = useState("");
+  const [postsChange, setPostsChange] = useState(false);
 
   const handleChange = (e) => {
     setSelected(e.target.value);
@@ -15,7 +24,7 @@ const Posts = () => {
 
   useEffect(() => {
     getPostsByCategory(type).then(setPosts);
-  }, []);
+  }, [postsChange]);
 
   useEffect(() => {
     const sortPosts = () => {
@@ -37,6 +46,23 @@ const Posts = () => {
       setPosts([...posts].sort(sortPosts()));
     }
   }, [selected]);
+
+  const handleLikePost = (postId) => {
+    likePost(userData.username, postId).then(() =>
+      setPostsChange(!postsChange)
+    );
+  };
+
+  const handleDislikePost = (postId) => {
+    console.log(postId);
+    dislikePost(userData.username, postId).then(() =>
+      setPostsChange(!postsChange)
+    );
+  };
+
+  const handleDeletePost = (postId) => {
+    deletePost(postId, userData.username).then(() => setPostsChange(!postsChange));
+  };
 
   return (
     <div className="post-content">
@@ -86,11 +112,47 @@ const Posts = () => {
               </div>
               <div className="replies-views">
                 <div className="left">
-                  <span>0 replies</span>
-                  <span>427 views</span>
+                  <span>
+                    {post.comments ? Object.keys(post.comments).length : 0}{" "}
+                    replies
+                  </span>
+                  {post.likedBy ? (
+                    post.likedBy.includes(userData?.username) ? (
+                      <Button
+                        onClick={() => handleDislikePost(post.id)}
+                        color={"#d98f40"}
+                      >
+                        Dislike
+                      </Button>
+                    ) : (
+                      <Button
+                        onClick={() => handleLikePost(post.id)}
+                        color={"#d98f40"}
+                      >
+                        Like
+                      </Button>
+                    )
+                  ) : (
+                    <Button
+                      onClick={() => handleLikePost(post.id)}
+                      color={"#d98f40"}
+                    >
+                      Like
+                    </Button>
+                  )}
                 </div>
                 <div className="right">
-                  <span>{post.author}</span>
+                  <span>
+                    {post.author}{" "}
+                    {post.author === userData?.username && (
+                      <Button
+                        onClick={() => handleDeletePost(post.id)}
+                        color={"#d98f40"}
+                      >
+                        Delete
+                      </Button>
+                    )}
+                  </span>
                   <span>
                     {post.createdOn.toLocaleString("bg-BG", {
                       year: "numeric",

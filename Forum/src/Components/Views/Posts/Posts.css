@@ -137,3 +137,33 @@ hr {
   border: none;
 }
 
+.replies-views button {
+  width: 65px;
+  height: 30px;
+  border-radius: 5px;
+  background-color: #d98f40;
+  color: white;
+  font-size: 15px;
+  font-family: montserrat, helvetica neue, Helvetica, Arial, sans-serif;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.left {
+  align-items: center;
+  justify-content: center;
+}
+
+.right {
+  gap: 18px;
+  position: relative;
+}
+
+.right button {
+  position: absolute;
+  right: 220px;
+  bottom: 0px;
+}
