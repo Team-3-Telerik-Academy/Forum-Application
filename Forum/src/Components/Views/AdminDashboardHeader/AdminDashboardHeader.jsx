@@ -1,5 +1,6 @@
 import "./AdminDashboardHeader.css";
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const AdminDashboardHeader = ({
   usersNavColor = "",
@@ -9,9 +10,11 @@ const AdminDashboardHeader = ({
   postsNavColor = "",
   postsFontColor = "",
 }) => {
+  const navigate = useNavigate();
+
   return (
     <div className="dashboard-header">
-      <span className="admin-title">Admin dashboard</span>
+      <span onClick={() => navigate('/home')} style={{cursor: 'pointer'}}  className="admin-title">Admin dashboard</span>
       <NavLink
         to="/admin-dashboard"
         style={{
@@ -35,7 +38,7 @@ const AdminDashboardHeader = ({
         Blocked users
       </NavLink>
       <NavLink
-      to="/admin-dashboard-posts"
+        to="/admin-dashboard-posts"
         style={{
           backgroundColor: postsNavColor ? postsNavColor : "#000000E6",
           color: postsFontColor ? postsFontColor : "#d98f40",

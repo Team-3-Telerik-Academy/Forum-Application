@@ -126,9 +126,7 @@ export const createUserUsername = (
     likedPosts: 0,
     posts: {},
     comments: 0,
-    // likedPosts: {},
-    // likedComments: {},
-    // dislikedComments: {},
+    admin: false,
   });
 };
 
@@ -168,5 +166,11 @@ export const updateUserPosts = (username, postId, title) => {
 
     return update(ref(db, `users/${username}/posts/`), updatePosts);
   });
+};
 
+export const isAdmin = async (username, fn) => {
+  const user = (await get(ref(db, `users/${username}`))).val();
+  await update(ref(db, `users/${username}`), { admin: !user.admin });
+  const allUsers = Object.values(await getAllUsers());
+  return fn(allUsers);
 };

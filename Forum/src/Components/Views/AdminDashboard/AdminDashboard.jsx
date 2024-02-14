@@ -3,11 +3,18 @@ import AdminDashboardHeader from "../AdminDashboardHeader/AdminDashboardHeader";
 import { getAllUsers } from "../../../services/users.service";
 import { useEffect, useState } from "react";
 import { blockUser } from "../../../services/users.service";
+import { isAdmin } from "../../../services/users.service";
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState(null);
   const [selected, setSelected] = useState("firstName");
   const [value, setValue] = useState("");
+
+  const handleAdmin = async (username, fn) => {
+    const result = await isAdmin(username, fn);
+
+    return result;
+  };
 
   const handleInputValue = (e) => {
     setValue(e.target.value);
@@ -96,11 +103,14 @@ const AdminDashboard = () => {
                   <td>{user.firstName}</td>
                   <td>{user.lastName}</td>
                   <td
+                    onClick={() => handleAdmin(user.username, setUsers)}
                     style={{
                       cursor: "pointer",
+                      backgroundColor: user.admin ? "#89C623" : "#2C2F34",
+                      borderBottom: "2px solid #2c2f34",
                     }}
                   >
-                    No
+                    {user.admin ? "Yes" : "No"}
                   </td>
                   <td
                     className="block-cell"
