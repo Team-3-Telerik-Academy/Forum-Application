@@ -4,93 +4,38 @@ import Header from "../../Header/Header";
 import AppContext from "../../../AppContext/AppContext";
 import Category from "../../Category/Category";
 import Button from "../../Button/Button";
+import { getAllPosts } from "../../../services/posts.service";
+import HomePostsTemplate from "../../HomePostsTemplate/HomePostsTemplate";
 
 const Home = () => {
   const { user } = useContext(AppContext);
-  const [ trending, setTrending ] = useState(null);
-  const [ recentlyCreated, setRecentlyCreated ] = useState(null);
+  const [trending, setTrending] = useState(null);
+  const [recentlyCreated, setRecentlyCreated] = useState(null);
+  const [fiveTrending, setFiveTrending] = useState(null);
+  const [fiveRecentlyCreated, setFiveRecentlyCreated] = useState(null);
+  const [activeButton, setActiveButton] = useState(1);
+  const [activeSecondButton, setActiveSecondButton] = useState(1);
 
+  // Most Liked or Most Commented???
   useEffect(() => {
-    setTrending(array.slice(0, 5));
-    setRecentlyCreated(array.slice(0, 5));
-  }, []);
+    getAllPosts().then((result) => {
+      const mostLiked = result.sort((a, b) => b.likes - a.likes).slice(0, 10);
+      // const mostCommented = result.sort((a, b) => b.comments - a.comments).slice(0, 10);
+      // console.log(mostCommented);
+      const newest = result
+        .sort((a, b) => b.createdOn - a.createdOn)
+        .slice(0, 10);
 
-  const array = [
-    {
-      title: "test1",
-      author: "author",
-      createdOn: new Date().toLocaleDateString("BG-bg"),
-      replies: "5",
-      views: "100",
-    },
-    {
-      title: "test2",
-      author: "author",
-      createdOn: new Date().toLocaleDateString("BG-bg"),
-      replies: "5",
-      views: "100",
-    },
-    {
-      title: "test3",
-      author: "author",
-      createdOn: new Date().toLocaleDateString("BG-bg"),
-      replies: "5",
-      views: "100",
-    },
-    {
-      title: "test4",
-      author: "author",
-      createdOn: new Date().toLocaleDateString("BG-bg"),
-      replies: "5",
-      views: "100",
-    },
-    {
-      title: "test5",
-      author: "author",
-      createdOn: new Date().toLocaleDateString("BG-bg"),
-      replies: "5",
-      views: "100",
-    },
-    {
-      title: "test6",
-      author: "author",
-      createdOn: new Date().toLocaleDateString("BG-bg"),
-      replies: "5",
-      views: "100",
-    },
-    {
-      title: "test7",
-      author: "author",
-      createdOn: new Date().toLocaleDateString("BG-bg"),
-      replies: "5",
-      views: "100",
-    },
-    {
-      title: "test8",
-      author: "author",
-      createdOn: new Date().toLocaleDateString("BG-bg"),
-      replies: "5",
-      views: "100",
-    },
-    {
-      title: "test9",
-      author: "author",
-      createdOn: new Date().toLocaleDateString("BG-bg"),
-      replies: "5",
-      views: "100",
-    },
-    {
-      title: "test10",
-      author: "author",
-      createdOn: new Date().toLocaleDateString("BG-bg"),
-      replies: "5",
-      views: "100",
-    },
-  ];
+      setTrending(mostLiked);
+      setRecentlyCreated(newest);
+      setFiveTrending(mostLiked.slice(0, 5));
+      setFiveRecentlyCreated(newest.slice(0, 5));
+    });
+  }, []);
 
   return (
     <div className="home-content">
-      <Header />
+      <Header inputColor={'#CD4D95'} />
       {user ? (
         <div className="categories-content">
           <Category
@@ -126,47 +71,56 @@ const Home = () => {
       <img id="man-home" src="/src/Images/man-home.png" alt="man" />
       <div id="posts-content">
         <div id="most-commented">
-          <h2>Most commented</h2>
-          {trending?.map((post) => {
-            return (
-              <div key={post.title} className="single-post">
-                <h3>Title: {post.title}</h3>
-                <p>
-                  By {post.author}, {post.createdOn}
-                </p>
-                <span>
-                  {post.replies} replies
-                  <br />
-                  {post.views} views
-                </span>
-              </div>
-            );
-          })}
+          {/* <h2>Most commented</h2> */}
+          <h2>Most popular</h2>
+          {fiveTrending?.map((post) => (
+            <HomePostsTemplate key={post.id} post={post} />
+          ))}
           <div id="see-more-trending">
-            <Button className='active' onClick={() => setTrending(array.slice(0, 5))}>1</Button>
-            <Button onClick={() => setTrending(array.slice(5))}>2</Button>
+            <Button
+              id={activeButton === 1 ? "active" : ""}
+              onClick={() => {
+                setFiveTrending(trending.slice(0, 5));
+                setActiveButton(1);
+              }}
+            >
+              1
+            </Button>
+            <Button
+              id={activeButton === 2 ? "active" : ""}
+              onClick={() => {
+                setFiveTrending(trending.slice(5));
+                setActiveButton(2);
+              }}
+            >
+              2
+            </Button>
           </div>
         </div>
         <div id="recently-created">
           <h2>Recently created</h2>
-          {recentlyCreated?.map((post) => {
-            return (
-              <div key={post.title} className="single-post">
-                <h3>Title: {post.title}</h3>
-                <p>
-                  By {post.author}, {post.createdOn}
-                </p>
-                <span>
-                  {post.replies} replies
-                  <br />
-                  {post.views} views
-                </span>
-              </div>
-            );
-          })}
+          {fiveRecentlyCreated?.map((post) => (
+            <HomePostsTemplate key={post.id} post={post} />
+          ))}
           <div id="see-more-recently">
-            <Button className={'active'} onClick={() => setRecentlyCreated(array.slice(0, 5))}>1</Button>
-            <Button onClick={() => setRecentlyCreated(array.slice(5))}>2</Button>
+            <Button
+              id={activeSecondButton === 1 ? "active" : ""}
+              onClick={() => {
+                setFiveRecentlyCreated(recentlyCreated.slice(0, 5));
+                setActiveSecondButton(1);
+              }}
+            >
+              1
+            </Button>
+            <Button
+              id={activeSecondButton === 2 ? "active" : ""}
+              onClick={() => {
+                setFiveRecentlyCreated(recentlyCreated.slice(5));
+                setActiveSecondButton(2);
+              }}
+            >
+              2
+            </Button>
           </div>
         </div>
       </div>

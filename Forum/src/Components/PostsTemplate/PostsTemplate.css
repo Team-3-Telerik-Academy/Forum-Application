@@ -1,0 +1,81 @@
+.post-main-content {
+    background-color: #2b2d2f;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #aaaaaa;
+    border-top: 1px solid #aaaaaa;
+}
+
+.post-main-content a {
+    color: #d98f40;
+    text-decoration: none;
+    font-size: 22px;
+    font-family: -apple-system, BlinkMacSystemFont, segoe ui, Roboto, Helvetica,
+        Arial, sans-serif, apple color emoji, segoe ui emoji, segoe ui symbol;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+.title-author {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.replies-views {
+    display: flex;
+    gap: 15px;
+}
+
+.replies-views {
+    position: relative;
+}
+
+.replies-views button {
+    width: 65px;
+    height: 30px;
+    border-radius: 5px;
+    background-color: #d98f40;
+    color: white;
+    font-size: 15px;
+    font-family: montserrat, helvetica neue, Helvetica, Arial, sans-serif;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 0px;
+    right: 150px;
+}
+
+.left,
+.right {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.left {
+    align-items: center;
+    justify-content: center;
+}
+
+.left div {
+    display: flex;
+    gap: 15px;
+    margin-right: 12px;
+    margin-bottom: 41px;
+}
+
+.right {
+    gap: 18px;
+    position: relative;
+}
+
+.right button {
+    position: absolute;
+    right: 220px;
+    bottom: 0px;
+}

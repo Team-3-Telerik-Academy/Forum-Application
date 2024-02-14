@@ -1,0 +1,30 @@
+.single-post h3 {
+    word-break: break-all;
+    line-height: 1;
+    position: absolute;
+    top: 8px;
+    left: 10px;
+    margin: 0;
+}
+
+.single-post p {
+    position: absolute;
+    bottom: 10px;
+    left: 12px;
+    margin: 0;
+}
+
+.single-post {
+    margin-bottom: 7px;
+    width: 470px;
+    /* width: 375px; */
+    height: 55px;
+    background-color: rgba(245, 243, 243, 0.186);
+    border-radius: 10px;
+    border: 1.5px solid #CD4D95;
+    padding: 10px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}

@@ -10,6 +10,10 @@
     "Futura Bold", "Arial Black", sans-serif;
 }
 
+/* #search input:focus {
+  outline: none;
+  border: 3px solid #CD4D95;
+} */
 
 .button-content {
   width: 180px;
@@ -117,17 +121,15 @@
 }
 
 #search #magnifying-glass {
-  width: 45px;
+  width: 47px;
   height: 42px;
   border-radius: 10px;
   border: none;
-  /* background-color: #89C623; */
   background-color: #CD4D95;
   cursor: pointer;
   position: absolute;
   top: 16.3px;
-  right: -10px;
-  /* right: -47px; */
+  right: 0px;
   text-align: center;
 }
 

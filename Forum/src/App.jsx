@@ -16,6 +16,7 @@ import NotFound from "./Components/Views/NotFound/NotFound";
 import AdminDashboard from "./Components/Views/AdminDashboard/AdminDashboard";
 import AdminDashboardBlockedUsers from "./Components/Views/AdminDashboardBlockedUsers/AdminDashboardBlockedUsers";
 import AdminDashboardPosts from "./Components/Views/AdminDashboardPosts/AdminDashboardPosts";
+import Search from "./Components/Views/Search/Search";
 
 const App = () => {
   const [user, loading, error] = useAuthState(auth);
@@ -65,9 +66,9 @@ const App = () => {
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/create-new-post" element={<CreatePost />} />
-          <Route path="/:type" element={<Posts />} />
+          <Route path="/post-category/:type" element={<Posts />} />
           <Route path="/post/:id" element={<Post />} />
-          <Route path="*" element={<NotFound />} />
+          <Route path="/search/:searchTerm" element={<Search />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route
             path="/admin-dashboard-blocked-users"
@@ -77,6 +78,7 @@ const App = () => {
             path="/admin-dashboard-posts"
             element={<AdminDashboardPosts />}
           />
+          <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
       </AppContext.Provider>

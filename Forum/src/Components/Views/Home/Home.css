@@ -36,7 +36,8 @@
 
 #no-logged-in-title h1 {
   font-size: 3.5vh;
-  margin-top: 0;
+  margin: 0;
+  margin-bottom: 15px;
 }
 
 #no-logged-in-info {
@@ -79,7 +80,8 @@
   background-color: #2C2F34;
   /* background-color: rgba(245, 243, 243, 0.186); */
   border-radius: 10px;
-  width: 56.8%;
+  /* width: 56.8%; */
+  width: 70%;
   align-items: center;
   justify-content: center;
   margin-bottom: 60px;
@@ -89,11 +91,6 @@
 #most-commented {
   padding-right: 12px;
   border-right: 1px solid white;
-}
-
-#most-commented div h3,
-p {
-  margin: 5px;
 }
 
 #most-commented h2 {
@@ -110,28 +107,9 @@ p {
     "Futura Bold", "Arial Black", sans-serif;
 }
 
-.single-post {
-  margin-bottom: 10px;
-  width: 375px;
-  height: 47px;
-  background-color: rgba(245, 243, 243, 0.186);
-  border-radius: 10px;
-  border: 1.5px solid #CD4D95;
-  padding: 10px;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-}
-
-#recently-created div h3,
-p {
-  margin: 5px;
-}
-
 #posts-content div span {
   position: absolute;
-  top: 23%;
+  bottom: 5px;
   right: 15px;
   text-align: center;
 }
@@ -144,11 +122,11 @@ p {
 }
 
 #woman-home {
-  width: 28vw;
+  width: 19vw;
   height: 70vh;
   position: absolute;
   bottom: 65px;
-  right: 4vw;
+  right: 3.5vw;
 }
 
 #man-home {
@@ -156,7 +134,7 @@ p {
   height: 70vh;
   position: absolute;
   bottom: 65px;
-  left: 4vw;
+  left: -2vw;
 }
 
 #see-more-trending,
@@ -179,8 +157,8 @@ p {
   background-color: #CD4D95;
 }
 
-#see-more-trending button:focus,
-#see-more-recently button:focus {
+#see-more-trending button#active,
+#see-more-recently button#active {
   border-radius: 50%;
   color: #CD4D95;
   background-color: #ffffff;

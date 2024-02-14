@@ -2,12 +2,12 @@ import { NavLink, useNavigate } from "react-router-dom";
 import "./SignUp.css";
 import { useContext, useState } from "react";
 import AppContext from "../../../AppContext/AppContext";
-import SuccessfullyRegistered from "../SuccessfullyRegistered/SuccessfullyRegistered";
 import {
   getUserByUsername,
   createUserUsername,
 } from "../../../services/users.service";
 import { registerUser } from "../../../services/auth.service";
+import Successfully from "../../Successfully/Successfully";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -30,7 +30,6 @@ const SignUp = () => {
   };
 
   const onRegister = () => {
-
     if (form.firstName.length < 4 || form.firstName.length > 32) {
       setError("First Name should be between 4 and 32 characters long!");
       return;
@@ -50,7 +49,7 @@ const SignUp = () => {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       return emailRegex.test(email);
     };
-    
+
     const isValid = isValidEmail(form.email);
 
     if (!isValid) {
@@ -100,7 +99,10 @@ const SignUp = () => {
   return (
     <>
       {isRegistered ? (
-        <SuccessfullyRegistered />
+        <Successfully page={"sign-in"} color={"#89C623"}>
+          Your account has been successfully created! <br /> You will be
+          redirected to the Sign In page!
+        </Successfully>
       ) : (
         <div id="sign-up-page">
           <div id="observatory">

@@ -14,7 +14,7 @@ const Category = ({ image, name, color }) => {
 
   return (
     <div
-      onClick={() => navigate(`/${name.toLowerCase()}`)}
+      onClick={() => navigate(`/post-category/${name.toLowerCase()}`)}
       id="category-content"
     >
       <div id="image-content">

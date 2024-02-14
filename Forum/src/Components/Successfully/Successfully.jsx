@@ -1,29 +1,38 @@
 import { useNavigate } from "react-router-dom";
-import "./SuccessfullyRegistered.css";
+import "./Successfully.css";
 import { useEffect } from "react";
+import PropTypes from "prop-types";
 
-const SuccessfullyRegistered = () => {
+const Successfully = ({ page, color, children}) => {
   const navigate = useNavigate();
 
   useEffect(() => {
     setTimeout(() => {
-      navigate('/sign-in');
+      navigate(`/${page}`);
     }, 2000);
   }, [])
 
   return (
     <div id="background">
       <div id="success">
-        <div id="success-top">
+        <div style={{ backgroundColor: color }} id="success-top">
           <img src="/src/Images/success-check-mark.svg" alt="" />
           <span>Success</span>
         </div>
         <div id="success-bottom">
-          <p>Your account has been successfully created! <br/> You will be redirected to the Sign In page!</p>
+          <p>
+            {children}
+          </p>
         </div>
       </div>
     </div>
   );
 };
 
-export default SuccessfullyRegistered;
+Successfully.propTypes = {
+  page: PropTypes.string,
+  color: PropTypes.string,
+  children: PropTypes.string,
+};
+
+export default Successfully;

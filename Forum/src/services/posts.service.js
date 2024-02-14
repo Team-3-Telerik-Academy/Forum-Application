@@ -282,7 +282,6 @@ export const likeComment = async (postId, username, commentId) => {
       updateCommentLikes[
         `/posts/${postId}/comments/${commentId}/dislikedBy/${username}`
       ] = null;
-      // updateCommentLikes[`/users/${username}/dislikedComments/${commentId}`] = null;
     }
 
     const likesResult = await get(
@@ -293,7 +292,6 @@ export const likeComment = async (postId, username, commentId) => {
     updateCommentLikes[
       `/posts/${postId}/comments/${commentId}/likedBy/${username}`
     ] = true;
-    // updateCommentLikes[`/users/${username}/likedComments/${commentId}`] = true;
 
     return update(ref(db), updateCommentLikes);
   } catch (error) {
@@ -313,7 +311,6 @@ export const stopLikingComment = async (postId, username, commentId) => {
     updateCommentLikes[
       `/posts/${postId}/comments/${commentId}/likedBy/${username}`
     ] = null;
-    // updateCommentLikes[`/users/${username}/likedComments/${commentId}`] = null;
 
     return update(ref(db), updateCommentLikes);
   } catch (error) {
@@ -337,7 +334,6 @@ export const dislikeComment = async (postId, username, commentId) => {
       updateCommentDislikes[
         `/posts/${postId}/comments/${commentId}/likedBy/${username}`
       ] = null;
-      // updateCommentDislikes[`/users/${username}/likedComments/${commentId}`] = null;
     }
 
     const dislikesResult = await get(
@@ -348,7 +344,6 @@ export const dislikeComment = async (postId, username, commentId) => {
     updateCommentDislikes[
       `/posts/${postId}/comments/${commentId}/dislikedBy/${username}`
     ] = true;
-    // updateCommentDislikes[`/users/${username}/dislikedComments/${commentId}`] = true;
 
     return update(ref(db), updateCommentDislikes);
   } catch (error) {
@@ -368,7 +363,6 @@ export const stopDislikingComment = async (postId, username, commentId) => {
     updateCommentDislikes[
       `/posts/${postId}/comments/${commentId}/dislikedBy/${username}`
     ] = null;
-    // updateCommentDislikes[`/users/${username}/dislikedComments/${commentId}`] = null;
 
     return update(ref(db), updateCommentDislikes);
   } catch (error) {
@@ -386,7 +380,6 @@ export const likePost = async (username, postId) => {
 
     const user = await get(ref(db, `/users/${username}/likedPosts`));
     updateLikes[`/users/${username}/likedPosts/`] = user.val() + 1;
-    // updateLikes[`/users/${username}/likedPosts/${postId}`] = true;
 
     return update(ref(db), updateLikes);
   } catch (error) {
@@ -404,7 +397,6 @@ export const dislikePost = async (username, postId) => {
 
     const user = await get(ref(db, `/users/${username}/likedPosts`));
     updateLikes[`/users/${username}/likedPosts/`] = user.val() - 1;
-    // updateLikes[`/users/${username}/likedPosts/${postId}`] = null;
 
     return update(ref(db), updateLikes);
   } catch (error) {

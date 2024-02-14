@@ -1,0 +1,12 @@
+.post-header {
+    background-color: #222222;
+    height: 5vh;
+    border-radius: 5px;
+}
+
+#label-sortBy {
+    color: white;
+    font-size: 14px;
+    font-family: -apple-system, BlinkMacSystemFont, segoe ui, Roboto, Helvetica,
+        Arial, sans-serif, apple color emoji, segoe ui emoji, segoe ui symbol;
+}

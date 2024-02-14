@@ -1,31 +1,32 @@
+import "./Search.css";
 import { useContext, useEffect, useState } from "react";
 import {
   deletePost,
   dislikePost,
-  getPostsByCategory,
+  getAllPosts,
   likePost,
 } from "../../../services/posts.service";
 import { useParams } from "react-router-dom";
-import Header from "../../Header/Header";
-import "./Posts.css";
-import AppContext from "../../../AppContext/AppContext";
 import PostsTemplate from "../../PostsTemplate/PostsTemplate";
+import Header from "../../Header/Header";
 import Sort from "../../Sort/Sort";
+import AppContext from "../../../AppContext/AppContext";
 
-const Posts = () => {
-  const { type } = useParams();
-  const { userData } = useContext(AppContext);
-  const [posts, setPosts] = useState();
+const Search = () => {
+  const [posts, setPosts] = useState(null);
   const [selected, setSelected] = useState("");
   const [postsChange, setPostsChange] = useState(false);
-
-  const handleChange = (e) => {
-    setSelected(e.target.value);
-  };
+  const { searchTerm } = useParams();
+  const { userData } = useContext(AppContext);
 
   useEffect(() => {
-    getPostsByCategory(type).then(setPosts);
-  }, [postsChange]);
+    getAllPosts().then((allPosts) => {
+      const result = allPosts.filter((post) =>
+        post.title.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setPosts(result);
+    });
+  }, [postsChange, searchTerm]);
 
   useEffect(() => {
     const sortPosts = () => {
@@ -48,6 +49,10 @@ const Posts = () => {
     }
   }, [selected]);
 
+  const handleChange = (e) => {
+    setSelected(e.target.value);
+  };
+
   const handleLikePost = (postId) => {
     likePost(userData.username, postId).then(() =>
       setPostsChange(!postsChange)
@@ -67,32 +72,29 @@ const Posts = () => {
   };
 
   return (
-    <div className="post-content">
-      <Header magnifiedGlassColor="#d98f40" inputColor={'#d98f40'}/>
-      <div className="title">
-        <span>{type.charAt(0).toUpperCase() + type.slice(1)} category</span>
-        <hr />
-        <div id="posts-count">
-          Posts <div id="count">{posts?.length}</div>
-        </div>
+    <div className="search-content">
+      <Header magnifiedGlassColor="#d98f40" inputColor={'#d98f40'} />
+      <div id="search-content-title">
+        <h2>Search the Community</h2>
+        <p>
+          Showing {posts?.length} results for &apos;{searchTerm}&apos;:
+        </p>
       </div>
-      <div className="post-main">
+      <div className="search-post-main">
         <Sort selected={selected} handleChange={handleChange} />
-        {posts?.map((post) => {
-          return (
-            <PostsTemplate
-              key={post.id}
-              post={post}
-              likePost={handleLikePost}
-              dislikePost={handleDislikePost}
-              deletePost={handleDeletePost}
-            />
-          );
-        })}
+        {posts?.map((post) => (
+          <PostsTemplate
+            key={post.id}
+            post={post}
+            likePost={handleLikePost}
+            dislikePost={handleDislikePost}
+            deletePost={handleDeletePost}
+          />
+        ))}
         <div className="post-footer"></div>
       </div>
     </div>
   );
 };
 
-export default Posts;
+export default Search;

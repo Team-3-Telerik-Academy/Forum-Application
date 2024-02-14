@@ -1,14 +1,17 @@
-import { useContext, useEffect, useState } from "react";
 import "./Header.css";
+import PropTypes from 'prop-types';
+import { useContext, useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import AppContext from "../../AppContext/AppContext";
 import { logoutUser } from "../../services/auth.service";
 import { getAllPosts } from "../../services/posts.service";
 import { getAllUsers } from "../../services/users.service";
 
-const Header = ({ magnifiedGlassColor }) => {
+const Header = ({ magnifiedGlassColor, inputColor }) => {
   const { user, userData, setAppState } = useContext(AppContext);
   const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
+
   const [numbers, setNumbers] = useState({
     users: 0,
     posts: 0,
@@ -24,6 +27,15 @@ const Header = ({ magnifiedGlassColor }) => {
       })
     );
   }, []);
+
+  const handleSearchClick = () => {
+    if (searchTerm === "") {
+      return;
+    }
+
+    navigate(`/search/${searchTerm}`);
+    setSearchTerm("");
+  };
 
   const onLogout = () => {
     logoutUser().then(() => {
@@ -53,6 +65,14 @@ const Header = ({ magnifiedGlassColor }) => {
       {user && (
         <div id="search">
           <input
+            style={{
+              outline: "none",
+              border: `3px solid ${inputColor}`,
+            }}
+            onFocus={(e) => (e.target.style.border = `3px solid ${inputColor}`)}
+            onBlur={(e) => (e.target.style.border = "")}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             type="text"
             name="search"
             id="search"
@@ -63,6 +83,7 @@ const Header = ({ magnifiedGlassColor }) => {
             id="magnifying-glass"
           >
             <img
+              onClick={handleSearchClick}
               src="/src/Images/magnifying-glass.svg"
               alt="magnifying-glass"
             />
@@ -94,5 +115,10 @@ const Header = ({ magnifiedGlassColor }) => {
     </div>
   );
 };
+
+Header.propTypes = {
+  magnifiedGlassColor: PropTypes.string,
+  inputColor: PropTypes.string,
+}
 
 export default Header;

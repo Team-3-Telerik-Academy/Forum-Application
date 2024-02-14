@@ -37,9 +37,6 @@
     justify-content: center;
     margin-top: 20px;
     margin-bottom: 20px;
-    /* background-image: linear-gradient(to bottom left, #cd4d96d2, #B48453); */
-    /* background-image: linear-gradient(to bottom left, #cd4d96d2, #89C623); */
-    /* background-color: #8ac623; */
     border: 2px solid #cd4d96;
     box-shadow: 0px 0px 10px 0px #e0b1cbb8;
     width: 35vw;
@@ -102,7 +99,6 @@ select:focus {
 
 #create-post-content div select {
     background-color: #41353B;
-    /* background-color: #e0b1cb3f; */
     height: 5vh;
     width: 43.3%;
     color: white;
@@ -119,8 +115,6 @@ select:focus {
     height: 45px;
     border-radius: 50%;
     background-color: #cd4d96;
-    /* background-color: #8ac6238f; */
-    /* background-color: #e0b1cbb8; */
     color: white;
     font-size: 20px;
     cursor: pointer;
@@ -134,8 +128,6 @@ select:focus {
     width: 150px;
     height: 45px;
     background-color: #cd4d96;
-    /* background-color: #8ac6238f; */
-    /* background-color: #e0b1cbb8; */
     border: none;
     border-radius: 10px;
     color: white;

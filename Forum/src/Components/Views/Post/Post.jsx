@@ -102,7 +102,7 @@ const Post = () => {
 
   return (
     <div id="single-post-view">
-      <Header magnifiedGlassColor="#d98f40" />
+      <Header magnifiedGlassColor="#d98f40" inputColor={'#d98f40'}/>
       <div id="single-post-title">
         {error && <div className="error">{error}</div>}
         <div id="title-and-buttons">
@@ -154,7 +154,8 @@ const Post = () => {
             day: "numeric",
             hour: "2-digit",
             minute: "2-digit",
-          })}
+          })} <br/>
+          {post?.likes} likes
         </span>
       </div>
       <div id="single-post-content">
