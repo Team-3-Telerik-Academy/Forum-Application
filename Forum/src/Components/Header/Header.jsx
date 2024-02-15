@@ -1,5 +1,5 @@
 import "./Header.css";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { useContext, useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import AppContext from "../../AppContext/AppContext";
@@ -16,6 +16,7 @@ const Header = ({ magnifiedGlassColor, inputColor }) => {
     users: 0,
     posts: 0,
   });
+
 
   useEffect(() => {
     getAllPosts().then((posts) =>
@@ -87,7 +88,7 @@ const Header = ({ magnifiedGlassColor, inputColor }) => {
               src="/src/Images/magnifying-glass.svg"
               alt="magnifying-glass"
             />
-            <NavLink to="/admin-dashboard">Admin </NavLink>
+            {userData?.admin && <NavLink to="/admin-dashboard">Admin</NavLink>}
           </div>
         </div>
       )}
@@ -119,6 +120,6 @@ const Header = ({ magnifiedGlassColor, inputColor }) => {
 Header.propTypes = {
   magnifiedGlassColor: PropTypes.string,
   inputColor: PropTypes.string,
-}
+};
 
 export default Header;

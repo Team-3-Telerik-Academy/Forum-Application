@@ -28,6 +28,8 @@ const App = () => {
     userData: null,
   });
 
+  
+
   if (appState.user !== user) {
     setAppState({ user });
   }

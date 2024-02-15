@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   getPostsByCategory,
 } from "../../../services/posts.service";
@@ -9,13 +10,51 @@ import AppContext from "../../../AppContext/AppContext";
 import PostsTemplate from "../../PostsTemplate/PostsTemplate";
 import Sort from "../../Sort/Sort";
 import { handleDeletePost, handleDislikePost, handleLikePost } from "../../../helpers/like-dislike-delete-functions";
+import { getAllPosts } from "../../../services/posts.service";
 
 const Posts = () => {
+  const navigate = useNavigate();
   const { type } = useParams();
   const { userData } = useContext(AppContext);
   const [posts, setPosts] = useState();
   const [selected, setSelected] = useState("");
   const [postsChange, setPostsChange] = useState(false);
+  const [selectedValue, setSelectedValue] = useState("title");
+  const [inputValue, setInputValue] = useState("");
+
+  const handleInputValue = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  const setValue = (e) => {
+    setSelectedValue(e.target.value);
+  };
+
+  const searchPostBy = (value, selectSearch, fn) => {
+    getAllPosts()
+      .then((data) => Object.values(data))
+      .then((data) => {
+        return data.filter((user) =>
+          user[selectSearch]?.toLowerCase().includes(value)
+        );
+      })
+      .then((data) => fn(data));
+  };
+
+  useEffect(() => {
+    searchPostBy(inputValue, selectedValue, setPosts);
+  }, [inputValue]);
+
+  useEffect(() => {
+    if (
+      type !== "gaming" &&
+      type !== "art" &&
+      type !== "lego" &&
+      type !== "photography"
+    ) {
+      return navigate("*");
+    }
+  }, []);
 
   const handleChange = (e) => {
     setSelected(e.target.value);
@@ -48,7 +87,7 @@ const Posts = () => {
 
   return (
     <div className="post-content">
-      <Header magnifiedGlassColor="#d98f40" inputColor={'#d98f40'}/>
+      <Header magnifiedGlassColor="#d98f40" inputColor={"#d98f40"} />
       <div className="title">
         <span>{type.charAt(0).toUpperCase() + type.slice(1)} category</span>
         <hr />
@@ -57,7 +96,14 @@ const Posts = () => {
         </div>
       </div>
       <div className="post-main">
-        <Sort selected={selected} handleChange={handleChange} />
+        <Sort
+          selected={selected}
+          handleChange={handleChange}
+          selectedValue={selectedValue}
+          setSelectedValue={setValue}
+          inputValue={inputValue}
+          handleInputValue={handleInputValue}
+        />
         {posts?.map((post) => {
           return (
             <PostsTemplate

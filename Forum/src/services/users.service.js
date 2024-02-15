@@ -14,23 +14,6 @@ export const getUserByUsername = (username) => {
   return get(ref(db, `users/${username}`));
 };
 
-// export const getUserByUsername = (username) => {
-//   return get(ref(db, `users/${username}`)).then((result) => {
-//     if (!result.exists()) {
-//       throw new Error(`User with username ${username} does not exist!`);
-//     }
-
-//     const user = result.val();
-//     // post.id = id;
-//     // post.createdOn = new Date(post.createdOn);
-//     // if (!post.likedBy) post.likedBy = [];
-
-//     // console.log(user);
-//     return user;
-//   });
-//   // return get(ref(db, `users/${username}`));
-// };
-
 export const unblockUser = (users, fn, user) => {
   const {
     username,
@@ -60,7 +43,7 @@ export const unblockUser = (users, fn, user) => {
   return remove(ref(db, `blockedUsers/${username}`));
 };
 
-export const blockUser = (users, fn, user) => {
+export const blockUser = async (users, fn, user) => {
   const {
     username,
     firstName,
@@ -86,7 +69,8 @@ export const blockUser = (users, fn, user) => {
     allComments
   );
   fn([...users].filter((user) => user.username !== username));
-  return remove(ref(db, `users/${username}`));
+  const removeUser = await remove(ref(db, `users/${username}`));
+  return removeUser;
 };
 
 export const createBlockedUsers = (
@@ -99,7 +83,8 @@ export const createBlockedUsers = (
   likedPosts,
   posts,
   comments,
-  allComments
+  allComments,
+  isBlocked = true
 ) => {
   return set(ref(db, `blockedUsers/${username}`), {
     username,
@@ -112,6 +97,7 @@ export const createBlockedUsers = (
     posts: posts || {},
     comments: comments || 0,
     allComments: allComments || {},
+    isBlocked,
   });
 };
 
@@ -139,6 +125,7 @@ export const createUserUsername = (
     comments,
     admin: false,
     allComments,
+    isBlocked: false,
   });
 };
 
