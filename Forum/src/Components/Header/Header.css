@@ -10,10 +10,16 @@
     "Futura Bold", "Arial Black", sans-serif;
 }
 
-/* #search input:focus {
-  outline: none;
-  border: 3px solid #CD4D95;
-} */
+#logged-in span {
+  cursor: pointer;
+  padding: 10px;
+  background-color: transparent;
+}
+
+#logged-in span:hover {
+  background-color: #89C623;
+  border-radius: 10px;
+}
 
 .button-content {
   width: 180px;

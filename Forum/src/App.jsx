@@ -17,6 +17,7 @@ import AdminDashboard from "./Components/Views/AdminDashboard/AdminDashboard";
 import AdminDashboardBlockedUsers from "./Components/Views/AdminDashboardBlockedUsers/AdminDashboardBlockedUsers";
 import AdminDashboardPosts from "./Components/Views/AdminDashboardPosts/AdminDashboardPosts";
 import Search from "./Components/Views/Search/Search";
+import Profile from "./Components/Views/Profile/Profile";
 
 const App = () => {
   const [user, loading, error] = useAuthState(auth);
@@ -63,12 +64,13 @@ const App = () => {
         <Routes>
           <Route index element={<Home />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/create-new-post" element={<CreatePost />} />
+          <Route path="/search/:searchTerm" element={<Search />} />
+          <Route path="/profile/:uid" element={<Profile />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
-          <Route path="/create-new-post" element={<CreatePost />} />
           <Route path="/post-category/:type" element={<Posts />} />
           <Route path="/post/:id" element={<Post />} />
-          <Route path="/search/:searchTerm" element={<Search />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route
             path="/admin-dashboard-blocked-users"

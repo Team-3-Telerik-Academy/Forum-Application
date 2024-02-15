@@ -42,6 +42,7 @@ export const unblockUser = (users, fn, user) => {
     likedPosts,
     posts,
     comments,
+    allComments,
   } = user;
   createUserUsername(
     username,
@@ -52,7 +53,8 @@ export const unblockUser = (users, fn, user) => {
     createdOn,
     likedPosts,
     posts,
-    comments
+    comments,
+    allComments
   );
   fn([...users].filter((user) => user.username !== username));
   return remove(ref(db, `blockedUsers/${username}`));
@@ -69,6 +71,7 @@ export const blockUser = (users, fn, user) => {
     likedPosts,
     posts,
     comments,
+    allComments,
   } = user;
   createBlockedUsers(
     username,
@@ -79,7 +82,8 @@ export const blockUser = (users, fn, user) => {
     createdOn,
     likedPosts,
     posts,
-    comments
+    comments,
+    allComments
   );
   fn([...users].filter((user) => user.username !== username));
   return remove(ref(db, `users/${username}`));
@@ -94,7 +98,8 @@ export const createBlockedUsers = (
   createdOn,
   likedPosts,
   posts,
-  comments
+  comments,
+  allComments
 ) => {
   return set(ref(db, `blockedUsers/${username}`), {
     username,
@@ -102,10 +107,11 @@ export const createBlockedUsers = (
     lastName,
     uid,
     email,
-    createdOn: createdOn || {},
-    likedPosts: likedPosts || {},
+    createdOn: createdOn || new Date().toString(),
+    likedPosts: likedPosts || 0,
     posts: posts || {},
-    comments: comments,
+    comments: comments || 0,
+    allComments: allComments || {},
   });
 };
 
@@ -114,7 +120,12 @@ export const createUserUsername = (
   firstName,
   lastName,
   uid,
-  email
+  email,
+  createdOn = new Date().toString(),
+  likedPosts = 0,
+  posts = {},
+  comments = 0,
+  allComments = {},
 ) => {
   return set(ref(db, `users/${username}`), {
     username,
@@ -122,11 +133,12 @@ export const createUserUsername = (
     lastName,
     uid,
     email,
-    createdOn: new Date().toString(),
-    likedPosts: 0,
-    posts: {},
-    comments: 0,
+    createdOn,
+    likedPosts,
+    posts,
+    comments,
     admin: false,
+    allComments,
   });
 };
 
@@ -151,6 +163,16 @@ export const getAllUsers = () => {
     }
 
     return snapshot.val();
+  });
+};
+
+export const updateUserComments = (username, commentId, content) => {
+  return get(ref(db, `users/${username}/allComments/`)).then((result) => {
+    let updateComments = result.exists() ? { ...result.val() } : {};
+
+    updateComments[commentId] = content;
+
+    return update(ref(db, `users/${username}/allComments/`), updateComments);
   });
 };
 

@@ -10,7 +10,7 @@ import {
   remove,
 } from "firebase/database";
 import { db } from "../config/firebase-config";
-import { updateUserPosts } from "./users.service";
+import { updateUserComments, updateUserPosts } from "./users.service";
 
 export const fromPostsDocument = (snapshot) => {
   try {
@@ -32,6 +32,34 @@ export const fromPostsDocument = (snapshot) => {
         id: key,
         createdOn: new Date(post.createdOn),
         likedBy: post.likedBy ? Object.keys(post.likedBy) : [],
+      };
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const fromCommentsDocument = (snapshot) => {
+  try {
+    const commentsDocument = snapshot.val();
+
+    if (!commentsDocument) {
+      throw new Error("Snapshot value is null or undefined");
+    }
+
+    return Object.keys(commentsDocument).map((key) => {
+      const comment = commentsDocument[key];
+
+      if (!comment) {
+        throw new Error(`Comment with key ${key} is null or undefined`);
+      }
+
+      return {
+        ...comment,
+        id: key,
+        createdOn: new Date(comment.createdOn),
+        likedBy: comment.likedBy ? Object.keys(comment.likedBy) : [],
+        dislikedBy: comment.dislikedBy ? Object.keys(comment.dislikedBy) : [],
       };
     });
   } catch (error) {
@@ -214,6 +242,7 @@ export const addCommentPost = async (
     const result = await get(ref(db, `/users/${username}/comments`));
     const newCommentCount = result.val() + 1;
     await update(ref(db, `/users/${username}`), { comments: newCommentCount });
+    await updateUserComments(username, commentKey.key, comment);
 
     return set(commentKey, {
       username: username,
@@ -245,11 +274,28 @@ export const deleteCommentPost = async (postId, commentId, username) => {
     const commentToDelete = ref(db, `/posts/${postId}/comments/${commentId}`);
     const result = await get(ref(db, `/users/${username}/comments`));
     await update(ref(db, `/users/${username}`), { comments: result.val() - 1 });
+    const commentsToDeleteInUser = ref(db, `/users/${username}/allComments/${commentId}`);
+    await remove(commentsToDeleteInUser);
     return remove(commentToDelete);
   } catch (error) {
     console.error(error);
   }
 };
+
+// Not correct - to be continued...
+// export const getCommentsByAuthor = async (username) => {
+//   try {
+//     const snapshot = await get(
+//       query(ref(db, "comments"), orderByChild("author"), equalTo(username))
+//     );
+
+//     if (!snapshot.exists()) return [];
+
+//     return fromCommentsDocument(snapshot);
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
 
 export const getCommentsOfAPost = async (id) => {
   try {

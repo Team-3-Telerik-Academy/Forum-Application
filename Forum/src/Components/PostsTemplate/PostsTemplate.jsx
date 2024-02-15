@@ -35,14 +35,14 @@ const PostsTemplate = ({post, likePost, dislikePost, deletePost}) => {
               {post.likedBy ? (
                 post.likedBy.includes(userData?.username) ? (
                   <Button
-                    onClick={() => dislikePost(post.id)}
+                    onClick={dislikePost}
                     color={"#d98f40"}
                   >
                     Dislike
                   </Button>
                 ) : (
                   <Button
-                    onClick={() => likePost(post.id)}
+                    onClick={likePost}
                     color={"#d98f40"}
                   >
                     Like
@@ -50,7 +50,7 @@ const PostsTemplate = ({post, likePost, dislikePost, deletePost}) => {
                 )
               ) : (
                 <Button
-                  onClick={() => likePost(post.id)}
+                  onClick={likePost}
                   color={"#d98f40"}
                 >
                   Like
@@ -62,7 +62,7 @@ const PostsTemplate = ({post, likePost, dislikePost, deletePost}) => {
                 {post.author}{" "}
                 {post.author === userData?.username && (
                   <Button
-                    onClick={() => deletePost(post.id)}
+                    onClick={deletePost}
                     color={"#d98f40"}
                   >
                     Delete

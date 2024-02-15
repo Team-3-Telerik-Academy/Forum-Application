@@ -1,7 +1,8 @@
 .dashboard {
   width: 100%;
-  height: 100vh;
+  height: 98vh;
   background-color: rgba(0, 0, 0, 0.9);
+  overflow: scroll;
 }
 
 .dashboard-main {
@@ -34,6 +35,7 @@
   font-family: -apple-system, BlinkMacSystemFont, segoe ui, Roboto, Helvetica,
     Arial, sans-serif, apple color emoji, segoe ui emoji, segoe ui symbol;
 }
+
 #search-by:focus {
   border: none;
 }

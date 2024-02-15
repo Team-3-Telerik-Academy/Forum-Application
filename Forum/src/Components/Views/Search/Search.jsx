@@ -1,16 +1,14 @@
 import "./Search.css";
 import { useContext, useEffect, useState } from "react";
 import {
-  deletePost,
-  dislikePost,
   getAllPosts,
-  likePost,
 } from "../../../services/posts.service";
 import { useParams } from "react-router-dom";
 import PostsTemplate from "../../PostsTemplate/PostsTemplate";
 import Header from "../../Header/Header";
 import Sort from "../../Sort/Sort";
 import AppContext from "../../../AppContext/AppContext";
+import { handleDeletePost, handleDislikePost, handleLikePost } from "../../../helpers/like-dislike-delete-functions";
 
 const Search = () => {
   const [posts, setPosts] = useState(null);
@@ -53,24 +51,6 @@ const Search = () => {
     setSelected(e.target.value);
   };
 
-  const handleLikePost = (postId) => {
-    likePost(userData.username, postId).then(() =>
-      setPostsChange(!postsChange)
-    );
-  };
-
-  const handleDislikePost = (postId) => {
-    dislikePost(userData.username, postId).then(() =>
-      setPostsChange(!postsChange)
-    );
-  };
-
-  const handleDeletePost = (postId) => {
-    deletePost(postId, userData.username).then(() =>
-      setPostsChange(!postsChange)
-    );
-  };
-
   return (
     <div className="search-content">
       <Header magnifiedGlassColor="#d98f40" inputColor={'#d98f40'} />
@@ -86,9 +66,9 @@ const Search = () => {
           <PostsTemplate
             key={post.id}
             post={post}
-            likePost={handleLikePost}
-            dislikePost={handleDislikePost}
-            deletePost={handleDeletePost}
+            likePost={() => handleLikePost(post.id, userData, setPostsChange, postsChange)}
+            dislikePost={() => handleDislikePost(post.id, userData, setPostsChange, postsChange)}
+            deletePost={() => handleDeletePost(post.id, userData, setPostsChange, postsChange)}
           />
         ))}
         <div className="post-footer"></div>

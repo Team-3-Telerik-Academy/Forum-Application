@@ -32,7 +32,7 @@ const Successfully = ({ page, color, children}) => {
 Successfully.propTypes = {
   page: PropTypes.string,
   color: PropTypes.string,
-  children: PropTypes.string,
+  children: PropTypes.array,
 };
 
 export default Successfully;

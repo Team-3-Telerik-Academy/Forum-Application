@@ -37,6 +37,10 @@ const Header = ({ magnifiedGlassColor, inputColor }) => {
     setSearchTerm("");
   };
 
+  const handleProfileClick = () => {
+    navigate(`/profile/${userData.uid}`);
+  }
+
   const onLogout = () => {
     logoutUser().then(() => {
       setAppState({
@@ -65,10 +69,6 @@ const Header = ({ magnifiedGlassColor, inputColor }) => {
       {user && (
         <div id="search">
           <input
-            style={{
-              outline: "none",
-              border: `3px solid ${inputColor}`,
-            }}
             onFocus={(e) => (e.target.style.border = `3px solid ${inputColor}`)}
             onBlur={(e) => (e.target.style.border = "")}
             value={searchTerm}
@@ -93,7 +93,7 @@ const Header = ({ magnifiedGlassColor, inputColor }) => {
       )}
       {user ? (
         <div id="logged-in">
-          {userData && <span>Welcome, {userData?.username}</span>}
+          {userData && <span onClick={handleProfileClick}>{userData?.username}</span>}
           <NavLink
             onClick={onLogout}
             style={{ backgroundColor: "#89C623" }}

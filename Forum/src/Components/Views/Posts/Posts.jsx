@@ -1,9 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import {
-  deletePost,
-  dislikePost,
   getPostsByCategory,
-  likePost,
 } from "../../../services/posts.service";
 import { useParams } from "react-router-dom";
 import Header from "../../Header/Header";
@@ -11,6 +8,7 @@ import "./Posts.css";
 import AppContext from "../../../AppContext/AppContext";
 import PostsTemplate from "../../PostsTemplate/PostsTemplate";
 import Sort from "../../Sort/Sort";
+import { handleDeletePost, handleDislikePost, handleLikePost } from "../../../helpers/like-dislike-delete-functions";
 
 const Posts = () => {
   const { type } = useParams();
@@ -48,24 +46,6 @@ const Posts = () => {
     }
   }, [selected]);
 
-  const handleLikePost = (postId) => {
-    likePost(userData.username, postId).then(() =>
-      setPostsChange(!postsChange)
-    );
-  };
-
-  const handleDislikePost = (postId) => {
-    dislikePost(userData.username, postId).then(() =>
-      setPostsChange(!postsChange)
-    );
-  };
-
-  const handleDeletePost = (postId) => {
-    deletePost(postId, userData.username).then(() =>
-      setPostsChange(!postsChange)
-    );
-  };
-
   return (
     <div className="post-content">
       <Header magnifiedGlassColor="#d98f40" inputColor={'#d98f40'}/>
@@ -83,9 +63,9 @@ const Posts = () => {
             <PostsTemplate
               key={post.id}
               post={post}
-              likePost={handleLikePost}
-              dislikePost={handleDislikePost}
-              deletePost={handleDeletePost}
+              likePost={() => handleLikePost(post.id, userData, setPostsChange, postsChange)}
+              dislikePost={() => handleDislikePost(post.id, userData, setPostsChange, postsChange)}
+              deletePost={() => handleDeletePost(post.id, userData, setPostsChange, postsChange)}
             />
           );
         })}
