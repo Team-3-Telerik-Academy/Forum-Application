@@ -112,16 +112,27 @@ const AdminDashboard = () => {
                   >
                     {user.admin ? "Yes" : "No"}
                   </td>
-                  <td
-                    className="block-cell"
-                    onClick={() => blockUser(users, setUsers, user)}
-                    style={{
-                      backgroundColor: "red",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Block
-                  </td>
+                  {user.admin ? (
+                    <td
+                      className="block-cell"
+                      style={{
+                        backgroundColor: "red",
+                      }}
+                    >
+                      Cannot block user
+                    </td>
+                  ) : (
+                    <td
+                      className="block-cell"
+                      onClick={() => blockUser(users, setUsers, user)}
+                      style={{
+                        backgroundColor: "red",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Block
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>

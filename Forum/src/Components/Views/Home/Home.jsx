@@ -35,7 +35,7 @@ const Home = () => {
 
   return (
     <div className="home-content">
-      <Header inputColor={'#CD4D95'} />
+      <Header inputColor={"#CD4D95"} />
       {user ? (
         <div className="categories-content">
           <Category

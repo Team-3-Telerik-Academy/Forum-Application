@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   deletePost,
   dislikePost,
@@ -13,11 +14,23 @@ import PostsTemplate from "../../PostsTemplate/PostsTemplate";
 import Sort from "../../Sort/Sort";
 
 const Posts = () => {
+  const navigate = useNavigate();
   const { type } = useParams();
   const { userData } = useContext(AppContext);
   const [posts, setPosts] = useState();
   const [selected, setSelected] = useState("");
   const [postsChange, setPostsChange] = useState(false);
+
+  useEffect(() => {
+    if (
+      type !== "gaming" &&
+      type !== "art" &&
+      type !== "lego" &&
+      type !== "photography"
+    ) {
+      return navigate("*");
+    }
+  }, []);
 
   const handleChange = (e) => {
     setSelected(e.target.value);
@@ -68,7 +81,7 @@ const Posts = () => {
 
   return (
     <div className="post-content">
-      <Header magnifiedGlassColor="#d98f40" inputColor={'#d98f40'}/>
+      <Header magnifiedGlassColor="#d98f40" inputColor={"#d98f40"} />
       <div className="title">
         <span>{type.charAt(0).toUpperCase() + type.slice(1)} category</span>
         <hr />

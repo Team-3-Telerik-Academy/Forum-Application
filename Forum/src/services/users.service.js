@@ -14,23 +14,6 @@ export const getUserByUsername = (username) => {
   return get(ref(db, `users/${username}`));
 };
 
-// export const getUserByUsername = (username) => {
-//   return get(ref(db, `users/${username}`)).then((result) => {
-//     if (!result.exists()) {
-//       throw new Error(`User with username ${username} does not exist!`);
-//     }
-
-//     const user = result.val();
-//     // post.id = id;
-//     // post.createdOn = new Date(post.createdOn);
-//     // if (!post.likedBy) post.likedBy = [];
-
-//     // console.log(user);
-//     return user;
-//   });
-//   // return get(ref(db, `users/${username}`));
-// };
-
 export const unblockUser = (users, fn, user) => {
   const {
     username,
@@ -81,6 +64,7 @@ export const blockUser = (users, fn, user) => {
     posts,
     comments
   );
+
   fn([...users].filter((user) => user.username !== username));
   return remove(ref(db, `users/${username}`));
 };
@@ -127,6 +111,7 @@ export const createUserUsername = (
     posts: {},
     comments: 0,
     admin: false,
+    isBlocked: false,
   });
 };
 
