@@ -12,6 +12,7 @@ import "./Posts.css";
 import AppContext from "../../../AppContext/AppContext";
 import PostsTemplate from "../../PostsTemplate/PostsTemplate";
 import Sort from "../../Sort/Sort";
+import { getAllPosts } from "../../../services/posts.service";
 
 const Posts = () => {
   const navigate = useNavigate();
@@ -20,6 +21,31 @@ const Posts = () => {
   const [posts, setPosts] = useState();
   const [selected, setSelected] = useState("");
   const [postsChange, setPostsChange] = useState(false);
+  const [selectedValue, setSelectedValue] = useState("title");
+  const [inputValue, setInputValue] = useState("");
+
+  const handleInputValue = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  const setValue = (e) => {
+    setSelectedValue(e.target.value);
+  };
+
+  const searchPostBy = (value, selectSearch, fn) => {
+    getAllPosts()
+      .then((data) => Object.values(data))
+      .then((data) => {
+        return data.filter((user) =>
+          user[selectSearch]?.toLowerCase().includes(value)
+        );
+      })
+      .then((data) => fn(data));
+  };
+
+  useEffect(() => {
+    searchPostBy(inputValue, selectedValue, setPosts);
+  }, [inputValue]);
 
   useEffect(() => {
     if (
@@ -90,7 +116,14 @@ const Posts = () => {
         </div>
       </div>
       <div className="post-main">
-        <Sort selected={selected} handleChange={handleChange} />
+        <Sort
+          selected={selected}
+          handleChange={handleChange}
+          selectedValue={selectedValue}
+          setSelectedValue={setValue}
+          inputValue={inputValue}
+          handleInputValue={handleInputValue}
+        />
         {posts?.map((post) => {
           return (
             <PostsTemplate

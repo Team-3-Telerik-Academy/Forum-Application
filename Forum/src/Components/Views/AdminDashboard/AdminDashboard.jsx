@@ -16,6 +16,11 @@ const AdminDashboard = () => {
     return result;
   };
 
+  const handleBlock = async (users, fn, user) => {
+    const block = await blockUser(users, fn, user);
+    return block;
+  };
+
   const handleInputValue = (e) => {
     setValue(e.target.value);
   };
@@ -124,7 +129,7 @@ const AdminDashboard = () => {
                   ) : (
                     <td
                       className="block-cell"
-                      onClick={() => blockUser(users, setUsers, user)}
+                      onClick={() => handleBlock(users, setUsers, user)}
                       style={{
                         backgroundColor: "red",
                         cursor: "pointer",

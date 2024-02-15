@@ -41,7 +41,7 @@ export const unblockUser = (users, fn, user) => {
   return remove(ref(db, `blockedUsers/${username}`));
 };
 
-export const blockUser = (users, fn, user) => {
+export const blockUser = async (users, fn, user) => {
   const {
     username,
     firstName,
@@ -64,9 +64,9 @@ export const blockUser = (users, fn, user) => {
     posts,
     comments
   );
-
   fn([...users].filter((user) => user.username !== username));
-  return remove(ref(db, `users/${username}`));
+  const removeUser = await remove(ref(db, `users/${username}`));
+  return removeUser;
 };
 
 export const createBlockedUsers = (
@@ -78,7 +78,8 @@ export const createBlockedUsers = (
   createdOn,
   likedPosts,
   posts,
-  comments
+  comments,
+  isBlocked = true
 ) => {
   return set(ref(db, `blockedUsers/${username}`), {
     username,
@@ -90,6 +91,7 @@ export const createBlockedUsers = (
     likedPosts: likedPosts || {},
     posts: posts || {},
     comments: comments,
+    isBlocked,
   });
 };
 
@@ -98,7 +100,11 @@ export const createUserUsername = (
   firstName,
   lastName,
   uid,
-  email
+  email,
+  createdOn
+  // likedPosts,
+  // posts,
+  // comments
 ) => {
   return set(ref(db, `users/${username}`), {
     username,
@@ -106,7 +112,8 @@ export const createUserUsername = (
     lastName,
     uid,
     email,
-    createdOn: new Date().toString(),
+    // createdOn: new Date().toString(),
+    createdOn: createdOn,
     likedPosts: 0,
     posts: {},
     comments: 0,
