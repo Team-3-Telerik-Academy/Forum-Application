@@ -25,7 +25,7 @@ export const unblockUser = (users, fn, user) => {
     likedPosts,
     posts,
     comments,
-    allComments,
+    // allComments,
   } = user;
   createUserUsername(
     username,
@@ -37,7 +37,7 @@ export const unblockUser = (users, fn, user) => {
     likedPosts,
     posts,
     comments,
-    allComments
+    // allComments
   );
   fn([...users].filter((user) => user.username !== username));
   return remove(ref(db, `blockedUsers/${username}`));
@@ -54,7 +54,7 @@ export const blockUser = async (users, fn, user) => {
     likedPosts,
     posts,
     comments,
-    allComments,
+    // allComments,
   } = user;
   createBlockedUsers(
     username,
@@ -66,7 +66,7 @@ export const blockUser = async (users, fn, user) => {
     likedPosts,
     posts,
     comments,
-    allComments
+    // allComments
   );
   fn([...users].filter((user) => user.username !== username));
   const removeUser = await remove(ref(db, `users/${username}`));
@@ -83,7 +83,7 @@ export const createBlockedUsers = (
   likedPosts,
   posts,
   comments,
-  allComments,
+  // allComments,
   isBlocked = true
 ) => {
   return set(ref(db, `blockedUsers/${username}`), {
@@ -96,7 +96,7 @@ export const createBlockedUsers = (
     likedPosts: likedPosts || 0,
     posts: posts || {},
     comments: comments || 0,
-    allComments: allComments || {},
+    // allComments: allComments || {},
     isBlocked,
   });
 };
@@ -111,7 +111,7 @@ export const createUserUsername = (
   likedPosts = 0,
   posts = {},
   comments = 0,
-  allComments = {},
+  // allComments = {},
 ) => {
   return set(ref(db, `users/${username}`), {
     username,
@@ -124,7 +124,7 @@ export const createUserUsername = (
     posts,
     comments,
     admin: false,
-    allComments,
+    // allComments,
     isBlocked: false,
   });
 };
@@ -153,15 +153,17 @@ export const getAllUsers = () => {
   });
 };
 
-export const updateUserComments = (username, commentId, content) => {
-  return get(ref(db, `users/${username}/allComments/`)).then((result) => {
-    let updateComments = result.exists() ? { ...result.val() } : {};
+// For the comments:
 
-    updateComments[commentId] = content;
+// export const updateUserComments = (username, commentId, content) => {
+//   return get(ref(db, `users/${username}/allComments/`)).then((result) => {
+//     let updateComments = result.exists() ? { ...result.val() } : {};
 
-    return update(ref(db, `users/${username}/allComments/`), updateComments);
-  });
-};
+//     updateComments[commentId] = content;
+
+//     return update(ref(db, `users/${username}/allComments/`), updateComments);
+//   });
+// };
 
 export const updateUserPosts = (username, postId, title) => {
   let updatePosts = {};
@@ -183,3 +185,7 @@ export const isAdmin = async (username, fn) => {
   const allUsers = Object.values(await getAllUsers());
   return fn(allUsers);
 };
+
+export const updateUserInfo = async (username, prop, value) => {
+  await update(ref(db, `users/${username}`), { [prop]: value });
+}

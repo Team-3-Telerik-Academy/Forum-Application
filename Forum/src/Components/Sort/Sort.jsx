@@ -21,8 +21,8 @@ const Sort = ({
           id="sortBy"
           onChange={handleChange}
         >
-          <option value="newest">Newest to oldest</option>
           <option value="oldest">Oldest to newest</option>
+          <option value="newest">Newest to oldest</option>
           <option value="title">Title A-Z</option>
           <option value="title-ZA">Title Z-A</option>
           <option value="viewed">Most viewed</option>
@@ -61,6 +61,10 @@ const Sort = ({
 Sort.propTypes = {
   selected: PropTypes.string,
   handleChange: PropTypes.func,
+  selectedValue: PropTypes.string,
+  setSelectedValue: PropTypes.func,
+  inputValue: PropTypes.string,
+  handleInputValue: PropTypes.func,
 };
 
 export default Sort;

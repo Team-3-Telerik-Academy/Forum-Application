@@ -59,14 +59,14 @@
 }
 
 .info {
-    line-height: 1.5;
+    line-height: 2;
 }
 
 .vertical-line {
     border-left: 1px solid #aaaaaa;
     height: 50px;
     margin: 0;
-    margin-top: 15px;
+    margin-top: 25px;
 }
 
 #profile-left-side {
@@ -105,13 +105,35 @@
 }
 
 #profile-change-info {
-    background-color: #2b2d2f;
+    display: flex;
+}
+
+#profile-change-info span.error {
+    font-size: 17px;
+    display: block;
+    text-align: start;
+}
+
+#profile-change-info input {
+    width: 80%;
+    height: 30px;
     border-radius: 5px;
-    padding: 10px;
+    border: none;
+    background-color: rgba(128, 128, 128, 0.3);
+    color: white;
+    font-family: -apple-system, BlinkMacSystemFont, segoe ui, Roboto, Helvetica,
+        Arial, sans-serif, apple color emoji, segoe ui emoji, segoe ui symbol;
+    font-size: 16px;
+}
+
+#profile-change-info input:focus {
+    outline: none;
+    border: 1px solid #d98f40;
 }
 
 #profile-change-info p {
     position: relative;
+    margin: 0;
 }
 
 #profile-change-info button {
@@ -128,6 +150,42 @@
     align-items: center;
     justify-content: center;
     position: absolute;
-    top: 0.5vh;
-    right: 0vw;
+    bottom: 2px;
+    right: 0px;
+}
+
+#profile-change-info #delete-number-button {
+    position: absolute;
+    bottom: 2px;
+    right: 70px;
+}
+
+#change-info-left-side {
+    display: flex;
+    flex-direction: column;
+    margin-left: 30px;
+    padding: 35px;
+    padding-top: 10px;
+    border-radius: 5px;
+    width: 50%;
+    background-color: #2b2d2f;
+}
+
+#change-info-right-side {
+    display: flex;
+    flex-direction: column;
+    margin-left: 30px;
+    padding: 30px;
+    border-radius: 5px;
+    padding-top: 30px;
+    width: 50%;
+    position: relative;
+    background-color: #2b2d2f;
+}
+
+#change-info-right-side #upload-profile-picture {
+    position: absolute;
+    top: 70px;
+    left: 53px;
+    font-weight: bold;
 }

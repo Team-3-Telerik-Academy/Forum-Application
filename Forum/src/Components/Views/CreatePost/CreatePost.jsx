@@ -16,9 +16,12 @@ const CreatePost = () => {
   const [error, setError] = useState("");
   const [isCreated, setIsCreated] = useState(false);
 
-  
-
   const createPost = () => {
+    if (userData.isBlocked) {
+      setError("Blocked users can't create new posts!");
+      return;
+    }
+
     if (post.title.length < 16 || post.title.length > 64) {
       setError("Title should be between 16 and 64 characters long!");
       return;

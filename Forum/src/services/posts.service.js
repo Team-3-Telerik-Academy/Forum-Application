@@ -10,7 +10,7 @@ import {
   remove,
 } from "firebase/database";
 import { db } from "../config/firebase-config";
-import { updateUserComments, updateUserPosts } from "./users.service";
+import { updateUserPosts } from "./users.service";
 
 export const fromPostsDocument = (snapshot) => {
   try {
@@ -242,7 +242,7 @@ export const addCommentPost = async (
     const result = await get(ref(db, `/users/${username}/comments`));
     const newCommentCount = result.val() + 1;
     await update(ref(db, `/users/${username}`), { comments: newCommentCount });
-    await updateUserComments(username, commentKey.key, comment);
+    // await updateUserComments(username, commentKey.key, comment);
 
     return set(commentKey, {
       username: username,

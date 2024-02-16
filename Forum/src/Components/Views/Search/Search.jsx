@@ -1,21 +1,36 @@
 import "./Search.css";
 import { useContext, useEffect, useState } from "react";
-import {
-  getAllPosts,
-} from "../../../services/posts.service";
+import { getAllPosts } from "../../../services/posts.service";
 import { useParams } from "react-router-dom";
 import PostsTemplate from "../../PostsTemplate/PostsTemplate";
 import Header from "../../Header/Header";
 import Sort from "../../Sort/Sort";
 import AppContext from "../../../AppContext/AppContext";
-import { handleDeletePost, handleDislikePost, handleLikePost } from "../../../helpers/like-dislike-delete-functions";
+import {
+  handleDeletePost,
+  handleDislikePost,
+  handleLikePost,
+} from "../../../helpers/like-dislike-delete-functions";
+import {
+  searchPostBy,
+  setValue,
+  sortPosts,
+} from "../../../helpers/filter-sort-helpers";
 
 const Search = () => {
   const [posts, setPosts] = useState(null);
+  const [filteredPosts, setFilteredPosts] = useState(null);
   const [selected, setSelected] = useState("");
   const [postsChange, setPostsChange] = useState(false);
+  const [selectedValue, setSelectedValue] = useState("title");
+  const [inputValue, setInputValue] = useState("");
+
   const { searchTerm } = useParams();
   const { userData } = useContext(AppContext);
+
+  useEffect(() => {
+    searchPostBy(inputValue, selectedValue, setFilteredPosts, posts);
+  }, [inputValue, posts]);
 
   useEffect(() => {
     getAllPosts().then((allPosts) => {
@@ -27,33 +42,18 @@ const Search = () => {
   }, [postsChange, searchTerm]);
 
   useEffect(() => {
-    const sortPosts = () => {
-      switch (selected) {
-        case "title":
-          return (a, b) => a.title.localeCompare(b.title);
-        case "title-ZA":
-          return (a, b) => b.title.localeCompare(a.title);
-        case "oldest":
-          return (a, b) => a.createdOn - b.createdOn;
-        case "newest":
-          return (a, b) => b.createdOn - a.createdOn;
-        default:
-          return null;
+    if (selected && sortPosts(selected)) {
+      if (inputValue) {
+        setFilteredPosts([...filteredPosts].sort(sortPosts(selected)));
+      } else {
+        setPosts([...posts].sort(sortPosts(selected)));
       }
-    };
-
-    if (selected && sortPosts()) {
-      setPosts([...posts].sort(sortPosts()));
     }
   }, [selected]);
 
-  const handleChange = (e) => {
-    setSelected(e.target.value);
-  };
-
   return (
     <div className="search-content">
-      <Header magnifiedGlassColor="#d98f40" inputColor={'#d98f40'} />
+      <Header magnifiedGlassColor="#d98f40" inputColor={"#d98f40"} />
       <div id="search-content-title">
         <h2>Search the Community</h2>
         <p>
@@ -61,14 +61,27 @@ const Search = () => {
         </p>
       </div>
       <div className="search-post-main">
-        <Sort selected={selected} handleChange={handleChange} />
-        {posts?.map((post) => (
+        <Sort
+          selected={selected}
+          handleChange={setValue(setSelected)}
+          selectedValue={selectedValue}
+          setSelectedValue={setValue(setSelectedValue)}
+          inputValue={inputValue}
+          handleInputValue={setValue(setInputValue)}
+        />
+        {(inputValue ? filteredPosts : posts)?.map((post) => (
           <PostsTemplate
             key={post.id}
             post={post}
-            likePost={() => handleLikePost(post.id, userData, setPostsChange, postsChange)}
-            dislikePost={() => handleDislikePost(post.id, userData, setPostsChange, postsChange)}
-            deletePost={() => handleDeletePost(post.id, userData, setPostsChange, postsChange)}
+            likePost={() =>
+              handleLikePost(post.id, userData, setPostsChange, postsChange)
+            }
+            dislikePost={() =>
+              handleDislikePost(post.id, userData, setPostsChange, postsChange)
+            }
+            deletePost={() =>
+              handleDeletePost(post.id, userData, setPostsChange, postsChange)
+            }
           />
         ))}
         <div className="post-footer"></div>

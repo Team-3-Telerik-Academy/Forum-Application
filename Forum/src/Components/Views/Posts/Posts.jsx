@@ -1,22 +1,24 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  getPostsByCategory,
-} from "../../../services/posts.service";
+import { getPostsByCategory } from "../../../services/posts.service";
 import { useParams } from "react-router-dom";
 import Header from "../../Header/Header";
 import "./Posts.css";
 import AppContext from "../../../AppContext/AppContext";
 import PostsTemplate from "../../PostsTemplate/PostsTemplate";
 import Sort from "../../Sort/Sort";
-import { handleDeletePost, handleDislikePost, handleLikePost } from "../../../helpers/like-dislike-delete-functions";
-import { getAllPosts } from "../../../services/posts.service";
+import {
+  handleDeletePost,
+  handleDislikePost,
+  handleLikePost,
+} from "../../../helpers/like-dislike-delete-functions";
 
 const Posts = () => {
   const navigate = useNavigate();
   const { type } = useParams();
   const { userData } = useContext(AppContext);
   const [posts, setPosts] = useState();
+  const [filteredPosts, setFilteredPosts] = useState(null);
   const [selected, setSelected] = useState("");
   const [postsChange, setPostsChange] = useState(false);
   const [selectedValue, setSelectedValue] = useState("title");
@@ -31,18 +33,13 @@ const Posts = () => {
   };
 
   const searchPostBy = (value, selectSearch, fn) => {
-    getAllPosts()
-      .then((data) => Object.values(data))
-      .then((data) => {
-        return data.filter((user) =>
-          user[selectSearch]?.toLowerCase().includes(value)
-        );
-      })
-      .then((data) => fn(data));
+    return fn(
+      posts?.filter((user) => user[selectSearch]?.toLowerCase().includes(value))
+    );
   };
 
   useEffect(() => {
-    searchPostBy(inputValue, selectedValue, setPosts);
+    searchPostBy(inputValue, selectedValue, setFilteredPosts);
   }, [inputValue]);
 
   useEffect(() => {
@@ -81,7 +78,11 @@ const Posts = () => {
     };
 
     if (selected && sortPosts()) {
-      setPosts([...posts].sort(sortPosts()));
+      if (inputValue) {
+        setFilteredPosts([...filteredPosts].sort(sortPosts()));
+      } else {
+        setPosts([...posts].sort(sortPosts()));
+      }
     }
   }, [selected]);
 
@@ -104,14 +105,25 @@ const Posts = () => {
           inputValue={inputValue}
           handleInputValue={handleInputValue}
         />
-        {posts?.map((post) => {
+        {(inputValue ? filteredPosts : posts)?.map((post) => {
           return (
             <PostsTemplate
               key={post.id}
               post={post}
-              likePost={() => handleLikePost(post.id, userData, setPostsChange, postsChange)}
-              dislikePost={() => handleDislikePost(post.id, userData, setPostsChange, postsChange)}
-              deletePost={() => handleDeletePost(post.id, userData, setPostsChange, postsChange)}
+              likePost={() =>
+                handleLikePost(post.id, userData, setPostsChange, postsChange)
+              }
+              dislikePost={() =>
+                handleDislikePost(
+                  post.id,
+                  userData,
+                  setPostsChange,
+                  postsChange
+                )
+              }
+              deletePost={() =>
+                handleDeletePost(post.id, userData, setPostsChange, postsChange)
+              }
             />
           );
         })}

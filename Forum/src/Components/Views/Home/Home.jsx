@@ -6,6 +6,7 @@ import Category from "../../Category/Category";
 import Button from "../../Button/Button";
 import { getAllPosts } from "../../../services/posts.service";
 import HomePostsTemplate from "../../HomePostsTemplate/HomePostsTemplate";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const { user } = useContext(AppContext);
@@ -15,8 +16,8 @@ const Home = () => {
   const [fiveRecentlyCreated, setFiveRecentlyCreated] = useState(null);
   const [activeButton, setActiveButton] = useState(1);
   const [activeSecondButton, setActiveSecondButton] = useState(1);
+  const navigate = useNavigate();
 
-  // Most Liked or Most Commented???
   useEffect(() => {
     getAllPosts().then((result) => {
       const mostLiked = result.sort((a, b) => b.likes - a.likes).slice(0, 10);
@@ -32,6 +33,14 @@ const Home = () => {
       setFiveRecentlyCreated(newest.slice(0, 5));
     });
   }, []);
+
+  const singlePostView = (postId) => {
+    if (!user) {
+      return;
+    }
+
+    navigate(`/post/${postId}`);
+  }
 
   return (
     <div className="home-content">
@@ -71,10 +80,9 @@ const Home = () => {
       <img id="man-home" src="/src/Images/man-home.png" alt="man" />
       <div id="posts-content">
         <div id="most-commented">
-          {/* <h2>Most commented</h2> */}
           <h2>Most popular</h2>
           {fiveTrending?.map((post) => (
-            <HomePostsTemplate key={post.id} post={post} />
+            <HomePostsTemplate cursor={user && { cursor: 'pointer' }} goToSinglePost={singlePostView} key={post.id} post={post} />
           ))}
           <div id="see-more-trending">
             <Button
@@ -100,7 +108,7 @@ const Home = () => {
         <div id="recently-created">
           <h2>Recently created</h2>
           {fiveRecentlyCreated?.map((post) => (
-            <HomePostsTemplate key={post.id} post={post} />
+            <HomePostsTemplate cursor={user && { cursor: 'pointer' }} goToSinglePost={singlePostView} key={post.id} post={post} />
           ))}
           <div id="see-more-recently">
             <Button

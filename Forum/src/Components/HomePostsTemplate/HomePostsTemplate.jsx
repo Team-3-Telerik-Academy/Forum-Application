@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import './HomePostsTemplate.css';
 
-const HomePostsTemplate = ({post}) => {
+const HomePostsTemplate = ({post, goToSinglePost, cursor}) => {
   return (
     <div className="single-post">
-      <h3>Title: {post.title}</h3>
+      <h3 style={cursor} onClick={() => goToSinglePost(post.id)}>Title: {post.title}</h3>
       <p>
         By {post.author},{" "}
         {new Date(post.createdOn).toLocaleString("bg-BG", {
@@ -29,6 +29,8 @@ const HomePostsTemplate = ({post}) => {
 
 HomePostsTemplate.propTypes = {
     post: PropTypes.object,
+    goToSinglePost: PropTypes.func,
+    cursor: PropTypes.object,
 }
 
 export default HomePostsTemplate;

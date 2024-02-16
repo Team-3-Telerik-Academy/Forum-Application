@@ -1,7 +1,6 @@
-import { useParams } from "react-router-dom";
 import "./Profile.css";
-import { useContext, useEffect, useState } from "react";
-import { getUserData } from "../../../services/users.service";
+import { useEffect, useState } from "react";
+import { getUserData, updateUserInfo } from "../../../services/users.service";
 import Button from "../../Button/Button";
 import { getPostsByAuthor } from "../../../services/posts.service";
 import PostsTemplate from "../../PostsTemplate/PostsTemplate";
@@ -10,69 +9,167 @@ import {
   handleDislikePost,
   handleLikePost,
 } from "../../../helpers/like-dislike-delete-functions";
-import AppContext from "../../../AppContext/AppContext";
 import Sort from "../../Sort/Sort";
 import Header from "../../Header/Header";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  searchPostBy,
+  setValue,
+  sortPosts,
+} from "../../../helpers/filter-sort-helpers";
 
 const Profile = () => {
+  const navigate = useNavigate();
+  const { uid } = useParams();
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState(null);
-  const [comments, setComments] = useState(null);
+  const [filteredPosts, setFilteredPosts] = useState(null);
   const [changeView, setChangeView] = useState(1);
   const [postsChange, setPostsChange] = useState(false);
-  const [commentsChange, setCommentsChange] = useState(false);
   const [selected, setSelected] = useState("");
-  const { userData } = useContext(AppContext);
+  const [selectedValue, setSelectedValue] = useState("title");
+  const [inputValue, setInputValue] = useState("");
 
-  const [firstName, setFirstName] = useState(userData?.firstName);
-  const [firstNameEdit, setFirstNameEdit] = useState(false);
-  const [secondName, setSecondName] = useState(userData?.secondName);
-  const [secondNameEdit, setSecondNameEdit] = useState(false);
-  const [email, setEmail] = useState(userData?.email);
-  const [emailEdit, setEmailEdit] = useState(false);
-  const [phone, setPhone] = useState(userData?.number || null);
-  const [phoneEdit, setPhoneEdit] = useState(false);
+  const [profileInfo, setProfileInfo] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    number: "",
+  });
 
-  const { uid } = useParams();
+  const [editProfile, setEditProfile] = useState({
+    firstName: false,
+    lastName: false,
+    email: false,
+    number: false,
+    avatar: false,
+  });
+
+  const [error, setError] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    number: "",
+  });
 
   useEffect(() => {
-    getUserData(uid).then((result) =>
+    getUserData(uid).then((result) => {
+      if (!result.exists()) {
+        return navigate('*');
+      }
+
       setUser(result.val()[Object.keys(result.val())[0]])
+    }
     );
-  }, [uid]);
+  }, [postsChange, editProfile]);
 
   useEffect(() => {
     if (user) {
       getPostsByAuthor(user?.username).then((result) => setPosts(result));
     }
-  }, [user, postsChange, commentsChange]);
+  }, [postsChange, user]);
 
   useEffect(() => {
-    const sortPosts = () => {
-      switch (selected) {
-        case "title":
-          return (a, b) => a.title.localeCompare(b.title);
-        case "title-ZA":
-          return (a, b) => b.title.localeCompare(a.title);
-        case "oldest":
-          return (a, b) => a.createdOn - b.createdOn;
-        case "newest":
-          return (a, b) => b.createdOn - a.createdOn;
-        default:
-          return null;
-      }
-    };
+    searchPostBy(inputValue, selectedValue, setFilteredPosts, posts);
+  }, [inputValue, posts]);
 
-    if (selected && sortPosts()) {
-      setPosts([...posts].sort(sortPosts()));
+  useEffect(() => {
+    if (user) {
+      setProfileInfo({
+        ...profileInfo,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        number: user.number || "",
+      });
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (selected && sortPosts(selected)) {
+      if (inputValue) {
+        setFilteredPosts([...filteredPosts].sort(sortPosts(selected)));
+      } else {
+        setPosts([...posts].sort(sortPosts(selected)));
+      }
     }
   }, [selected]);
 
-  const handleChange = (e) => {
-    setSelected(e.target.value);
+  const handleFirstNameChange = () => {
+    if (profileInfo.firstName.length < 4 || profileInfo.firstName.length > 32) {
+      setError({
+        ...error,
+        firstName: "First Name should be between 4 and 32 characters long!",
+      });
+      return;
+    }
+
+    updateUserInfo(user.username, "firstName", profileInfo.firstName).then(() =>
+      setEditProfile({ ...editProfile, firstName: false })
+    );
   };
 
-  const handleFirstNameChange = () => {};
+  const handleLastNameChange = () => {
+    if (profileInfo.lastName.length < 4 || profileInfo.lastName.length > 32) {
+      setError({
+        ...error,
+        lastName: "Last Name should be between 4 and 32 characters long!",
+      });
+      return;
+    }
+
+    updateUserInfo(user.username, "lastName", profileInfo.lastName).then(() =>
+      setEditProfile({ ...editProfile, lastName: false })
+    );
+  };
+
+  const handleEmailChange = () => {
+    const isValidEmail = (email) => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    };
+
+    const isValid = isValidEmail(profileInfo.email);
+
+    if (!isValid) {
+      setError({ ...error, email: "Email is not valid!" });
+      return;
+    }
+
+    updateUserInfo(user.username, "email", profileInfo.email).then(() =>
+      setEditProfile({ ...editProfile, email: false })
+    );
+  };
+
+  const handlePhoneChange = () => {
+    if (!profileInfo.number) {
+      setError({ ...error, number: "Phone number cannot be empty" });
+      return;
+    }
+
+    if (!/^\d+$/.test(profileInfo.number)) {
+      setError({ ...error, number: "Phone number can only contain digits" });
+      return;
+    }
+
+    if (profileInfo.number.length !== 10) {
+      setError({ ...error, number: "Phone number must be 10 digits long" });
+      return;
+    }
+
+    updateUserInfo(user.username, "number", profileInfo.number).then(() => {
+      user.number = profileInfo.number;
+      setEditProfile({ ...editProfile, number: false });
+    });
+  };
+
+  const deleteNumber = () => {
+    setEditProfile({ ...editProfile, number: true });
+    updateUserInfo(user.username, "number", null).then(() => {
+      setProfileInfo({ ...profileInfo, number: "" });
+      setEditProfile({ ...editProfile, number: false });
+    });
+  };
 
   return (
     <div id="user-profile">
@@ -123,34 +220,31 @@ const Profile = () => {
         <div id="profile-right-side">
           {changeView === 1 && (
             <div className="profile-posts-main">
-              <Sort selected={selected} handleChange={handleChange} />
-              {posts?.map((post) => (
+              <Sort
+                selected={selected}
+                handleChange={setValue(setSelected)}
+                selectedValue={selectedValue}
+                setSelectedValue={setValue(setSelectedValue)}
+                inputValue={inputValue}
+                handleInputValue={setValue(setInputValue)}
+              />
+              {(inputValue ? filteredPosts : posts)?.map((post) => (
                 <PostsTemplate
                   key={post?.id}
                   post={post}
                   likePost={() =>
-                    handleLikePost(
-                      post.id,
-                      userData,
-                      setPostsChange,
-                      postsChange
-                    )
+                    handleLikePost(post.id, user, setPostsChange, postsChange)
                   }
                   dislikePost={() =>
                     handleDislikePost(
                       post.id,
-                      userData,
+                      user,
                       setPostsChange,
                       postsChange
                     )
                   }
                   deletePost={() =>
-                    handleDeletePost(
-                      post.id,
-                      userData,
-                      setPostsChange,
-                      postsChange
-                    )
+                    handleDeletePost(post.id, user, setPostsChange, postsChange)
                   }
                 />
               ))}
@@ -162,82 +256,195 @@ const Profile = () => {
               <div id="profile-change-info">
                 <div id="change-info-left-side">
                   <p className="info">
-                    <strong>Username:</strong> <br /> {userData?.username}
+                    <strong>Username:</strong> <br /> {user?.username}
                   </p>
                   <hr />
-                  {firstNameEdit ? (
-                    <input
-                      type="text"
-                      value={firstName}
-                      onChange={setFirstName}
-                      name="firstName"
-                      id="firstName"
-                    />
-                  ) : (
+                  <p className="info">
+                    {error.firstName && (
+                      <span className="error">{error.firstName}</span>
+                    )}
+                    <strong>First Name:</strong> <br />
+                    {editProfile.firstName ? (
+                      <>
+                        <input
+                          type="text"
+                          value={profileInfo.firstName}
+                          onChange={(e) => {
+                            setProfileInfo({
+                              ...profileInfo,
+                              firstName: e.target.value,
+                            });
+                            setError({ ...error, firstName: "" });
+                          }}
+                          name="firstName"
+                          id="firstName"
+                        />
+                        <Button
+                          onClick={handleFirstNameChange}
+                          color={"#d98f40"}
+                        >
+                          Done
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        {user?.firstName}
+                        <Button
+                          onClick={() =>
+                            setEditProfile({ ...editProfile, firstName: true })
+                          }
+                          color={"#d98f40"}
+                        >
+                          Edit
+                        </Button>
+                      </>
+                    )}
+                  </p>
+                  <hr />
+                  <p className="info">
+                    {error.lastName && (
+                      <span className="error">{error.lastName}</span>
+                    )}
+                    <strong>Last Name:</strong> <br />
+                    {editProfile.lastName ? (
+                      <>
+                        <input
+                          type="text"
+                          value={profileInfo.lastName}
+                          onChange={(e) => {
+                            setProfileInfo({
+                              ...profileInfo,
+                              lastName: e.target.value,
+                            });
+                            setError({ ...error, lastName: "" });
+                          }}
+                          name="secondName"
+                          id="secondName"
+                        />
+                        <Button
+                          onClick={handleLastNameChange}
+                          color={"#d98f40"}
+                        >
+                          Done
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        {user?.lastName}
+                        <Button
+                          onClick={() =>
+                            setEditProfile({ ...editProfile, lastName: true })
+                          }
+                          color={"#d98f40"}
+                        >
+                          Edit
+                        </Button>
+                      </>
+                    )}
+                  </p>
+                  <hr />
+                  <p className="info">
+                    {error.email && (
+                      <span className="error">{error.email}</span>
+                    )}
+                    <strong>Email Address:</strong> <br />
+                    {editProfile.email ? (
+                      <>
+                        <input
+                          type="text"
+                          value={profileInfo.email}
+                          onChange={(e) => {
+                            setProfileInfo({
+                              ...profileInfo,
+                              email: e.target.value,
+                            });
+                            setError({ ...error, email: "" });
+                          }}
+                          name="email"
+                          id="email"
+                        />
+                        <Button onClick={handleEmailChange} color={"#d98f40"}>
+                          Done
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        {user?.email}
+                        <Button
+                          onClick={() =>
+                            setEditProfile({ ...editProfile, email: true })
+                          }
+                          color={"#d98f40"}
+                        >
+                          Edit
+                        </Button>
+                      </>
+                    )}
+                  </p>
+                  <hr />
+                  {user?.admin && (
                     <p className="info">
-                      <strong>First Name:</strong> <br /> {userData?.firstName}
-                      <Button
-                        onClick={() => setFirstNameEdit(true)}
-                        color={"#d98f40"}
-                      >
-                        Edit
-                      </Button>
+                      {error.number && (
+                        <span className="error">{error.number}</span>
+                      )}
+                      <strong>Phone Number:</strong> <br />
+                      {editProfile.number ? (
+                        <>
+                          <input
+                            type="text"
+                            value={profileInfo.number}
+                            onChange={(e) => {
+                              setProfileInfo({
+                                ...profileInfo,
+                                number: e.target.value,
+                              });
+                              setError({ ...error, number: "" });
+                            }}
+                            name="phone"
+                            id="phone"
+                          />
+                          <Button onClick={handlePhoneChange} color={"#d98f40"}>
+                            Done
+                          </Button>
+                        </>
+                      ) : (
+                        <>
+                          {user?.number}
+                          <Button
+                            onClick={() =>
+                              setEditProfile({ ...editProfile, number: true })
+                            }
+                            color={"#d98f40"}
+                          >
+                            Edit
+                          </Button>
+                          {user.number && (
+                            <Button
+                              id={"delete-number-button"}
+                              onClick={deleteNumber}
+                              color={"#d98f40"}
+                            >
+                              Delete
+                            </Button>
+                          )}
+                        </>
+                      )}
                     </p>
                   )}
-                  <hr />
-                  {secondNameEdit ? (
-                    <input
-                      type="text"
-                      value={secondName}
-                      onChange={setSecondName}
-                      name="secondName"
-                      id="secondName"
-                    />
-                  ) : (
-                    <p className="info">
-                      <strong>Last Name:</strong> <br /> {userData?.lastName}
-                      <Button
-                        onClick={() => setSecondNameEdit(true)}
-                        color={"#d98f40"}
-                      >
-                        Edit
-                      </Button>
-                    </p>
-                  )}
-                  <hr />
-                  {emailEdit ? (
-                    <input
-                      type="text"
-                      value={email}
-                      onChange={setEmail}
-                      name="email"
-                      id="email"
-                    />
-                  ) : (
-                    <p className="info">
-                      <strong>Email Address:</strong> <br /> {userData?.email}
-                      <Button
-                        onClick={() => setEmailEdit(true)}
-                        color={"#d98f40"}
-                      >
-                        Edit
-                      </Button>
-                    </p>
-                  )}
-                  <hr />
-                  {userData?.admin && <p className="info">
-                      <strong>Phone Number:</strong> <br /> {userData?.number || ''}
-                      <Button
-                        onClick={() => setPhoneEdit(true)}
-                        color={"#d98f40"}
-                      >
-                        Edit
-                      </Button>
-                    </p>}
                 </div>
                 <div id="change-info-right-side">
                   <span className="info">
-                    <strong>Upload Profile Picture</strong>
+                    <strong>Profile Picture:</strong>
+                    {user.avatar && <img src={user.avatar} alt={user.title} />}
+                    <Button
+                      id={"upload-profile-picture"}
+                      onClick={() =>
+                        setEditProfile({ ...editProfile, avatar: true })
+                      }
+                      color={"#d98f40"}
+                    >
+                      Upload
+                    </Button>
                   </span>
                 </div>
               </div>

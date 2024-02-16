@@ -29,9 +29,13 @@ const Post = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    getPostById(id)
-      .then(setPost)
-      .catch(() => navigate("*"));
+    getPostById(id).then((result) => {
+      if (!result) {
+        navigate("*");
+      }
+
+      setPost(result);
+    });
   }, []);
 
   useEffect(() => {
@@ -44,6 +48,11 @@ const Post = () => {
   }, [comment, post, comments]);
 
   const addComment = () => {
+    if (userData.isBlocked) {
+      setError("Blocked users can't create comments!");
+      return;
+    }
+
     addCommentPost(
       userData.username,
       id,
@@ -102,7 +111,7 @@ const Post = () => {
 
   return (
     <div id="single-post-view">
-      <Header magnifiedGlassColor="#d98f40" inputColor={'#d98f40'}/>
+      <Header magnifiedGlassColor="#d98f40" inputColor={"#d98f40"} />
       <div id="single-post-title">
         {error && <div className="error">{error}</div>}
         <div id="title-and-buttons">
@@ -154,7 +163,8 @@ const Post = () => {
             day: "numeric",
             hour: "2-digit",
             minute: "2-digit",
-          })} <br/>
+          })}{" "}
+          <br />
           {post?.likes} likes
         </span>
       </div>
