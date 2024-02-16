@@ -36,24 +36,25 @@ export const unblockUser = (users, fn, user) => {
     createdOn,
     likedPosts,
     posts,
-    comments,
+    comments
     // allComments
   );
   fn([...users].filter((user) => user.username !== username));
   return remove(ref(db, `blockedUsers/${username}`));
 };
 
-export const blockUser = async (users, fn, user) => {
+export const blockUser = async (users, user, fn) => {
   const {
     username,
     firstName,
     lastName,
     uid,
     email,
-    createdOn,
-    likedPosts,
-    posts,
-    comments,
+    isBlocked,
+    // createdOn,
+    // likedPosts,
+    // posts,
+    // comments,
     // allComments,
   } = user;
   createBlockedUsers(
@@ -61,16 +62,25 @@ export const blockUser = async (users, fn, user) => {
     firstName,
     lastName,
     uid,
-    email,
-    createdOn,
-    likedPosts,
-    posts,
-    comments,
+    email
+    // createdOn,
+    // likedPosts,
+    // posts,
+    // comments
     // allComments
   );
-  fn([...users].filter((user) => user.username !== username));
-  const removeUser = await remove(ref(db, `users/${username}`));
-  return removeUser;
+  if (isBlocked) {
+    return null;
+  }
+  const result = await update(ref(db, `users/${username}`), {
+    isBlocked: !user.isBlocked,
+  });
+  const filterUsers = await getAllUsers();
+  return fn(Object.values(filterUsers));
+  // return result;
+  // fn([...users].filter((user) => user.username !== username));
+  // const removeUser = await remove(ref(db, `users/${username}`));
+  // return removeUser;
 };
 
 export const createBlockedUsers = (
@@ -78,13 +88,13 @@ export const createBlockedUsers = (
   firstName,
   lastName,
   uid,
-  email,
-  createdOn,
-  likedPosts,
-  posts,
-  comments,
-  // allComments,
-  isBlocked = true
+  email
+  // createdOn,
+  // likedPosts,
+  // posts,
+  // comments,
+  // // allComments,
+  // isBlocked = true
 ) => {
   return set(ref(db, `blockedUsers/${username}`), {
     username,
@@ -92,12 +102,12 @@ export const createBlockedUsers = (
     lastName,
     uid,
     email,
-    createdOn: createdOn || new Date().toString(),
-    likedPosts: likedPosts || 0,
-    posts: posts || {},
-    comments: comments || 0,
+    // createdOn: createdOn || new Date().toString(),
+    // likedPosts: likedPosts || 0,
+    // posts: posts || {},
+    // comments: comments || 0,
     // allComments: allComments || {},
-    isBlocked,
+    // isBlocked,
   });
 };
 
@@ -110,7 +120,7 @@ export const createUserUsername = (
   createdOn = new Date().toString(),
   likedPosts = 0,
   posts = {},
-  comments = 0,
+  comments = 0
   // allComments = {},
 ) => {
   return set(ref(db, `users/${username}`), {
@@ -179,8 +189,12 @@ export const updateUserPosts = (username, postId, title) => {
   });
 };
 
-export const isAdmin = async (username, fn) => {
-  const user = (await get(ref(db, `users/${username}`))).val();
+export const isAdmin = async (username, fn, user) => {
+  const { isBlocked } = user;
+  if (isBlocked) {
+    return null;
+  }
+  const userChange = (await get(ref(db, `users/${username}`))).val();
   await update(ref(db, `users/${username}`), { admin: !user.admin });
   const allUsers = Object.values(await getAllUsers());
   return fn(allUsers);
@@ -188,4 +202,4 @@ export const isAdmin = async (username, fn) => {
 
 export const updateUserInfo = async (username, prop, value) => {
   await update(ref(db, `users/${username}`), { [prop]: value });
-}
+};

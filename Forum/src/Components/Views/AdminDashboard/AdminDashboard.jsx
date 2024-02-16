@@ -10,14 +10,14 @@ const AdminDashboard = () => {
   const [selected, setSelected] = useState("firstName");
   const [value, setValue] = useState("");
 
-  const handleAdmin = async (username, fn) => {
-    const result = await isAdmin(username, fn);
+  const handleAdmin = async (username, fn, user) => {
+    const result = await isAdmin(username, fn, user);
 
     return result;
   };
 
-  const handleBlock = async (users, fn, user) => {
-    const block = await blockUser(users, fn, user);
+  const handleBlock = async (users, user, fn) => {
+    const block = await blockUser(users, user, fn);
     return block;
   };
 
@@ -98,6 +98,7 @@ const AdminDashboard = () => {
                 <th>Last name</th>
                 <th>Admin</th>
                 <th>Block User</th>
+                <th>Blocked</th>
               </tr>
             </thead>
             <tbody>
@@ -108,7 +109,7 @@ const AdminDashboard = () => {
                   <td>{user.firstName}</td>
                   <td>{user.lastName}</td>
                   <td
-                    onClick={() => handleAdmin(user.username, setUsers)}
+                    onClick={() => handleAdmin(user.username, setUsers, user)}
                     style={{
                       cursor: "pointer",
                       backgroundColor: user.admin ? "#89C623" : "#2C2F34",
@@ -129,7 +130,7 @@ const AdminDashboard = () => {
                   ) : (
                     <td
                       className="block-cell"
-                      onClick={() => handleBlock(users, setUsers, user)}
+                      onClick={() => handleBlock(users, user, setUsers)}
                       style={{
                         backgroundColor: "red",
                         cursor: "pointer",
@@ -138,6 +139,7 @@ const AdminDashboard = () => {
                       Block
                     </td>
                   )}
+                  <td>{user.isBlocked ? "Yes" : "No"}</td>
                 </tr>
               ))}
             </tbody>
