@@ -3,6 +3,7 @@
     border-radius: 5px;
     background-color: #d98f4036;
     padding: 25px;
+    padding-left: 20px;
     color: white;
     font-family: montserrat, helvetica neue, Helvetica, Arial, sans-serif;
     display: flex;
@@ -18,9 +19,13 @@
     font-weight: bold;
     position: absolute;
     top: 8px;
-    left: 26.5px;
+    left: 19.5px;
     display: flex;
     flex-direction: column;
+}
+
+.single-post-comment p {
+    margin-bottom: 7px;
 }
 
 .single-post-comment button {
@@ -59,7 +64,7 @@
     gap: 8px;
     position: absolute;
     bottom: 7px;
-    left: 29px
+    left: 21px
 }
 
 #like-dislike-comment img {

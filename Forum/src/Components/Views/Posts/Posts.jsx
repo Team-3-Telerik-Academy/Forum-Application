@@ -12,6 +12,7 @@ import {
   handleDislikePost,
   handleLikePost,
 } from "../../../helpers/like-dislike-delete-functions";
+import { searchPostBy, setValue, sortPosts } from "../../../helpers/filter-sort-helpers";
 
 const Posts = () => {
   const navigate = useNavigate();
@@ -24,23 +25,9 @@ const Posts = () => {
   const [selectedValue, setSelectedValue] = useState("title");
   const [inputValue, setInputValue] = useState("");
 
-  const handleInputValue = (e) => {
-    setInputValue(e.target.value);
-  };
-
-  const setValue = (e) => {
-    setSelectedValue(e.target.value);
-  };
-
-  const searchPostBy = (value, selectSearch, fn) => {
-    return fn(
-      posts?.filter((user) => user[selectSearch]?.toLowerCase().includes(value))
-    );
-  };
-
   useEffect(() => {
-    searchPostBy(inputValue, selectedValue, setFilteredPosts);
-  }, [inputValue]);
+    searchPostBy(inputValue, selectedValue, setFilteredPosts, posts);
+  }, [inputValue, posts]);
 
   useEffect(() => {
     if (
@@ -53,35 +40,16 @@ const Posts = () => {
     }
   }, []);
 
-  const handleChange = (e) => {
-    setSelected(e.target.value);
-  };
-
   useEffect(() => {
     getPostsByCategory(type).then(setPosts);
   }, [postsChange]);
 
   useEffect(() => {
-    const sortPosts = () => {
-      switch (selected) {
-        case "title":
-          return (a, b) => a.title.localeCompare(b.title);
-        case "title-ZA":
-          return (a, b) => b.title.localeCompare(a.title);
-        case "oldest":
-          return (a, b) => a.createdOn - b.createdOn;
-        case "newest":
-          return (a, b) => b.createdOn - a.createdOn;
-        default:
-          return null;
-      }
-    };
-
-    if (selected && sortPosts()) {
+    if (selected && sortPosts(selected)) {
       if (inputValue) {
-        setFilteredPosts([...filteredPosts].sort(sortPosts()));
+        setFilteredPosts([...filteredPosts].sort(sortPosts(selected)));
       } else {
-        setPosts([...posts].sort(sortPosts()));
+        setPosts([...posts].sort(sortPosts(selected)));
       }
     }
   }, [selected]);
@@ -99,11 +67,11 @@ const Posts = () => {
       <div className="post-main">
         <Sort
           selected={selected}
-          handleChange={handleChange}
+          handleChange={setValue(setSelected)}
           selectedValue={selectedValue}
-          setSelectedValue={setValue}
+          setSelectedValue={setValue(setSelectedValue)}
           inputValue={inputValue}
-          handleInputValue={handleInputValue}
+          handleInputValue={setValue(setInputValue)}
         />
         {(inputValue ? filteredPosts : posts)?.map((post) => {
           return (

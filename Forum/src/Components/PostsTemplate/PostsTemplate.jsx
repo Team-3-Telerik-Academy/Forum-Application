@@ -59,6 +59,7 @@ const PostsTemplate = ({post, likePost, dislikePost, deletePost}) => {
             </div>
             <div className="right">
               <span>
+                
                 {post.author}{" "}
                 {post.author === userData?.username && (
                   <Button

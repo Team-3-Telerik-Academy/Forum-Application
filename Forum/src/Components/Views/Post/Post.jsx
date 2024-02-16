@@ -171,6 +171,13 @@ const Post = () => {
       <div id="single-post-content">
         <div className="single-post-left-side">
           <h3>{postAuthor?.username}</h3>
+          {postAuthor?.avatar && (
+              <img
+                id="single-post-avatar"
+                src={postAuthor.avatar}
+                alt={postAuthor.username}
+              />
+            )}
           <h4>
             {postAuthor?.firstName} {postAuthor?.lastName}
           </h4>

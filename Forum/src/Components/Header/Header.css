@@ -10,15 +10,66 @@
     "Futura Bold", "Arial Black", sans-serif;
 }
 
-#logged-in span {
+#logged-in #avatar-display-header {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-top: 5px;
+}
+
+#logged-in #avatar-and-username {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.dropdown #header-username {
+  margin: 0;
+  font-size: 2.5vh;
+  color: white;
   cursor: pointer;
-  padding: 7.5px;
+  padding: 8px 47.5px;
+  font-family: "Gill Sans Ultra Bold", "Helvetica Neue Ultra Bold",
+    "Futura Bold", "Arial Black", sans-serif;
+}
+
+.dropdown {
+  height: 114px;
+  width: 140px;
+  padding-top: 5px;
+  margin-top: 85px;
   background-color: transparent;
+  border-radius: 5px;
+  text-align: center;
+  border: 2px solid transparent;
+}
+
+.dropdown-menu {
+  display: none;
+  cursor: pointer;
+  color: #89C623;
+  margin-top: 10px;
+  font-size: 18px;
+  font-family: montserrat, helvetica neue, Helvetica, Arial, sans-serif;
+}
+
+.dropdown:hover {
+  border: 2px solid white;
+  box-shadow: 0px 0px 5px 0px white;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: flex;
+  flex-direction: column;
+}
+
+#logged-in span {
+  padding: 10px;
 }
 
 #logged-in span:hover {
-  background-color: #89C623;
-  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.351);
+  border-radius: 5px;
 }
 
 .button-content {
@@ -80,13 +131,7 @@
 #logged-in {
   display: flex;
   align-items: center;
-  gap: 20px;
-}
-
-#logged-in span {
-  font-size: 2.5vh;
-  font-weight: bold;
-  color: white;
+  gap: 15px;
 }
 
 #logged-in a {
@@ -147,7 +192,6 @@
 
 #no-logged-in-info {
   display: flex;
-  /* flex-direction: column; */
   align-items: center;
   justify-content: center;
   gap: 5px;

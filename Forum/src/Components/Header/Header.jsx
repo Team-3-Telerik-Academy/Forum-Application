@@ -17,7 +17,6 @@ const Header = ({ magnifiedGlassColor, inputColor }) => {
     posts: 0,
   });
 
-
   useEffect(() => {
     getAllPosts().then((posts) =>
       getAllUsers().then((users) => {
@@ -40,7 +39,11 @@ const Header = ({ magnifiedGlassColor, inputColor }) => {
 
   const handleProfileClick = () => {
     navigate(`/profile/${userData.uid}`);
-  }
+  };
+
+  const handleAdminClick = () => {
+    navigate(`/admin-dashboard`);
+  };
 
   const onLogout = () => {
     logoutUser().then(() => {
@@ -88,13 +91,34 @@ const Header = ({ magnifiedGlassColor, inputColor }) => {
               src="/src/Images/magnifying-glass.svg"
               alt="magnifying-glass"
             />
-            {userData?.admin && <NavLink to="/admin-dashboard">Admin</NavLink>}
+            {/* {userData?.admin && <NavLink to="/admin-dashboard">Admin</NavLink>} */}
           </div>
         </div>
       )}
       {user ? (
         <div id="logged-in">
-          {userData && <span onClick={handleProfileClick}>{userData?.username}</span>}
+          <div className="dropdown">
+            <span id="header-username">{userData?.username}</span>
+            <div className="dropdown-menu">
+              <span onClick={handleProfileClick}>Profile</span>
+              {userData?.admin && (
+                <span onClick={handleAdminClick}>Admin Panel</span>
+              )}
+            </div>
+          </div>
+          {/* {userData &&
+            (userData?.avatar ? (
+              <div id="avatar-and-username">
+                <img
+                  id="avatar-display-header"
+                  src={userData?.avatar}
+                  alt={userData?.username}
+                />
+                <span id="header-username" onClick={handleProfileClick}>{userData?.username}</span>
+              </div>
+            ) : (
+              <span id="header-username" onClick={handleProfileClick}>{userData?.username}</span>
+            ))} */}
           <NavLink
             onClick={onLogout}
             style={{ backgroundColor: "#89C623" }}

@@ -17,6 +17,7 @@ import {
   setValue,
   sortPosts,
 } from "../../../helpers/filter-sort-helpers";
+import UploadAvatar from "../../UploadAvatar/UploadAvatar";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -55,12 +56,11 @@ const Profile = () => {
   useEffect(() => {
     getUserData(uid).then((result) => {
       if (!result.exists()) {
-        return navigate('*');
+        return navigate("*");
       }
 
-      setUser(result.val()[Object.keys(result.val())[0]])
-    }
-    );
+      setUser(result.val()[Object.keys(result.val())[0]]);
+    });
   }, [postsChange, editProfile]);
 
   useEffect(() => {
@@ -175,7 +175,17 @@ const Profile = () => {
     <div id="user-profile">
       <Header magnifiedGlassColor="#d98f40" inputColor={"#d98f40"} />
       <div id="profile-header">
-        <h1>{user?.username}</h1>
+        <div id="username-and-avatar">
+          {user?.avatar && (
+            <img
+              id="little-avatar-display"
+              src={user?.avatar}
+              alt={user?.username}
+            />
+          )}
+
+          <h1>{user?.username}</h1>
+        </div>
         <div id="header-profile-info">
           <p className="info">
             Created posts <br />{" "}
@@ -432,21 +442,15 @@ const Profile = () => {
                     </p>
                   )}
                 </div>
-                <div id="change-info-right-side">
-                  <span className="info">
-                    <strong>Profile Picture:</strong>
-                    {user.avatar && <img src={user.avatar} alt={user.title} />}
-                    <Button
-                      id={"upload-profile-picture"}
-                      onClick={() =>
-                        setEditProfile({ ...editProfile, avatar: true })
-                      }
-                      color={"#d98f40"}
-                    >
-                      Upload
-                    </Button>
-                  </span>
-                </div>
+                <UploadAvatar
+                  updateInfo={() =>
+                    setEditProfile((prev) => ({
+                      ...prev,
+                      avatar: !prev.avatar,
+                    }))
+                  }
+                  user={user}
+                />
               </div>
             </>
           )}
