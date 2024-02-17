@@ -1,6 +1,6 @@
 import "./Header.css";
 import PropTypes from "prop-types";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import AppContext from "../../AppContext/AppContext";
 import { logoutUser } from "../../services/auth.service";
@@ -10,12 +10,33 @@ import { getAllUsers } from "../../services/users.service";
 const Header = ({ magnifiedGlassColor, inputColor }) => {
   const { user, userData, setAppState } = useContext(AppContext);
   const navigate = useNavigate();
+  const dropdownRef = useRef(null);
+  const arrowRef = useRef(null);
+  const [showMenu, setShowMenu] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-
   const [numbers, setNumbers] = useState({
     users: 0,
     posts: 0,
   });
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) &&
+        arrowRef.current &&
+        !arrowRef.current.contains(event.target)
+      ) {
+        setShowMenu(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     getAllPosts().then((posts) =>
@@ -28,6 +49,14 @@ const Header = ({ magnifiedGlassColor, inputColor }) => {
     );
   }, []);
 
+  const handleArrowClick = () => {
+    if (showMenu) {
+      setShowMenu(false);
+    } else {
+      setShowMenu(true);
+    }
+  };
+
   const handleSearchClick = () => {
     if (searchTerm === "") {
       return;
@@ -35,14 +64,6 @@ const Header = ({ magnifiedGlassColor, inputColor }) => {
 
     navigate(`/search/${searchTerm}`);
     setSearchTerm("");
-  };
-
-  const handleProfileClick = () => {
-    navigate(`/profile/${userData.uid}`);
-  };
-
-  const handleAdminClick = () => {
-    navigate(`/admin-dashboard`);
   };
 
   const onLogout = () => {
@@ -91,41 +112,37 @@ const Header = ({ magnifiedGlassColor, inputColor }) => {
               src="/src/Images/magnifying-glass.svg"
               alt="magnifying-glass"
             />
-            {/* {userData?.admin && <NavLink to="/admin-dashboard">Admin</NavLink>} */}
           </div>
         </div>
       )}
       {user ? (
         <div id="logged-in">
-          <div className="dropdown">
+          <div className="username-and-arrow">
             <span id="header-username">{userData?.username}</span>
-            <div className="dropdown-menu">
-              <span onClick={handleProfileClick}>Profile</span>
-              {userData?.admin && (
-                <span onClick={handleAdminClick}>Admin Panel</span>
-              )}
-            </div>
+            <img
+              ref={arrowRef}
+              onClick={handleArrowClick}
+              src="/src/Images/arrow.png"
+              alt="arrow"
+            />
           </div>
-          {/* {userData &&
-            (userData?.avatar ? (
-              <div id="avatar-and-username">
-                <img
-                  id="avatar-display-header"
-                  src={userData?.avatar}
-                  alt={userData?.username}
-                />
-                <span id="header-username" onClick={handleProfileClick}>{userData?.username}</span>
-              </div>
-            ) : (
-              <span id="header-username" onClick={handleProfileClick}>{userData?.username}</span>
-            ))} */}
-          <NavLink
-            onClick={onLogout}
-            style={{ backgroundColor: "#89C623" }}
-            to={"/home"}
+          <div
+            ref={dropdownRef}
+            className={"dropdown-menu"}
+            id={`${showMenu ? "active-dropdown" : ""}`}
           >
-            Sign Out
-          </NavLink>
+            <NavLink to={`/profile/${userData?.uid}`}>Profile</NavLink>
+            <hr />
+            {userData?.admin && (
+              <>
+                <NavLink to={"/admin-dashboard"}>Admin Panel</NavLink>
+                <hr />
+              </>
+            )}
+            <NavLink onClick={onLogout} to={"/home"}>
+              Sign Out
+            </NavLink>
+          </div>
         </div>
       ) : (
         <div className="button-content">

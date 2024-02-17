@@ -21,15 +21,18 @@ const UploadAvatar = ({ user, updateInfo }) => {
   };
 
   const handleFileChange = (event) => {
+    if (user.avatar) {
+      deleteAvatar();
+    }
+
     const file = event.target.files[0];
-    const storageRef = ref(storage, "avatars/" + file.name);
+    const storageRef = ref(storage, "avatars/" + user.username);
 
     uploadBytes(storageRef, file)
       .then((snapshot) => {
         getDownloadURL(snapshot.ref).then((downloadURL) => {
           console.log("File available at", downloadURL);
           updateUserInfo(user.username, "avatar", downloadURL);
-          updateUserInfo(user.username, "avatarName", file.name);
         }).then(updateInfo);
       })
       .catch((error) => {
@@ -38,13 +41,12 @@ const UploadAvatar = ({ user, updateInfo }) => {
   };
 
   const deleteAvatar = () => {
-    const avatarRef = ref(storage, "avatars/" + user.avatarName);
+    const avatarRef = ref(storage, "avatars/" + user.username);
 
     deleteObject(avatarRef)
       .then(() => {
         console.log("Avatar deleted successfully");
         updateUserInfo(user.username, "avatar", null);
-        updateUserInfo(user.username, "avatarName", null);
       }).then(updateInfo)
       .catch((error) => {
         console.log(error);

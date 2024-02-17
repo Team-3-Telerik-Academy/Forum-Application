@@ -65,8 +65,7 @@ const SignUp = () => {
     getUserByUsername(form.username)
       .then((snapshot) => {
         if (snapshot.exists()) {
-          window.alert(`Username @${form.username} has already been taken!`);
-          return;
+          throw new Error(`Username ${form.username} has already been taken!`);
         }
 
         return registerUser(form.email, form.password);

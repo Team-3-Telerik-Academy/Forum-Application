@@ -23,6 +23,7 @@ const Post = () => {
   const [postAuthor, setPostAuthor] = useState(null);
   const [comments, setComments] = useState(null);
   const [comment, setComment] = useState("");
+  const [commentError, setCommentError] = useState(null);
 
   const { id } = useParams();
   const { userData } = useContext(AppContext);
@@ -49,7 +50,7 @@ const Post = () => {
 
   const addComment = () => {
     if (userData.isBlocked) {
-      setError("Blocked users can't create comments!");
+      setCommentError("Blocked users can't create comments!");
       return;
     }
 
@@ -217,9 +218,10 @@ const Post = () => {
         </div>
       </div>
       <div id="single-post-create-comment">
+      {commentError && <div className="comment-error">{commentError}</div>}
         <textarea
           value={comment}
-          onChange={(e) => setComment(e.target.value)}
+          onChange={(e) => {setComment(e.target.value), setCommentError('')}}
           name="comment"
           id=""
           cols="30"

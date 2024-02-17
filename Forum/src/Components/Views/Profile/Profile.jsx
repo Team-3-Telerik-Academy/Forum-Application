@@ -1,5 +1,5 @@
 import "./Profile.css";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getUserData, updateUserInfo } from "../../../services/users.service";
 import Button from "../../Button/Button";
 import { getPostsByAuthor } from "../../../services/posts.service";
@@ -18,10 +18,12 @@ import {
   sortPosts,
 } from "../../../helpers/filter-sort-helpers";
 import UploadAvatar from "../../UploadAvatar/UploadAvatar";
+import AppContext from "../../../AppContext/AppContext";
 
 const Profile = () => {
   const navigate = useNavigate();
   const { uid } = useParams();
+  const { userData } = useContext(AppContext);
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState(null);
   const [filteredPosts, setFilteredPosts] = useState(null);
@@ -54,6 +56,10 @@ const Profile = () => {
   });
 
   useEffect(() => {
+    if (uid !== userData.uid) {
+      return navigate("*");
+    }
+
     getUserData(uid).then((result) => {
       if (!result.exists()) {
         return navigate("*");

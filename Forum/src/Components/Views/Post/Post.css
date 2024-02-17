@@ -183,6 +183,16 @@
     align-items: flex-end;
 }
 
+#single-post-create-comment .comment-error {
+    width: 81.45%;
+    margin-top: 8px;
+    display: flex;
+    align-items: flex-start;
+    color: red;
+    font-size: 17px;
+    font-family: montserrat, helvetica neue, Helvetica, Arial, sans-serif;
+}
+
 #single-post-create-comment button {
     width: 150px;
     height: 40px;
