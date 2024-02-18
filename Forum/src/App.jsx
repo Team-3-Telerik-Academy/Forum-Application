@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import Footer from "./Components/Footer/Footer";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getUserData } from "./services/users.service";
-import { auth } from "./config/firebase-config";
+import { app, auth } from "./config/firebase-config";
 import Home from "./Components/Views/Home/Home";
 import CreatePost from "./Components/Views/CreatePost/CreatePost";
 import Posts from "./Components/Views/Posts/Posts";
@@ -114,7 +114,7 @@ const App = () => {
           <Route
             path="/admin-dashboard"
             element={
-              <AuthenticatedAdmin>
+              <AuthenticatedAdmin prop={appState?.user}>
                 <AdminDashboard />
               </AuthenticatedAdmin>
             }

@@ -1,17 +1,20 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import "./SignIn.css";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AppContext from "../../../AppContext/AppContext";
 import { loginUser } from "../../../services/auth.service";
 
 const SignIn = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { setContext } = useContext(AppContext);
+  const location = useLocation();
+  const { user, setContext } = useContext(AppContext);
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
+
+  // console.log(location);
 
   const updateForm = (prop) => (e) => {
     setError("");
@@ -21,8 +24,13 @@ const SignIn = () => {
     });
   };
 
-  const onLogin = () => {
+  // useEffect(() => {
+  //   if (user) {
+  //     navigate(location.state?.from.pathname || "/");
+  //   }
+  // }, [user]);
 
+  const onLogin = async () => {
     if (!form.email) {
       setError("Email is required!");
       setForm({
@@ -48,11 +56,13 @@ const SignIn = () => {
         });
       })
       .then(() => {
-        navigate("/");
+        navigate(location.state?.from.pathname || "/");
+
+        // navigate("/");
       })
       .catch((e) => {
         console.log(e.message);
-        setError('Your login information was incorrect! Please try again.');
+        setError("Your login information was incorrect! Please try again.");
         setForm({
           ...form,
           password: "",
