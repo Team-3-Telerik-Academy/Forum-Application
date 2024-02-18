@@ -25,8 +25,6 @@ const Sort = ({
           <option value="newest">Newest to oldest</option>
           <option value="title">Title A-Z</option>
           <option value="title-ZA">Title Z-A</option>
-          <option value="viewed">Most viewed</option>
-          <option value="replied">Most replied</option>
         </select>
         <div className="searchBy-box">
           <label htmlFor="search-by" id="search-by-label">

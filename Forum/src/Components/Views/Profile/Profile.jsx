@@ -1,5 +1,5 @@
 import "./Profile.css";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getUserData, updateUserInfo } from "../../../services/users.service";
 import Button from "../../Button/Button";
 import { getPostsByAuthor } from "../../../services/posts.service";
@@ -17,10 +17,13 @@ import {
   setValue,
   sortPosts,
 } from "../../../helpers/filter-sort-helpers";
+import UploadAvatar from "../../UploadAvatar/UploadAvatar";
+import AppContext from "../../../AppContext/AppContext";
 
 const Profile = () => {
   const navigate = useNavigate();
   const { uid } = useParams();
+  const { userData } = useContext(AppContext);
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState(null);
   const [filteredPosts, setFilteredPosts] = useState(null);
@@ -53,14 +56,17 @@ const Profile = () => {
   });
 
   useEffect(() => {
+    if (uid !== userData.uid) {
+      return navigate("*");
+    }
+
     getUserData(uid).then((result) => {
       if (!result.exists()) {
-        return navigate('*');
+        return navigate("*");
       }
 
-      setUser(result.val()[Object.keys(result.val())[0]])
-    }
-    );
+      setUser(result.val()[Object.keys(result.val())[0]]);
+    });
   }, [postsChange, editProfile]);
 
   useEffect(() => {
@@ -175,7 +181,17 @@ const Profile = () => {
     <div id="user-profile">
       <Header magnifiedGlassColor="#d98f40" inputColor={"#d98f40"} />
       <div id="profile-header">
-        <h1>{user?.username}</h1>
+        <div id="username-and-avatar">
+          {user?.avatar && (
+            <img
+              id="little-avatar-display"
+              src={user?.avatar}
+              alt={user?.username}
+            />
+          )}
+
+          <h1>{user?.username}</h1>
+        </div>
         <div id="header-profile-info">
           <p className="info">
             Created posts <br />{" "}
@@ -432,21 +448,15 @@ const Profile = () => {
                     </p>
                   )}
                 </div>
-                <div id="change-info-right-side">
-                  <span className="info">
-                    <strong>Profile Picture:</strong>
-                    {user.avatar && <img src={user.avatar} alt={user.title} />}
-                    <Button
-                      id={"upload-profile-picture"}
-                      onClick={() =>
-                        setEditProfile({ ...editProfile, avatar: true })
-                      }
-                      color={"#d98f40"}
-                    >
-                      Upload
-                    </Button>
-                  </span>
-                </div>
+                <UploadAvatar
+                  updateInfo={() =>
+                    setEditProfile((prev) => ({
+                      ...prev,
+                      avatar: !prev.avatar,
+                    }))
+                  }
+                  user={user}
+                />
               </div>
             </>
           )}
