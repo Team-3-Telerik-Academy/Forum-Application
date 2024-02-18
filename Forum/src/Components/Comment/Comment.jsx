@@ -1,6 +1,6 @@
 import "./Comment.css";
 import PropTypes from "prop-types";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import AppContext from "../../AppContext/AppContext";
 import {
@@ -12,13 +12,21 @@ import {
   stopLikingComment,
 } from "../../services/posts.service";
 import Button from "../Button/Button";
+import { getUserByUsername } from "../../services/users.service";
 
 const Comment = ({ comment, commentId }) => {
   const [editedComment, setEditedComment] = useState("");
   const [isCommentEdited, setIsCommentEdited] = useState(null);
+  const [author, setAuthor] = useState(null);
 
   const { id } = useParams();
   const { userData } = useContext(AppContext);
+
+  useEffect(() => {
+    getUserByUsername(comment.username).then((result) =>
+      setAuthor(result.val())
+    );
+  }, []);
 
   const deleteComment = (commentId) => {
     deleteCommentPost(id, commentId, userData.username);
@@ -46,91 +54,97 @@ const Comment = ({ comment, commentId }) => {
     stopDislikingComment(id, userData.username, commentId);
   };
 
-  return isCommentEdited === commentId ? (
-    <div key={commentId} className="single-post-comment">
-      <textarea
-        value={editedComment}
-        onChange={(e) => setEditedComment(e.target.value)}
-        cols="30"
-        rows="10"
-      />
-      {(userData?.username === comment.username || userData?.admin) && (
-        <>
-          <Button
-            id="edit-comment-button"
-            onClick={() => editComment(commentId)}
-            color={"#d98f40"}
-          >
-            Done
-          </Button>
-          <Button onClick={() => deleteComment(commentId)} color={"#d98f40"}>
-            Delete
-          </Button>
-        </>
-      )}
-      <span>
-        {comment.firstName} {comment.lastName}
-      </span>
-    </div>
-  ) : (
-    <div key={commentId} className="single-post-comment">
-      <div>
-        <p>{comment.content}</p>
-        
-        <div id="like-dislike-comment">
-          {comment.likes !== 0 &&
-          Object.keys(comment.likedBy).includes(userData?.username) ? (
-            <img
-              onClick={() => handleStopLikingComment(commentId)}
-              src="/src/Images/full-like.svg"
-              alt="like"
-            />
-          ) : (
-            <img
-              onClick={() => handleLikeComment(commentId)}
-              src="/src/Images/empty-like.svg"
-              alt="like"
-            />
+  return (
+    <>
+      {isCommentEdited === commentId ? (
+        <div key={commentId} className="single-post-comment">
+          <textarea
+            value={editedComment}
+            onChange={(e) => setEditedComment(e.target.value)}
+            cols="30"
+            rows="10"
+          />
+          {(userData?.username === author?.username || userData?.admin) && (
+            <>
+              <Button
+                id="edit-comment-button"
+                onClick={() => editComment(commentId)}
+                color={"#d98f40"}
+              >
+                Done
+              </Button>
+              <Button
+                onClick={() => deleteComment(commentId)}
+                color={"#d98f40"}
+              >
+                Delete
+              </Button>
+            </>
           )}
-          <span>{comment.likes}</span>
-          {comment.dislikes !== 0 &&
-          Object.keys(comment.dislikedBy).includes(userData?.username) ? (
-            <img
-              onClick={() => handleStopDislikingComment(commentId)}
-              src="/src/Images/full-dislike.svg"
-              alt="dislike"
-            />
-          ) : (
-            <img
-              onClick={() => handleDislikeComment(commentId)}
-              src="/src/Images/empty-dislike.svg"
-              alt="dislike"
-            />
-          )}
-          <span>{comment.dislikes}</span>
         </div>
-      </div>
-      {(userData?.username === comment.username || userData?.admin) && (
-        <>
-          <Button
-            id="edit-comment-button"
-            onClick={() => {
-              setIsCommentEdited(commentId);
-              setEditedComment(comment.content);
-            }}
-            color={"#d98f40"}
-          >
-            Edit
-          </Button>
-          <Button onClick={() => deleteComment(commentId)} color={"#d98f40"}>
-            Delete
-          </Button>
-        </>
-      )}
-      <span>
-        {comment.firstName} {comment.lastName}
-      </span>
-    </div>
+      ) : (
+        <div key={commentId} className="single-post-comment">
+          <div>
+            <p>{comment.content}</p>
+            <div id="like-dislike-comment">
+              {comment.likes !== 0 &&
+              Object.keys(comment.likedBy).includes(userData?.username) ? (
+                <img
+                  onClick={() => handleStopLikingComment(commentId)}
+                  src="/src/Images/full-like.svg"
+                  alt="like"
+                />
+              ) : (
+                <img
+                  onClick={() => handleLikeComment(commentId)}
+                  src="/src/Images/empty-like.svg"
+                  alt="like"
+                />
+              )}
+              <span>{comment.likes}</span>
+              {comment.dislikes !== 0 &&
+              Object.keys(comment.dislikedBy).includes(userData?.username) ? (
+                <img
+                  onClick={() => handleStopDislikingComment(commentId)}
+                  src="/src/Images/full-dislike.svg"
+                  alt="dislike"
+                />
+              ) : (
+                <img
+                  onClick={() => handleDislikeComment(commentId)}
+                  src="/src/Images/empty-dislike.svg"
+                  alt="dislike"
+                />
+              )}
+              <span>{comment.dislikes}</span>
+            </div>
+          </div>
+          {(userData?.username === author?.username || userData?.admin) && (
+            <>
+              <Button
+                id="edit-comment-button"
+                onClick={() => {
+                  setIsCommentEdited(commentId);
+                  setEditedComment(comment.content);
+                }}
+                color={"#d98f40"}
+              >
+                Edit
+              </Button>
+              <Button
+                onClick={() => deleteComment(commentId)}
+                color={"#d98f40"}
+              >
+                Delete
+              </Button>
+            </>
+          )}
+          <span>
+            {author?.firstName} {author?.lastName}
+          </span>
+        </div>
+      )}{" "}
+    </>
   );
 };
 

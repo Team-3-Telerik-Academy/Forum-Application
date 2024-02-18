@@ -29,6 +29,7 @@ const Post = () => {
   const [tag, setTag] = useState("");
   const [tagError, setTagError] = useState("");
   const [addTag, setAddTag] = useState(false);
+  const [changePost, setChangePost] = useState(false);
 
   const { id } = useParams();
   const { userData } = useContext(AppContext);
@@ -42,7 +43,7 @@ const Post = () => {
 
       setPost(result);
     });
-  }, [tag]);
+  }, [tag, changePost]);
 
   useEffect(() => {
     if (post) {
@@ -72,6 +73,7 @@ const Post = () => {
     addTagPost(id, tag).then(() => {
       setTag("");
       setAddTag(false);
+      setChangePost(false);
     });
   };
 
@@ -276,7 +278,7 @@ const Post = () => {
               ))}
             </div>
           )}
-          {post?.tags && <Tag postId={id} postAuthor={post?.author} />}
+          {post?.tags && <Tag changePost={setChangePost} postId={id} postAuthor={post?.author} />}
         </div>
       </div>
       <div id="single-post-create-comment">

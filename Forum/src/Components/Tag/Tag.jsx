@@ -8,10 +8,10 @@ import {
 import { useNavigate } from "react-router-dom";
 import EditTag from "../EditTag/EditTag";
 import AppContext from "../../AppContext/AppContext";
-import PropTypes from 'prop-types';
-import './Tag.css';
+import PropTypes from "prop-types";
+import "./Tag.css";
 
-const Tag = ({ postId, postAuthor }) => {
+const Tag = ({ postId, postAuthor, changePost }) => {
   const [tags, setTags] = useState(null);
   const [tag, setTag] = useState("");
   const [tagError, setTagError] = useState("");
@@ -20,6 +20,10 @@ const Tag = ({ postId, postAuthor }) => {
 
   const { userData } = useContext(AppContext);
   const navigate = useNavigate();
+
+  // console.log(postAuthor);
+  // console.log(userData?.username)
+  // console.log(userData?.admin)
 
   useEffect(() => {
     getTagsOfAPost(postId).then(setTags);
@@ -40,6 +44,11 @@ const Tag = ({ postId, postAuthor }) => {
       return;
     }
 
+    if (tag.startsWith("#")) {
+      setTagError("Tag can't start with #!");
+      return;
+    }
+
     if (tags && Object.values(tags).includes(tag)) {
       setTagError("Tag already exists!");
       return;
@@ -56,6 +65,7 @@ const Tag = ({ postId, postAuthor }) => {
       const newTags = { ...tags };
       delete newTags[tagId];
       setTags(newTags);
+      changePost(true);
     });
   };
 
@@ -76,62 +86,67 @@ const Tag = ({ postId, postAuthor }) => {
                 />
               ) : (
                 <span onClick={() => searchByTag(tags[key])} key={key}>
-                  {tags[key]}{" "}
+                  {tags[key]}
                 </span>
               )
             )}
           </div>
-          {(postAuthor === userData?.username || userData?.admin) && addTag ? (
-            <div id="add-tag-content">
-              {tagError && <div className="error">{tagError}</div>}
-              <textarea
-                name="tag"
-                id="tag"
-                cols="15"
-                rows="1"
-                value={tag}
-                onChange={(e) => {
-                  setTag(e.target.value);
-                  setTagError("");
-                }}
-              />
+          {postAuthor === userData?.username || userData?.admin ? (
+            addTag ? (
+              <div id="add-tag-content">
+                {tagError && <div className="error">{tagError}</div>}
+                <textarea
+                  name="tag"
+                  id="tag"
+                  cols="15"
+                  rows="1"
+                  value={tag}
+                  onChange={(e) => {
+                    setTag(e.target.value);
+                    setTagError("");
+                  }}
+                />
+                <Button
+                  onClick={addNewTag}
+                  id={"add-tag-button"}
+                  color={"#d98f40"}
+                >
+                  Add
+                </Button>
+                <Button
+                  onClick={() => {
+                    setAddTag(false);
+                    setTag("");
+                  }}
+                  id={"add-tag-button"}
+                  color={"#d98f40"}
+                >
+                  Back
+                </Button>
+              </div>
+            ) : editTags ? (
               <Button
-                onClick={addNewTag}
-                id={"add-tag-button"}
+                onClick={() => setEditTags(false)}
+                width={"100px"}
                 color={"#d98f40"}
               >
-                Add
+                Done Editing
               </Button>
-              <Button
-                onClick={() => {setAddTag(false); setTag('')}}
-                id={"add-tag-button"}
-                color={"#d98f40"}
-              >
-                Back
-              </Button>
-            </div>
-          ) : editTags ? (
-            <Button
-              onClick={() => setEditTags(false)}
-              width={"100px"}
-              color={"#d98f40"}
-            >
-              Done Editing
-            </Button>
-          ) : (
-            <div id="tag-buttons">
-              <Button
-                onClick={() => setAddTag(true)}
-                id={"add-tag-button"}
-                color={"#d98f40"}
-              >
-                Add New Tag
-              </Button>
-              <Button onClick={() => setEditTags(true)} color={"#d98f40"}>
-                Edit Tags
-              </Button>
-            </div>
-          )}
+            ) : (
+              <div id="tag-buttons">
+                <Button
+                  onClick={() => setAddTag(true)}
+                  id={"add-tag-button"}
+                  color={"#d98f40"}
+                >
+                  Add New Tag
+                </Button>
+                <Button onClick={() => setEditTags(true)} color={"#d98f40"}>
+                  Edit Tags
+                </Button>
+              </div>
+            )
+          ) : null}
         </div>
       )}
     </>
@@ -139,8 +154,9 @@ const Tag = ({ postId, postAuthor }) => {
 };
 
 Tag.propTypes = {
-    postId: PropTypes.string,
-    postAuthor: PropTypes.string,
-}
+  postId: PropTypes.string,
+  postAuthor: PropTypes.string,
+  changePost: PropTypes.func,
+};
 
 export default Tag;
