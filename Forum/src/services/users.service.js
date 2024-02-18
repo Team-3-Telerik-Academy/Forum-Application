@@ -10,11 +10,11 @@ import {
 } from "firebase/database";
 import { db } from "../config/firebase-config";
 
-export const getUserByUsername = (username) => {
+export const getUserByUsername = async (username) => {
   return get(ref(db, `users/${username}`));
 };
 
-export const unblockUser = (users, fn, user) => {
+export const unblockUser = async (users, fn, user) => {
   const {
     username,
     firstName,
@@ -27,7 +27,7 @@ export const unblockUser = (users, fn, user) => {
     comments,
     // allComments,
   } = user;
-  createUserUsername(
+  await createUserUsername(
     username,
     firstName,
     lastName,
@@ -57,7 +57,7 @@ export const blockUser = async (users, user, fn) => {
     // comments,
     // allComments,
   } = user;
-  createBlockedUsers(
+  await createBlockedUsers(
     username,
     firstName,
     lastName,
@@ -83,7 +83,7 @@ export const blockUser = async (users, user, fn) => {
   // return removeUser;
 };
 
-export const createBlockedUsers = (
+export const createBlockedUsers = async (
   username,
   firstName,
   lastName,
@@ -111,7 +111,7 @@ export const createBlockedUsers = (
   });
 };
 
-export const createUserUsername = (
+export const createUserUsername = async (
   username,
   firstName,
   lastName,
@@ -149,7 +149,7 @@ export const getBlockedUsers = () => {
   });
 };
 
-export const getUserData = (uid) => {
+export const getUserData = async (uid) => {
   return get(query(ref(db, "users"), orderByChild("uid"), equalTo(uid)));
 };
 

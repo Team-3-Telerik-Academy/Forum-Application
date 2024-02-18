@@ -20,6 +20,11 @@ const AdminDashboardBlockedUsers = () => {
     getBlockedUsers().then((data) => setUsers(Object.values(data)));
   }, []);
 
+  const handleUnblockUsers = async (users, fn, user) => {
+    const result = await unblockUser(users, fn, user)
+    return result
+  }
+
   const searchUserBy = (value, selected, fn) => {
     getBlockedUsers()
       .then((data) => Object.values(data))
@@ -96,7 +101,7 @@ const AdminDashboardBlockedUsers = () => {
                   <td>{user.lastName}</td>
                   {/* <td>No</td> */}
                   <td
-                    onClick={() => unblockUser(users, setUsers, user)}
+                    onClick={() => handleUnblockUsers(users, setUsers, user)}
                     className="block-cell"
                     style={{
                       backgroundColor: "#89C623",

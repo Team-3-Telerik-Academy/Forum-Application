@@ -98,7 +98,6 @@ const AdminDashboard = () => {
                 <th>Last name</th>
                 <th>Admin</th>
                 <th>Block User</th>
-                <th>Blocked</th>
               </tr>
             </thead>
             <tbody>
@@ -136,10 +135,10 @@ const AdminDashboard = () => {
                         cursor: "pointer",
                       }}
                     >
-                      Block
+                      {user.isBlocked ? 'User is blocked' : 'No'}
                     </td>
                   )}
-                  <td>{user.isBlocked ? "Yes" : "No"}</td>
+                  
                 </tr>
               ))}
             </tbody>
