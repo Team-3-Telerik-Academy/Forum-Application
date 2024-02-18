@@ -1,0 +1,73 @@
+.single-post-tags-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 20px 0px;
+}
+
+.single-post-tags-content #add-tag-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.single-post-tags-content #add-tag-content button {
+    width: 50px;
+    height: 30px;
+}
+
+.single-post-tags-content #tags-title-and-tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+}
+
+.single-post-tags-content #tag-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.single-post-tags-content button {
+    width: 80px;
+    height: 35px;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    font-family: "Gill Sans Ultra Bold", "Helvetica Neue Ultra Bold",
+        "Futura Bold", "Arial Black", sans-serif;
+}
+
+.single-post-tags-content #add-tag-button {
+    width: 100px;
+}
+
+.single-post-tags-content span {
+    background-color: #d98f40;
+    height: 15px;
+    color: white;
+    padding: 7px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-family: montserrat, helvetica neue, Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.single-post-tags-content span:hover {
+    background-color: #c17a2d;
+}
+
+.single-post-tags-content h3 {
+    margin: 0;
+    margin-bottom: 3.5px;
+    font-size: 20px;
+    color: #aaaaaa;
+}

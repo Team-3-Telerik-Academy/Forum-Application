@@ -182,7 +182,7 @@
     line-height: 1.5;
 }
 
-#single-post-tags-content {
+/* #single-post-tags-content {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -254,9 +254,9 @@
     margin-bottom: 3.5px;
     font-size: 20px;
     color: #aaaaaa;
-}
+} */
 
-#edit-or-delete-single-tag {
+/* #edit-or-delete-single-tag {
     position: relative;
 }
 
@@ -273,7 +273,7 @@
     height: 25px;
     margin-top: 2px;
     margin-right: 2px;
-}
+} */
 
 #single-post-comments-content {
     width: 100%;

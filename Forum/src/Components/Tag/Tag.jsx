@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import EditTag from "../EditTag/EditTag";
 import AppContext from "../../AppContext/AppContext";
 import PropTypes from 'prop-types';
+import './Tag.css';
 
 const Tag = ({ postId, postAuthor }) => {
   const [tags, setTags] = useState(null);
@@ -61,7 +62,7 @@ const Tag = ({ postId, postAuthor }) => {
   return (
     <>
       {tags && (
-        <div id="single-post-tags-content">
+        <div className="single-post-tags-content">
           <div id="tags-title-and-tags">
             <h3>Tags:</h3>
             {Object.keys(tags).map((key) =>
@@ -102,7 +103,7 @@ const Tag = ({ postId, postAuthor }) => {
                 Add
               </Button>
               <Button
-                onClick={() => setAddTag(false)}
+                onClick={() => {setAddTag(false); setTag('')}}
                 id={"add-tag-button"}
                 color={"#d98f40"}
               >

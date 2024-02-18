@@ -2,6 +2,7 @@ import { useState } from "react";
 import Button from "../Button/Button";
 import { editTagPost } from "../../services/posts.service";
 import PropTypes from "prop-types";
+import './EditTag.css';
 
 const EditTag = ({ postId, tagId, initialContent, deleteTag }) => {
   const [content, setContent] = useState(initialContent);

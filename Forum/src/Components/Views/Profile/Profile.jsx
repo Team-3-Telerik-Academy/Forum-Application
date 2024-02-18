@@ -56,7 +56,7 @@ const Profile = () => {
   });
 
   useEffect(() => {
-    if (uid !== userData.uid) {
+    if (uid !== userData?.uid) {
       return navigate("*");
     }
 

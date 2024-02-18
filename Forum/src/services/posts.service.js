@@ -99,7 +99,11 @@ export const editPost = async (postId, title, content) => {
 
 export const adminPanelDeletePost = async (id, posts, setFn) => {
   const postToDelete = ref(db, `/posts/${id}`);
+  const author = await get(ref(db, `/posts/${id}/author`));
+  const username = author.val();
+  const authorPosts = ref(db, `users/${username}/posts/${id}`);
   setFn([...posts].filter((post) => post.id !== id));
+  await remove(authorPosts);
   await remove(postToDelete);
 };
 
