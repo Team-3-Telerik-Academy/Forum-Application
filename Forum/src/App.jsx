@@ -18,17 +18,17 @@ import AdminDashboardBlockedUsers from "./Components/Views/AdminDashboardBlocked
 import AdminDashboardPosts from "./Components/Views/AdminDashboardPosts/AdminDashboardPosts";
 import Search from "./Components/Views/Search/Search";
 import Profile from "./Components/Views/Profile/Profile";
+import Layout from "./Components/Layout";
 
 const App = () => {
   const [user, loading, error] = useAuthState(auth);
   const [isRegistered, setRegistered] = useState(false);
+  console.log(loading);
   // const [isLogged, setIsLogged] = useState(true);
   const [appState, setAppState] = useState({
     user: null,
     userData: null,
   });
-
-  
 
   if (appState.user !== user) {
     setAppState({ user });
@@ -71,8 +71,52 @@ const App = () => {
           <Route path="/profile/:uid" element={<Profile />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
-          <Route path="/post-category/:type" element={<Posts />} />
-          <Route path="/post/:id" element={<Post />} />
+          <Route path="*" element={<NotFound />} />
+
+          <Route
+            path="/create-new-post"
+            element={
+              <Layout user={user}>
+                <CreatePost />
+              </Layout>
+            }
+          />
+          <Route
+            path="/search/:searchTerm"
+            element={
+              <Layout user={user}>
+                <Search />
+              </Layout>
+            }
+          />
+
+          <Route
+            path="/profile/:uid"
+            element={
+              <Layout user={user}>
+                <Profile />
+              </Layout>
+            }
+          />
+
+          <Route
+            path="/post-category/:type"
+            element={
+              <Layout user={user}>
+                <Posts />
+              </Layout>
+            }
+          />
+
+          <Route
+            path="/post/:id"
+            element={
+              <Layout user={user}>
+                <Post />
+              </Layout>
+            }
+          />
+
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route
             path="/admin-dashboard-blocked-users"
@@ -82,7 +126,6 @@ const App = () => {
             path="/admin-dashboard-posts"
             element={<AdminDashboardPosts />}
           />
-          <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
       </AppContext.Provider>
