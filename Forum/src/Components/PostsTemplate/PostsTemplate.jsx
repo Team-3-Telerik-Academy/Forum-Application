@@ -61,7 +61,7 @@ const PostsTemplate = ({post, likePost, dislikePost, deletePost}) => {
               <span>
                 
                 {post.author}{" "}
-                {post.author === userData?.username && (
+                {(post.author === userData?.username || userData?.admin) && (
                   <Button
                     onClick={deletePost}
                     color={"#d98f40"}

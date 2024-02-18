@@ -54,7 +54,7 @@ const Comment = ({ comment, commentId }) => {
         cols="30"
         rows="10"
       />
-      {userData?.username === comment.username && (
+      {(userData?.username === comment.username || userData?.admin) && (
         <>
           <Button
             id="edit-comment-button"
@@ -110,7 +110,7 @@ const Comment = ({ comment, commentId }) => {
           <span>{comment.dislikes}</span>
         </div>
       </div>
-      {userData?.username === comment.username && (
+      {(userData?.username === comment.username || userData?.admin) && (
         <>
           <Button
             id="edit-comment-button"

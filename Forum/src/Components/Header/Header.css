@@ -63,6 +63,7 @@
   gap: 10px;
   color: white;
   margin-top: 25px;
+  z-index: 1;
 }
 
 #logged-in a {

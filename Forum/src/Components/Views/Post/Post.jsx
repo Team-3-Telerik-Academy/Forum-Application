@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   addCommentPost,
+  addTagPost,
   deletePost,
   dislikePost,
   editPost,
@@ -15,6 +16,7 @@ import Header from "../../Header/Header";
 import Button from "../../Button/Button";
 import AppContext from "../../../AppContext/AppContext";
 import Comment from "../../Comment/Comment";
+import Tag from "../../Tag/Tag";
 
 const Post = () => {
   const [post, setPost] = useState(null);
@@ -24,6 +26,9 @@ const Post = () => {
   const [comments, setComments] = useState(null);
   const [comment, setComment] = useState("");
   const [commentError, setCommentError] = useState(null);
+  const [tag, setTag] = useState("");
+  const [tagError, setTagError] = useState("");
+  const [addTag, setAddTag] = useState(false);
 
   const { id } = useParams();
   const { userData } = useContext(AppContext);
@@ -37,7 +42,7 @@ const Post = () => {
 
       setPost(result);
     });
-  }, []);
+  }, [tag]);
 
   useEffect(() => {
     if (post) {
@@ -47,6 +52,28 @@ const Post = () => {
     }
     getCommentsOfAPost(id).then(setComments);
   }, [comment, post, comments]);
+
+  const addNewTag = () => {
+    if (!tag) {
+      setTagError("Tag can't be empty!");
+      return;
+    }
+
+    if (/[A-Z]/.test(tag)) {
+      setTagError("Tag can contain only lowercase letters and numbers!");
+      return;
+    }
+
+    if (post.tags && Object.values(post.tags).includes(tag)) {
+      setTagError("Tag already exists!");
+      return;
+    }
+
+    addTagPost(id, tag).then(() => {
+      setTag("");
+      setAddTag(false);
+    });
+  };
 
   const addComment = () => {
     if (userData.isBlocked) {
@@ -137,7 +164,8 @@ const Post = () => {
                 Like
               </Button>
             )}
-            {userData?.username === postAuthor?.username && (
+            {(userData?.username === postAuthor?.username ||
+              userData?.admin) && (
               <>
                 {toPostEdit ? (
                   <Button onClick={editPostHandle} color={"#d98f40"}>
@@ -151,6 +179,16 @@ const Post = () => {
                 <Button onClick={deletePostHandle} color={"#d98f40"}>
                   Delete
                 </Button>
+                {!post?.tags && (
+                  <Button
+                    width={"115px"}
+                    onClick={() => setAddTag(true)}
+                    id={"add-tag-button"}
+                    color={"#d98f40"}
+                  >
+                    Add New Tag
+                  </Button>
+                )}
               </>
             )}
           </span>
@@ -168,17 +206,40 @@ const Post = () => {
           <br />
           {post?.likes} likes
         </span>
+        {addTag && !post.tag && (
+          <div id="add-first-tag-content">
+            {tagError && <div className="error">{tagError}</div>}
+            <textarea
+              name="tag"
+              id="tag"
+              cols="15"
+              rows="1"
+              value={tag}
+              onChange={(e) => {
+                setTag(e.target.value);
+                setTagError("");
+              }}
+            />
+            <Button
+              onClick={addNewTag}
+              id={"add-first-tag-button"}
+              color={"#d98f40"}
+            >
+              Add
+            </Button>
+          </div>
+        )}
       </div>
       <div id="single-post-content">
         <div className="single-post-left-side">
           <h3>{postAuthor?.username}</h3>
           {postAuthor?.avatar && (
-              <img
-                id="single-post-avatar"
-                src={postAuthor.avatar}
-                alt={postAuthor.username}
-              />
-            )}
+            <img
+              id="single-post-avatar"
+              src={postAuthor.avatar}
+              alt={postAuthor.username}
+            />
+          )}
           <h4>
             {postAuthor?.firstName} {postAuthor?.lastName}
           </h4>
@@ -203,25 +264,28 @@ const Post = () => {
           ) : (
             <p>{post?.content}</p>
           )}
-          <div id="single-post-comments-content">
-            <h3>Comments:</h3>
-            {comments &&
-              Object.keys(comments).map((commentId, index) => (
+          {comments && (
+            <div id="single-post-comments-content">
+              <h3>Comments:</h3>
+              {Object.keys(comments).map((commentId) => (
                 <Comment
                   comment={comments[commentId]}
                   commentId={commentId}
-                  index={index}
                   key={commentId}
                 />
               ))}
-          </div>
+            </div>
+          )}
+          {post?.tags && <Tag postId={id} postAuthor={post?.author} />}
         </div>
       </div>
       <div id="single-post-create-comment">
-      {commentError && <div className="comment-error">{commentError}</div>}
+        {commentError && <div className="comment-error">{commentError}</div>}
         <textarea
           value={comment}
-          onChange={(e) => {setComment(e.target.value), setCommentError('')}}
+          onChange={(e) => {
+            setComment(e.target.value), setCommentError("");
+          }}
           name="comment"
           id=""
           cols="30"

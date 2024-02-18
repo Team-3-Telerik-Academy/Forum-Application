@@ -67,7 +67,8 @@ const App = () => {
           <Route index element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/create-new-post" element={<CreatePost />} />
-          <Route path="/search/:searchTerm" element={<Search />} />
+          {/* <Route path='search' element={<Search />} /> */}
+          <Route path='search/:searchTerm' element={<Search />} />
           <Route path="/profile/:uid" element={<Profile />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />

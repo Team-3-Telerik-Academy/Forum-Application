@@ -1,9 +1,9 @@
 import "./Button.css";
 import PropTypes from 'prop-types';
 
-const Button = ({ color, children, onClick, id }) => {
+const Button = ({ color, children, onClick, id, width }) => {
   return (
-    <button onClick={onClick} style={{ backgroundColor: color }} id={id} className='button'>
+    <button onClick={onClick} style={{ backgroundColor: color, width: width }} id={id} className='button'>
       {children}
     </button>
   );
@@ -15,6 +15,7 @@ Button.propTypes = {
   onClick: PropTypes.func,
   className: PropTypes.string,
   id: PropTypes.string,
+  width: PropTypes.string,
 }
 
 export default Button;

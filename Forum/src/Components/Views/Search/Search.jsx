@@ -34,9 +34,16 @@ const Search = () => {
 
   useEffect(() => {
     getAllPosts().then((allPosts) => {
-      const result = allPosts.filter((post) =>
+      const fromTitle = allPosts.filter((post) =>
         post.title.toLowerCase().includes(searchTerm.toLowerCase())
       );
+      const fromTags = allPosts.filter((post) => {
+        if (post.tags) {
+          return Object.values(post.tags).includes(searchTerm.toLowerCase());
+        }
+      });
+
+      const result = Array.from(new Set([...fromTitle, ...fromTags]));
       setPosts(result);
     });
   }, [postsChange, searchTerm]);

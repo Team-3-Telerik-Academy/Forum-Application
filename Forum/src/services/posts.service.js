@@ -78,6 +78,7 @@ export const addPost = async (title, content, category, username) => {
       comments: {},
       likes: 0,
       likedBy: {},
+      tags: {},
     });
 
     await updateUserPosts(username, result.key, title);
@@ -230,6 +231,52 @@ export const getAllPosts = async () => {
   }
 };
 
+export const getTagsOfAPost = async (id) => {
+  try {
+    const result = await get(ref(db, `posts/${id}/tags`));
+
+    if (!result.exists()) {
+      throw new Error(`Post with id ${id} does not exist!`);
+    }
+
+    const tags = result.val();
+    return tags;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const addTagPost = async (
+  postId,
+  tag
+) => {
+  try {
+    const tagsKey = push(ref(db, `/posts/${postId}/tags`));
+
+    return set(tagsKey, tag);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const editTagPost = async (postId, tagId, content) => {
+  try {
+    const tagToEdit = ref(db, `/posts/${postId}/tags/${tagId}`);
+    await set(tagToEdit, content);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteTagPost = async (postId, tagId) => {
+  try {
+    const tagToDelete = ref(db, `/posts/${postId}/tags/${tagId}`);
+    return remove(tagToDelete);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const addCommentPost = async (
   username,
   postId,
@@ -242,7 +289,6 @@ export const addCommentPost = async (
     const result = await get(ref(db, `/users/${username}/comments`));
     const newCommentCount = result.val() + 1;
     await update(ref(db, `/users/${username}`), { comments: newCommentCount });
-    // await updateUserComments(username, commentKey.key, comment);
 
     return set(commentKey, {
       username: username,
@@ -281,21 +327,6 @@ export const deleteCommentPost = async (postId, commentId, username) => {
     console.error(error);
   }
 };
-
-// Not correct - to be continued...
-// export const getCommentsByAuthor = async (username) => {
-//   try {
-//     const snapshot = await get(
-//       query(ref(db, "comments"), orderByChild("author"), equalTo(username))
-//     );
-
-//     if (!snapshot.exists()) return [];
-
-//     return fromCommentsDocument(snapshot);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
 
 export const getCommentsOfAPost = async (id) => {
   try {

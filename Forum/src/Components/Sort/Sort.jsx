@@ -21,8 +21,8 @@ const Sort = ({
           id="sortBy"
           onChange={handleChange}
         >
-          <option value="oldest">Oldest to newest</option>
           <option value="newest">Newest to oldest</option>
+          <option value="oldest">Oldest to newest</option>
           <option value="title">Title A-Z</option>
           <option value="title-ZA">Title Z-A</option>
         </select>
