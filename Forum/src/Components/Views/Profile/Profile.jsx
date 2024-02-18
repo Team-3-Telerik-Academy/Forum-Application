@@ -11,7 +11,6 @@ import {
 } from "../../../helpers/like-dislike-delete-functions";
 import Sort from "../../Sort/Sort";
 import Header from "../../Header/Header";
-import { useNavigate, useParams } from "react-router-dom";
 import {
   searchPostBy,
   setValue,
@@ -21,8 +20,6 @@ import UploadAvatar from "../../UploadAvatar/UploadAvatar";
 import AppContext from "../../../AppContext/AppContext";
 
 const Profile = () => {
-  const navigate = useNavigate();
-  const { uid } = useParams();
   const { userData } = useContext(AppContext);
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState(null);
@@ -36,14 +33,12 @@ const Profile = () => {
   const [profileInfo, setProfileInfo] = useState({
     firstName: "",
     lastName: "",
-    email: "",
     number: "",
   });
 
   const [editProfile, setEditProfile] = useState({
     firstName: false,
     lastName: false,
-    email: false,
     number: false,
     avatar: false,
   });
@@ -51,23 +46,17 @@ const Profile = () => {
   const [error, setError] = useState({
     firstName: "",
     lastName: "",
-    email: "",
     number: "",
   });
 
   useEffect(() => {
-    if (uid !== userData?.uid) {
-      return navigate("*");
+    if (userData) {
+      getUserData(userData?.uid).then((result) => {
+        setUser(result.val()[Object.keys(result.val())[0]]);
+        console.log(result.val()[Object.keys(result.val())[0]]);
+      });
     }
-
-    getUserData(uid).then((result) => {
-      if (!result.exists()) {
-        return navigate("*");
-      }
-
-      setUser(result.val()[Object.keys(result.val())[0]]);
-    });
-  }, [postsChange, editProfile]);
+  }, [postsChange, editProfile, userData]);
 
   useEffect(() => {
     if (user) {
@@ -85,7 +74,6 @@ const Profile = () => {
         ...profileInfo,
         firstName: user.firstName,
         lastName: user.lastName,
-        email: user.email,
         number: user.number || "",
       });
     }
@@ -126,24 +114,6 @@ const Profile = () => {
 
     updateUserInfo(user.username, "lastName", profileInfo.lastName).then(() =>
       setEditProfile({ ...editProfile, lastName: false })
-    );
-  };
-
-  const handleEmailChange = () => {
-    const isValidEmail = (email) => {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return emailRegex.test(email);
-    };
-
-    const isValid = isValidEmail(profileInfo.email);
-
-    if (!isValid) {
-      setError({ ...error, email: "Email is not valid!" });
-      return;
-    }
-
-    updateUserInfo(user.username, "email", profileInfo.email).then(() =>
-      setEditProfile({ ...editProfile, email: false })
     );
   };
 
@@ -273,6 +243,10 @@ const Profile = () => {
                 <div id="change-info-left-side">
                   <p className="info">
                     <strong>Username:</strong> <br /> {user?.username}
+                    <hr />
+                  </p>
+                  <p className="info">
+                    <strong>Email:</strong> <br /> {user?.email}
                   </p>
                   <hr />
                   <p className="info">
@@ -350,45 +324,6 @@ const Profile = () => {
                         <Button
                           onClick={() =>
                             setEditProfile({ ...editProfile, lastName: true })
-                          }
-                          color={"#d98f40"}
-                        >
-                          Edit
-                        </Button>
-                      </>
-                    )}
-                  </p>
-                  <hr />
-                  <p className="info">
-                    {error.email && (
-                      <span className="error">{error.email}</span>
-                    )}
-                    <strong>Email Address:</strong> <br />
-                    {editProfile.email ? (
-                      <>
-                        <input
-                          type="text"
-                          value={profileInfo.email}
-                          onChange={(e) => {
-                            setProfileInfo({
-                              ...profileInfo,
-                              email: e.target.value,
-                            });
-                            setError({ ...error, email: "" });
-                          }}
-                          name="email"
-                          id="email"
-                        />
-                        <Button onClick={handleEmailChange} color={"#d98f40"}>
-                          Done
-                        </Button>
-                      </>
-                    ) : (
-                      <>
-                        {user?.email}
-                        <Button
-                          onClick={() =>
-                            setEditProfile({ ...editProfile, email: true })
                           }
                           color={"#d98f40"}
                         >

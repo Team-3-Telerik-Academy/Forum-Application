@@ -18,13 +18,11 @@ import AdminDashboardBlockedUsers from "./Components/Views/AdminDashboardBlocked
 import AdminDashboardPosts from "./Components/Views/AdminDashboardPosts/AdminDashboardPosts";
 import Search from "./Components/Views/Search/Search";
 import Profile from "./Components/Views/Profile/Profile";
-import Layout from "./Components/Layout";
+import Authenticated from "./Components/hoc/Authenticated";
+import AuthenticatedAdmin from "./Components/hoc/AuthenticatedAdmin";
 
 const App = () => {
   const [user, loading, error] = useAuthState(auth);
-  const [isRegistered, setRegistered] = useState(false);
-  console.log(loading);
-  // const [isLogged, setIsLogged] = useState(true);
   const [appState, setAppState] = useState({
     user: null,
     userData: null,
@@ -55,10 +53,6 @@ const App = () => {
     <BrowserRouter>
       <AppContext.Provider
         value={{
-          isRegistered,
-          setRegistered,
-          // isLogged,
-          // setIsLogged,
           ...appState,
           setContext: setAppState,
         }}
@@ -66,9 +60,9 @@ const App = () => {
         <Routes>
           <Route index element={<Home />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/create-new-post" element={<CreatePost />} />
-          <Route path='search/:searchTerm' element={<Search />} />
-          <Route path="/profile/:uid" element={<Profile />} />
+          {/* <Route path="/create-new-post" element={<CreatePost />} /> */}
+          {/* <Route path='search/:searchTerm' element={<Search />} /> */}
+          {/* <Route path="/profile/:uid" element={<Profile />} /> */}
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="*" element={<NotFound />} />
@@ -76,55 +70,72 @@ const App = () => {
           <Route
             path="/create-new-post"
             element={
-              <Layout user={user}>
+              <Authenticated>
                 <CreatePost />
-              </Layout>
+              </Authenticated>
             }
           />
           <Route
             path="/search/:searchTerm"
             element={
-              <Layout user={user}>
+              <Authenticated>
                 <Search />
-              </Layout>
+              </Authenticated>
             }
           />
 
           <Route
-            path="/profile/:uid"
+            path="/profile"
             element={
-              <Layout user={user}>
+              <Authenticated>
                 <Profile />
-              </Layout>
+              </Authenticated>
             }
           />
 
           <Route
             path="/post-category/:type"
             element={
-              <Layout user={user}>
+              <Authenticated>
                 <Posts />
-              </Layout>
+              </Authenticated>
             }
           />
 
           <Route
             path="/post/:id"
             element={
-              <Layout user={user}>
+              <Authenticated>
                 <Post />
-              </Layout>
+              </Authenticated>
             }
           />
 
-          <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route
+            path="/admin-dashboard"
+            element={
+              <AuthenticatedAdmin>
+                <AdminDashboard />
+              </AuthenticatedAdmin>
+            }
+          />
+
           <Route
             path="/admin-dashboard-blocked-users"
-            element={<AdminDashboardBlockedUsers />}
+            element={
+              <AuthenticatedAdmin>
+                <AdminDashboardBlockedUsers />
+              </AuthenticatedAdmin>
+            }
           />
+
           <Route
             path="/admin-dashboard-posts"
-            element={<AdminDashboardPosts />}
+            element={
+              <AuthenticatedAdmin>
+                <AdminDashboardPosts />
+              </AuthenticatedAdmin>
+            }
           />
         </Routes>
         <Footer />

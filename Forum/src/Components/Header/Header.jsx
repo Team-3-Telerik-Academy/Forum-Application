@@ -131,7 +131,7 @@ const Header = ({ magnifiedGlassColor, inputColor }) => {
             className={"dropdown-menu"}
             id={`${showMenu ? "active-dropdown" : ""}`}
           >
-            <NavLink to={`/profile/${userData?.uid}`}>Profile</NavLink>
+            <NavLink to={'/profile'}>Profile</NavLink>
             <hr />
             {userData?.admin && (
               <>

@@ -1,13 +1,13 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import "./SignIn.css";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import AppContext from "../../../AppContext/AppContext";
 import { loginUser } from "../../../services/auth.service";
 
 const SignIn = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { setRegistered, setContext } = useContext(AppContext);
+  const { setContext } = useContext(AppContext);
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -59,10 +59,6 @@ const SignIn = () => {
         });
       });
   };
-
-  useEffect(() => {
-    setRegistered(false);
-  }, []);
 
   return (
     <div className="signin-content">

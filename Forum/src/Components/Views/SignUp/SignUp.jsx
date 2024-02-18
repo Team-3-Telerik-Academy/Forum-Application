@@ -11,7 +11,8 @@ import Successfully from "../../Successfully/Successfully";
 
 const SignUp = () => {
   const navigate = useNavigate();
-  const { setRegistered, isRegistered, setContext } = useContext(AppContext);
+  const {setContext } = useContext(AppContext);
+  const [isRegistered, setRegistered] = useState(false);
   const [form, setForm] = useState({
     username: "",
     email: "",

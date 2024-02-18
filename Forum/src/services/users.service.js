@@ -25,7 +25,6 @@ export const unblockUser = async (users, fn, user) => {
     likedPosts,
     posts,
     comments,
-    // allComments,
   } = user;
   await createUserUsername(
     username,
@@ -37,7 +36,6 @@ export const unblockUser = async (users, fn, user) => {
     likedPosts,
     posts,
     comments
-    // allComments
   );
   fn([...users].filter((user) => user.username !== username));
   return remove(ref(db, `blockedUsers/${username}`));
@@ -51,11 +49,6 @@ export const blockUser = async (users, user, fn) => {
     uid,
     email,
     isBlocked,
-    // createdOn,
-    // likedPosts,
-    // posts,
-    // comments,
-    // allComments,
   } = user;
   await createBlockedUsers(
     username,
@@ -63,24 +56,15 @@ export const blockUser = async (users, user, fn) => {
     lastName,
     uid,
     email
-    // createdOn,
-    // likedPosts,
-    // posts,
-    // comments
-    // allComments
   );
   if (isBlocked) {
     return null;
   }
-  const result = await update(ref(db, `users/${username}`), {
+  await update(ref(db, `users/${username}`), {
     isBlocked: !user.isBlocked,
   });
   const filterUsers = await getAllUsers();
   return fn(Object.values(filterUsers));
-  // return result;
-  // fn([...users].filter((user) => user.username !== username));
-  // const removeUser = await remove(ref(db, `users/${username}`));
-  // return removeUser;
 };
 
 export const createBlockedUsers = async (
@@ -89,12 +73,6 @@ export const createBlockedUsers = async (
   lastName,
   uid,
   email
-  // createdOn,
-  // likedPosts,
-  // posts,
-  // comments,
-  // // allComments,
-  // isBlocked = true
 ) => {
   return set(ref(db, `blockedUsers/${username}`), {
     username,
@@ -102,12 +80,6 @@ export const createBlockedUsers = async (
     lastName,
     uid,
     email,
-    // createdOn: createdOn || new Date().toString(),
-    // likedPosts: likedPosts || 0,
-    // posts: posts || {},
-    // comments: comments || 0,
-    // allComments: allComments || {},
-    // isBlocked,
   });
 };
 
@@ -121,7 +93,6 @@ export const createUserUsername = async (
   likedPosts = 0,
   posts = {},
   comments = 0
-  // allComments = {},
 ) => {
   return set(ref(db, `users/${username}`), {
     username,
@@ -134,7 +105,6 @@ export const createUserUsername = async (
     posts,
     comments,
     admin: false,
-    // allComments,
     isBlocked: false,
   });
 };
@@ -163,18 +133,6 @@ export const getAllUsers = () => {
   });
 };
 
-// For the comments:
-
-// export const updateUserComments = (username, commentId, content) => {
-//   return get(ref(db, `users/${username}/allComments/`)).then((result) => {
-//     let updateComments = result.exists() ? { ...result.val() } : {};
-
-//     updateComments[commentId] = content;
-
-//     return update(ref(db, `users/${username}/allComments/`), updateComments);
-//   });
-// };
-
 export const updateUserPosts = (username, postId, title) => {
   let updatePosts = {};
 
@@ -194,7 +152,7 @@ export const isAdmin = async (username, fn, user) => {
   if (isBlocked) {
     return null;
   }
-  const userChange = (await get(ref(db, `users/${username}`))).val();
+  await get(ref(db, `users/${username}`)).val();
   await update(ref(db, `users/${username}`), { admin: !user.admin });
   const allUsers = Object.values(await getAllUsers());
   return fn(allUsers);
