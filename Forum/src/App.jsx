@@ -22,11 +22,11 @@ import Authenticated from "./Components/hoc/Authenticated";
 import AuthenticatedAdmin from "./Components/hoc/AuthenticatedAdmin";
 
 const App = () => {
-  const [user, loading, error] = useAuthState(auth);
   const [appState, setAppState] = useState({
     user: null,
     userData: null,
   });
+  const [user, loading, error] = useAuthState(auth);
 
   if (appState.user !== user) {
     setAppState({ user });
@@ -60,9 +60,6 @@ const App = () => {
         <Routes>
           <Route index element={<Home />} />
           <Route path="/home" element={<Home />} />
-          {/* <Route path="/create-new-post" element={<CreatePost />} /> */}
-          {/* <Route path='search/:searchTerm' element={<Search />} /> */}
-          {/* <Route path="/profile/:uid" element={<Profile />} /> */}
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="*" element={<NotFound />} />

@@ -1,23 +1,37 @@
 import { Navigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
-import { auth } from "../../config/firebase-config";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import AppContext from "../../AppContext/AppContext";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../config/firebase-config";
 
 const AuthenticatedAdmin = ({ children }) => {
   const [user, loading] = useAuthState(auth);
-  const {userData} = useContext(AppContext);
+  const { userData } = useContext(AppContext);
+  const [ready, setReady] = useState(false);
   const location = useLocation();
 
-  console.log(userData);
+  useEffect(() => {
+    if (userData) {
+      setReady(true);
+    }
+  }, [userData]);
 
-  if (!userData?.admin) {
-    return <Navigate replace to="/home" state={{ from: location }} />;
-  }
-
-  return <>{children}</>;
+  return (
+    <>
+      {!loading && !user ? (
+        <Navigate replace to="/sign-in" state={{ from: location }} />
+      ) : !loading && user && ready && userData.admin ? (
+        children
+      ) : (
+        ready &&
+        !userData.admin && (
+          <Navigate replace to="/home" state={{ from: location }} />
+        )
+      )}
+    </>
+  );
 };
 
 AuthenticatedAdmin.propTypes = {
