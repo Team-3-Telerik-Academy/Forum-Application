@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import Footer from "./Components/Footer/Footer";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getUserData } from "./services/users.service";
-import { app, auth } from "./config/firebase-config";
+import { auth } from "./config/firebase-config";
 import Home from "./Components/Views/Home/Home";
 import CreatePost from "./Components/Views/CreatePost/CreatePost";
 import Posts from "./Components/Views/Posts/Posts";

@@ -89,7 +89,8 @@ const Header = ({ magnifiedGlassColor, inputColor }) => {
             <span id="posts">Created posts: {numbers.posts}</span>
           </div>
         )}
-        {user && <NavLink to="/create-new-post">+ New post</NavLink>}
+        {user && <NavLink style={{visibility: userData?.isBlocked ? 'hidden' : 'visible'}} to="/create-new-post">+ New post</NavLink>}
+        {/* <NavLink to="/create-new-post" style={{visibility: user && userData?.isBlocked ? 'hidden' : 'visible'}}>+ New post</NavLink> */}
       </div>
       {user && (
         <div id="search">
@@ -131,7 +132,7 @@ const Header = ({ magnifiedGlassColor, inputColor }) => {
             className={"dropdown-menu"}
             id={`${showMenu ? "active-dropdown" : ""}`}
           >
-            <NavLink to={'/profile'}>Profile</NavLink>
+            <NavLink to={"/profile"}>Profile</NavLink>
             <hr />
             {userData?.admin && (
               <>

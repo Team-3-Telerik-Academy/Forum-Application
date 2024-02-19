@@ -186,6 +186,7 @@ const Profile = () => {
               minute: "2-digit",
             })}
           </p>
+          {user?.isBlocked && <div id="blocked-info">This profile is blocked!</div>}
         </div>
       </div>
       <div id="profile-main-content">

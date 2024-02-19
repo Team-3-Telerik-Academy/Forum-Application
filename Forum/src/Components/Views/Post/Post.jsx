@@ -150,7 +150,7 @@ const Post = () => {
               value={post?.title}
               onChange={updatePost("title")}
               type="text"
-              cols="100"
+              cols="94"
               rows="1"
             />
           ) : (
@@ -166,8 +166,7 @@ const Post = () => {
                 Like
               </Button>
             )}
-            {(userData?.username === postAuthor?.username ||
-              userData?.admin) && (
+            {userData?.username === postAuthor?.username && (
               <>
                 {toPostEdit ? (
                   <Button onClick={editPostHandle} color={"#d98f40"}>
@@ -178,6 +177,23 @@ const Post = () => {
                     Edit
                   </Button>
                 )}
+                <Button onClick={deletePostHandle} color={"#d98f40"}>
+                  Delete
+                </Button>
+                {!post?.tags && (
+                  <Button
+                    width={"115px"}
+                    onClick={() => setAddTag(true)}
+                    id={"add-tag-button"}
+                    color={"#d98f40"}
+                  >
+                    Add New Tag
+                  </Button>
+                )}
+              </>
+            )}
+            {userData?.admin && (
+              <>
                 <Button onClick={deletePostHandle} color={"#d98f40"}>
                   Delete
                 </Button>
@@ -278,7 +294,13 @@ const Post = () => {
               ))}
             </div>
           )}
-          {post?.tags && <Tag changePost={setChangePost} postId={id} postAuthor={post?.author} />}
+          {post?.tags && (
+            <Tag
+              changePost={setChangePost}
+              postId={id}
+              postAuthor={post?.author}
+            />
+          )}
         </div>
       </div>
       <div id="single-post-create-comment">

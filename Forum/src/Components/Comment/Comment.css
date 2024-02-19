@@ -94,3 +94,9 @@
     word-break: break-all;
     line-height: 1.5;
 }
+
+#delete-comment-admin {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+}

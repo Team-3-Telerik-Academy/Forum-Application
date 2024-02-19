@@ -152,7 +152,6 @@ export const isAdmin = async (username, fn, user) => {
   if (isBlocked) {
     return null;
   }
-  await get(ref(db, `users/${username}`)).val();
   await update(ref(db, `users/${username}`), { admin: !user.admin });
   const allUsers = Object.values(await getAllUsers());
   return fn(allUsers);

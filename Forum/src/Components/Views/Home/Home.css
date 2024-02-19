@@ -8,10 +8,6 @@
   height: 100%;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.85);
-  /* background-image: url("/src/Images/background.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center; */
   align-items: center;
   position: relative;
 }
@@ -76,11 +72,8 @@
 #posts-content {
   display: flex;
   gap: 15px;
-  /* margin-top: 15px; */
   background-color: #2C2F34;
-  /* background-color: rgba(245, 243, 243, 0.186); */
   border-radius: 10px;
-  /* width: 56.8%; */
   width: 70%;
   align-items: center;
   justify-content: center;

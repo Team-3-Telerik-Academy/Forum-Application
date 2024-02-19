@@ -30,10 +30,12 @@ const UploadAvatar = ({ user, updateInfo }) => {
 
     uploadBytes(storageRef, file)
       .then((snapshot) => {
-        getDownloadURL(snapshot.ref).then((downloadURL) => {
-          console.log("File available at", downloadURL);
-          updateUserInfo(user.username, "avatar", downloadURL);
-        }).then(updateInfo);
+        getDownloadURL(snapshot.ref)
+          .then((downloadURL) => {
+            console.log("File available at", downloadURL);
+            updateUserInfo(user.username, "avatar", downloadURL);
+          })
+          .then(updateInfo);
       })
       .catch((error) => {
         console.log(error);
@@ -47,7 +49,8 @@ const UploadAvatar = ({ user, updateInfo }) => {
       .then(() => {
         console.log("Avatar deleted successfully");
         updateUserInfo(user.username, "avatar", null);
-      }).then(updateInfo)
+      })
+      .then(updateInfo)
       .catch((error) => {
         console.log(error);
       });
@@ -57,8 +60,22 @@ const UploadAvatar = ({ user, updateInfo }) => {
     <div id="change-info-right-side">
       <span className="info">
         <strong>Profile Picture:</strong>
-        {user.avatar && (
+        {user.avatar ? (
           <>
+            <input
+              type="file"
+              ref={fileInput}
+              style={{ display: "none" }}
+              onChange={handleFileChange}
+            />
+            <Button
+              id={user?.avatar ? "upload-profile-picture" : "upload-button-top"}
+              onClick={handleUploadClick}
+              color={"#d98f40"}
+              width={"70px"}
+            >
+              Change
+            </Button>
             <Button
               id={"delete-profile-picture"}
               onClick={deleteAvatar}
@@ -68,20 +85,23 @@ const UploadAvatar = ({ user, updateInfo }) => {
             </Button>
             <img src={user.avatar} alt={user.username} />
           </>
+        ) : (
+          <>
+            <input
+              type="file"
+              ref={fileInput}
+              style={{ display: "none" }}
+              onChange={handleFileChange}
+            />
+            <Button
+              id={user?.avatar ? "upload-profile-picture" : "upload-button-top"}
+              onClick={handleUploadClick}
+              color={"#d98f40"}
+            >
+              Upload
+            </Button>
+          </>
         )}
-        <input
-          type="file"
-          ref={fileInput}
-          style={{ display: "none" }}
-          onChange={handleFileChange}
-        />
-        <Button
-          id={user?.avatar ? "upload-profile-picture" : 'upload-button-top'}
-          onClick={handleUploadClick}
-          color={"#d98f40"}
-        >
-          Upload
-        </Button>
       </span>
     </div>
   );

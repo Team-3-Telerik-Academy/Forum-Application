@@ -4,7 +4,7 @@ import './HomePostsTemplate.css';
 const HomePostsTemplate = ({post, goToSinglePost, cursor}) => {
   return (
     <div className="single-post">
-      <h3 style={cursor} onClick={() => goToSinglePost(post.id)}>Title: {post.title}</h3>
+      <h3 style={cursor} onClick={() => goToSinglePost(post.id)}>{post.title}</h3>
       <p>
         By {post.author},{" "}
         {new Date(post.createdOn).toLocaleString("bg-BG", {

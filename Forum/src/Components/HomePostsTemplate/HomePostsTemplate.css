@@ -5,6 +5,7 @@
     top: 8px;
     left: 10px;
     margin: 0;
+    font-size: 20px;
 }
 
 .single-post p {
@@ -17,7 +18,7 @@
 .single-post {
     margin-bottom: 7px;
     width: 470px;
-    /* width: 375px; */
+    font-size: 12px;
     height: 55px;
     background-color: rgba(245, 243, 243, 0.186);
     border-radius: 10px;

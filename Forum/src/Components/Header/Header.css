@@ -155,19 +155,19 @@
   font-size: 15px;
   font-weight: bold;
   margin-top: 5px;
-  margin-right: 105px;
+  margin-right: 110px;
 }
 
 #search #magnifying-glass {
   width: 47px;
-  height: 42px;
+  height: 44px;
   border-radius: 10px;
   border: none;
   background-color: #CD4D95;
   cursor: pointer;
   position: absolute;
   top: 16.3px;
-  right: 104px;
+  right: 109px;
   text-align: center;
 }
 
