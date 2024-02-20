@@ -84,7 +84,6 @@ const AdminDashboardPosts = () => {
                 <th>Category</th>
                 <th>Title</th>
                 <th>Created on</th>
-                {/* <th>Admin</th> */}
                 <th>Delete Post</th>
               </tr>
             </thead>
@@ -103,7 +102,6 @@ const AdminDashboardPosts = () => {
                       minute: "2-digit",
                     })}
                   </td>
-                  {/* <td>No</td> */}
                   <td
                     onClick={() => deletePost(post.id, posts, setPosts)}
                     className="block-cell"

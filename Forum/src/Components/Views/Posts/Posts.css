@@ -1,19 +1,12 @@
 .post-content {
   width: 100%;
   height: 93vh;
-  /* background-color: rgba(0, 0, 0, 0.9); */
   padding-bottom: 40px;
   overflow: scroll;
-  /* background-color: rgba(0, 0, 0, 0.5); */
 }
 
 .title {
   color: #aaaaaa;
-  /* background-color: #2b2d2f; */
-  /* border: 2px solid #CD4D95;
-  box-shadow: 0px 0px 10px 0px #e0b1cbb8; */
-  /* border: 2px solid #d98f40;
-  box-shadow: 0px 0px 10px 0px #d98f40a8; */
   background-color: transparent;
   height: 12vh;
   width: 80%;
@@ -31,10 +24,7 @@ hr {
 }
 
 #posts-count {
-  /* background-color: rgba(0, 0, 0, 0.9); */
   background-color: black;
-  /* background-color: #40344c; */
-  /* background-color: #CD4D95; */
   width: 100px;
   height: 30px;
   border-radius: 10px;
@@ -66,11 +56,6 @@ hr {
   margin-left: 135px;
   margin-top: 20px;
   border-radius: 10px;
-  /* border: 2px solid #CD4D95; */
-  /* box-shadow: 0px 0px 10px 0px #e0b1cbb8; */
-  /* border: 2px solid #d98f40;
-  box-shadow: 0px 0px 10px 0px #d98f40a8; */
-  /* background-color: rgba(0, 0, 0, 0.9); */
 }
 
 .post-header {
@@ -82,7 +67,6 @@ hr {
 }
 
 .post-footer {
-  /* background-color: #222222; */
   height: 5vh;
   border-radius: 5px;
 }
@@ -95,9 +79,6 @@ hr {
 }
 
 #sortBy {
-  /* background-color: black; */
-  /* background-color: #40344c; */
-  /* background-color: #593bb2a2; */
   background-color: black;
   font-size: 15px;
   font-family: -apple-system, BlinkMacSystemFont, segoe ui, Roboto, Helvetica,
@@ -127,6 +108,5 @@ hr {
 }
 
 .title span {
-  /* color: #d98f40; */
   font-size: 15px;
 }

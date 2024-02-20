@@ -88,7 +88,6 @@ const AdminDashboardBlockedUsers = () => {
                 <th>Username</th>
                 <th>First name</th>
                 <th>Last name</th>
-                {/* <th>Admin</th> */}
                 <th>Unblock User</th>
               </tr>
             </thead>
@@ -99,7 +98,6 @@ const AdminDashboardBlockedUsers = () => {
                   <td>{user.username}</td>
                   <td>{user.firstName}</td>
                   <td>{user.lastName}</td>
-                  {/* <td>No</td> */}
                   <td
                     onClick={() => handleUnblockUsers(users, setUsers, user)}
                     className="block-cell"

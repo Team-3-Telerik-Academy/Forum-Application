@@ -1,7 +1,7 @@
 .post-header {
-    /* background-color: #222222; */
     height: 5vh;
     border-radius: 5px;
+    padding: 2px;
 }
 
 #label-sortBy {

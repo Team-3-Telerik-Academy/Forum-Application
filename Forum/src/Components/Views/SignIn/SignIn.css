@@ -4,12 +4,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background-color: rgba(0, 0, 0, 0.9); */
   flex-direction: column;
   gap: 20px;
   font-family: "Gill Sans Ultra Bold", "Helvetica Neue Ultra Bold",
     "Futura Bold", "Arial Black", sans-serif;
-  /* background-color: rgba(0, 0, 0, 0.5); */
 }
 
 .logo img {
@@ -19,9 +17,6 @@
 }
 
 .form-content {
-  /* background-color: #2c2f34; */
-  /* box-shadow: 0px 0px 10px 0px #8ac623a8; */
-  /* background-color: rgba(0, 0, 0, 0.5); */
   border: 0.5px solid white;
   background-color: #171544;
   height: 20vh;
@@ -38,8 +33,6 @@
 .form-content input {
   width: 250px;
   height: 30px;
-  /* background-color: #191919; */
-  /* background-color: #3A2D4C; */
   background-color: #e0b1cb3f;
   color: white;
   border: none;

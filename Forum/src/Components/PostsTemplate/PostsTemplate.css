@@ -1,19 +1,13 @@
 .post-main-content {
-    /* background-color: #2b2d2f; */
     padding: 25px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid #aaaaaa;
     border-top: 1px solid #aaaaaa;
-    /* background-color: rgba(0, 0, 0, 0.5); */
-    /* border: 2px solid #d98f40; */
     border: 2px solid #755dba;
-    /* box-shadow: 0px 0px 5px 0px #d98f40a8; */
     border-radius: 5px;
     margin-top: 20px;
-    /* padding-top: 25px; */
-    /* background-color: #0b0a22; */
     background-color: #171544;
     color: white;
 }
@@ -29,13 +23,11 @@
     opacity: 1.2;
     transform: scale(1.01);
     transition: all 0.4s ease-in-out;
-    /* box-shadow: 0px 0px 10px 0px #d98f40a8; */
-    box-shadow: 0px 0px 10px 0px #593bb2a2;
+    box-shadow: 0px 0px 15px 0px #593bb2a2;
 }
 
 a {
     color: white;
-    /* color: #d98f40; */
     text-decoration: none;
     font-size: 22px;
     font-family: -apple-system, BlinkMacSystemFont, segoe ui, Roboto, Helvetica,
@@ -63,7 +55,6 @@ a {
     width: 65px;
     height: 30px;
     border-radius: 5px;
-    /* background-color: #d98f40; */
     color: white;
     font-size: 15px;
     font-family: montserrat, helvetica neue, Helvetica, Arial, sans-serif;
@@ -87,6 +78,7 @@ a {
 .left {
     align-items: center;
     justify-content: center;
+    gap: 17px;
 }
 
 .left div {

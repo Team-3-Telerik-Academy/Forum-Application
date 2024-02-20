@@ -1,5 +1,4 @@
 .single-post h3 {
-    /* word-break: break-all; */
     word-break: break-word;
     line-height: 1;
     position: absolute;
@@ -22,7 +21,6 @@
     font-size: 12px;
     height: 55px;
     background-color: rgba(245, 243, 243, 0.186);
-    /* background-color: #b9fa88; */
     border-radius: 10px;
     border: 1.5px solid #755dba;
     padding: 10px;

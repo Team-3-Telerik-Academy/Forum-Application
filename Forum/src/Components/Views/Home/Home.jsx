@@ -21,8 +21,6 @@ const Home = () => {
   useEffect(() => {
     getAllPosts().then((result) => {
       const mostLiked = result.sort((a, b) => b.likes - a.likes).slice(0, 10);
-      // const mostCommented = result.sort((a, b) => b.comments - a.comments).slice(0, 10);
-      // console.log(mostCommented);
       const newest = result
         .sort((a, b) => b.createdOn - a.createdOn)
         .slice(0, 10);

@@ -1,6 +1,7 @@
 import "./AdminDashboardHeader.css";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const AdminDashboardHeader = ({
   usersNavColor = "",
@@ -19,7 +20,6 @@ const AdminDashboardHeader = ({
         to="/admin-dashboard"
         style={{
           backgroundColor: usersNavColor ? usersNavColor : "#000000E6",
-          // color: usersFontColor ? usersFontColor : "#d98f40",
           color: usersFontColor ? usersFontColor : "white",
         }}
         className="nav-link-dashboard"
@@ -50,6 +50,15 @@ const AdminDashboardHeader = ({
       </NavLink>
     </div>
   );
+};
+
+AdminDashboardHeader.propTypes = {
+  usersNavColor: PropTypes.string,
+  usersFontColor: PropTypes.string,
+  blockedUsersNavColor: PropTypes.string,
+  blockedUsersFontColor: PropTypes.string,
+  postsNavColor: PropTypes.string,
+  postsFontColor: PropTypes.string,
 };
 
 export default AdminDashboardHeader;

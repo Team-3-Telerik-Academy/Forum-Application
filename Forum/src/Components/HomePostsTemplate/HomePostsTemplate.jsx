@@ -17,9 +17,6 @@ const HomePostsTemplate = ({post, goToSinglePost, cursor}) => {
       </p>
       <span>
         {post?.comments ? Object.keys(post.comments).length : 0} replies
-        {/* <br /> */}
-        {/* {post.category} category */}
-        {/* {post.views} views */}
         <br />
         {post.likes} likes
       </span>

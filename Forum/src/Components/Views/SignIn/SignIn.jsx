@@ -1,6 +1,6 @@
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import "./SignIn.css";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import AppContext from "../../../AppContext/AppContext";
 import { loginUser } from "../../../services/auth.service";
 
@@ -8,13 +8,11 @@ const SignIn = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, setContext } = useContext(AppContext);
+  const { setContext } = useContext(AppContext);
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
-
-  // console.log(location);
 
   const updateForm = (prop) => (e) => {
     setError("");
@@ -23,12 +21,6 @@ const SignIn = () => {
       [prop]: e.target.value,
     });
   };
-
-  // useEffect(() => {
-  //   if (user) {
-  //     navigate(location.state?.from.pathname || "/");
-  //   }
-  // }, [user]);
 
   const onLogin = async () => {
     if (!form.email) {
@@ -57,8 +49,6 @@ const SignIn = () => {
       })
       .then(() => {
         navigate(location.state?.from.pathname || "/");
-
-        // navigate("/");
       })
       .catch((e) => {
         console.log(e.message);

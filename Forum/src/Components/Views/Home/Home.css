@@ -1,20 +1,16 @@
 .home-content {
   margin: 0;
   padding: 0;
-  /* background-image: url("/src/Images/background.png"); */
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  /* background-color: rgba(245, 243, 243, 0.186); */
   color: black;
   display: flex;
   flex-direction: column;
   height: 100%;
   width: 100%;
-  /* background-color: rgba(0, 0, 0, 0.85); */
   align-items: center;
   position: relative;
-  /* background-color: rgba(0, 0, 0, 0.5); */
 }
 
 .categories-content {
@@ -77,13 +73,9 @@
 #posts-content {
   display: flex;
   gap: 15px;
-  /* border: 2px solid pink; */
   border: 2px solid #755dba;
   box-shadow: 0px 0px 10px 0px #593bb2a2;
   background-color: #171544;
-  /* border: 2px solid #CD4D95;
-  box-shadow: 0px 0px 10px 0px #e0b1cbb8; */
-  /* background-color: #2C2F34; */
   border-radius: 10px;
   width: 70%;
   align-items: center;

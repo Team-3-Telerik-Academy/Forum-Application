@@ -150,13 +150,3 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
-
-// 1.Accessible to users with administrative privileges.
-
-// 2.Admin must be able to search for a user by their username, email, or display name.
-
-// 3.Admin must be able to block or unblock individual users. A blocked user must not be able to create posts or comments.
-
-// 4.Admin must be able to delete any post.
-
-// 5.Admin must be able to view a list of all posts with an option to filter and sort them.

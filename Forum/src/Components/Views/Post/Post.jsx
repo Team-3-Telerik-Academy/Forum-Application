@@ -319,20 +319,6 @@ const Post = () => {
             </Button>{" "}
           </>
         )}
-
-        {/* <textarea
-          value={comment}
-          onChange={(e) => {
-            setComment(e.target.value), setCommentError("");
-          }}
-          name="comment"
-          id=""
-          cols="30"
-          rows="10"
-        ></textarea>
-        <Button onClick={addComment} color={"#CD4D95"}>
-          Add Comment
-        </Button> */}
       </div>
     </div>
   );

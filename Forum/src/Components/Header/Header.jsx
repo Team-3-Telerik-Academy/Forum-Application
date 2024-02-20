@@ -1,5 +1,4 @@
 import "./Header.css";
-import PropTypes from "prop-types";
 import { useContext, useEffect, useRef, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import AppContext from "../../AppContext/AppContext";
@@ -7,7 +6,7 @@ import { logoutUser } from "../../services/auth.service";
 import { getAllPosts } from "../../services/posts.service";
 import { getAllUsers } from "../../services/users.service";
 
-const Header = ({ magnifiedGlassColor, inputColor }) => {
+const Header = () => {
   const { user, userData, setAppState } = useContext(AppContext);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
@@ -90,7 +89,6 @@ const Header = ({ magnifiedGlassColor, inputColor }) => {
           </div>
         )}
         {user && <NavLink style={{visibility: userData?.isBlocked ? 'hidden' : 'visible'}} to="/create-new-post">+ New post</NavLink>}
-        {/* <NavLink to="/create-new-post" style={{visibility: user && userData?.isBlocked ? 'hidden' : 'visible'}}>+ New post</NavLink> */}
       </div>
       {user && (
         <div id="search">
@@ -105,7 +103,6 @@ const Header = ({ magnifiedGlassColor, inputColor }) => {
             placeholder="Trends, posts, #tags"
           />
           <div
-            // style={{ backgroundColor: magnifiedGlassColor }}
             id="magnifying-glass"
           >
             <img
@@ -157,11 +154,6 @@ const Header = ({ magnifiedGlassColor, inputColor }) => {
       )}
     </div>
   );
-};
-
-Header.propTypes = {
-  magnifiedGlassColor: PropTypes.string,
-  inputColor: PropTypes.string,
 };
 
 export default Header;
