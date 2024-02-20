@@ -301,7 +301,26 @@ const Post = () => {
       </div>
       <div id="single-post-create-comment">
         {commentError && <div className="comment-error">{commentError}</div>}
-        <textarea
+        {userData?.isBlocked ? null : (
+          <>
+            {" "}
+            <textarea
+              value={comment}
+              onChange={(e) => {
+                setComment(e.target.value), setCommentError("");
+              }}
+              name="comment"
+              id=""
+              cols="30"
+              rows="10"
+            ></textarea>
+            <Button onClick={addComment} color={"#CD4D95"}>
+              Add Comment
+            </Button>{" "}
+          </>
+        )}
+
+        {/* <textarea
           value={comment}
           onChange={(e) => {
             setComment(e.target.value), setCommentError("");
@@ -313,7 +332,7 @@ const Post = () => {
         ></textarea>
         <Button onClick={addComment} color={"#CD4D95"}>
           Add Comment
-        </Button>
+        </Button> */}
       </div>
     </div>
   );
