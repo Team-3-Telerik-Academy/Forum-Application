@@ -181,7 +181,7 @@
     padding: 0;
     font-size: 14px;
     width: 100%;
-    word-break: break-all;
+    word-break: break-word;
     line-height: 1.5;
 }
 

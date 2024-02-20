@@ -91,13 +91,13 @@ const Comment = ({ comment, commentId }) => {
               Object.keys(comment.likedBy).includes(userData?.username) ? (
                 <img
                   onClick={() => handleStopLikingComment(commentId)}
-                  src="/src/Images/full-like.svg"
+                  src="/src/Images/full-like.png"
                   alt="like"
                 />
               ) : (
                 <img
                   onClick={() => handleLikeComment(commentId)}
-                  src="/src/Images/empty-like.svg"
+                  src="/src/Images/empty-like.png"
                   alt="like"
                 />
               )}
@@ -106,13 +106,13 @@ const Comment = ({ comment, commentId }) => {
               Object.keys(comment.dislikedBy).includes(userData?.username) ? (
                 <img
                   onClick={() => handleStopDislikingComment(commentId)}
-                  src="/src/Images/full-dislike.svg"
+                  src="/src/Images/full-dislike.png"
                   alt="dislike"
                 />
               ) : (
                 <img
                   onClick={() => handleDislikeComment(commentId)}
-                  src="/src/Images/empty-dislike.svg"
+                  src="/src/Images/empty-dislike.png"
                   alt="dislike"
                 />
               )}

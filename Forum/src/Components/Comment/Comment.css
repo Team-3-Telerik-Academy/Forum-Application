@@ -27,6 +27,7 @@
 
 .single-post-comment p {
     margin-bottom: 7px;
+    word-break: break-word;
 }
 
 .single-post-comment button {
@@ -92,7 +93,7 @@
     padding: 0;
     font-size: 14px;
     width: 92%;
-    word-break: break-all;
+    word-break: break-word;
     line-height: 1.5;
 }
 
