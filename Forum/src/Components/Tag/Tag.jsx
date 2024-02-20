@@ -21,10 +21,6 @@ const Tag = ({ postId, postAuthor, changePost }) => {
   const { userData } = useContext(AppContext);
   const navigate = useNavigate();
 
-  // console.log(postAuthor);
-  // console.log(userData?.username)
-  // console.log(userData?.admin)
-
   useEffect(() => {
     getTagsOfAPost(postId).then(setTags);
   }, [tag, tags]);

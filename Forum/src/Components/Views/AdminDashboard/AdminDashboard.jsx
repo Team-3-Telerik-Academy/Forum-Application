@@ -50,7 +50,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="dashboard">
-      <AdminDashboardHeader usersNavColor="#d98f40" usersFontColor="black" />
+      <AdminDashboardHeader usersNavColor="white" usersFontColor="black" />
       <div className="dashboard-main">
         <div className="search-box">
           <div className="panel-selected">
@@ -111,7 +111,7 @@ const AdminDashboard = () => {
                     onClick={() => handleAdmin(user.username, setUsers, user)}
                     style={{
                       cursor: "pointer",
-                      backgroundColor: user.admin ? "#89C623" : "#2C2F34",
+                      backgroundColor: user.admin ? "#89C623" : "black",
                       borderBottom: "2px solid #2c2f34",
                     }}
                   >

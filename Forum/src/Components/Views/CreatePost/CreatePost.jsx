@@ -1,10 +1,10 @@
-import { NavLink } from "react-router-dom";
 import "./CreatePost.css";
 import Header from "../../Header/Header";
 import { useContext, useState } from "react";
 import AppContext from "../../../AppContext/AppContext";
 import { addPost } from "../../../services/posts.service";
 import Successfully from "../../Successfully/Successfully";
+import { useNavigate } from "react-router-dom";
 
 const CreatePost = () => {
   const { userData } = useContext(AppContext);
@@ -15,6 +15,8 @@ const CreatePost = () => {
   });
   const [error, setError] = useState("");
   const [isCreated, setIsCreated] = useState(false);
+  
+  const navigate = useNavigate();
 
   const createPost = () => {
     if (userData.isBlocked) {
@@ -107,9 +109,9 @@ const CreatePost = () => {
                   <option value="lego">Lego</option>
                 </select>
               </div>
-              <NavLink className="close-create-post-button" to={"/home"}>
+              <a className="close-create-post-button" onClick={() => navigate(-1)}>
                 X
-              </NavLink>
+              </a>
               <button onClick={createPost} id="create-post-button">
                 Create Post
               </button>

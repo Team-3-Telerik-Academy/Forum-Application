@@ -3,7 +3,7 @@
     width: 100vw;
     position: relative;
     color: white;
-    background-color: rgba(0, 0, 0, 0.9);
+    /* background-color: rgba(0, 0, 0, 0.9); */
     font-family: "Gill Sans Ultra Bold", "Helvetica Neue Ultra Bold",
         "Futura Bold", "Arial Black", sans-serif;
     display: flex;
@@ -30,6 +30,7 @@
 }
 
 #create-post-content {
+    /* background-color: rgb(3, 1, 34); */
     padding-top: 25px;
     display: flex;
     flex-direction: column;
@@ -37,8 +38,9 @@
     justify-content: center;
     margin-top: 20px;
     margin-bottom: 20px;
-    border: 2px solid #cd4d96;
-    box-shadow: 0px 0px 10px 0px #e0b1cbb8;
+    background-color: #0b0a22;
+    border: 2px solid #755dba;
+    box-shadow: 0px 0px 10px 0px #593bb2a2;
     width: 35vw;
     /* height: 80vh; */
     height: 70vh;
@@ -93,7 +95,7 @@ select {
 #create-post-content div input:focus,
 textarea:focus,
 select:focus {
-    border: 1px solid #cd4d96;
+    border: 1px solid #593bb2;
     outline: none;
 }
 
@@ -107,7 +109,9 @@ select:focus {
 }
 
 #create-post-content div select {
-    background-color: #41353B;
+    /* background-color: #41353B; */
+    /* background-color: #3A2D4C; */
+    background-color: #40344c;
     height: 5vh;
     width: 43.3%;
     color: white;
@@ -123,7 +127,7 @@ select:focus {
     width: 45px;
     height: 45px;
     border-radius: 50%;
-    background-color: #cd4d96;
+    background-color: #593bb2;
     color: white;
     font-size: 20px;
     cursor: pointer;
@@ -136,7 +140,7 @@ select:focus {
 #create-post-button {
     width: 150px;
     height: 45px;
-    background-color: #cd4d96;
+    background-color: #593bb2;
     border: none;
     border-radius: 10px;
     color: white;

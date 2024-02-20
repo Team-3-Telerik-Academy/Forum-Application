@@ -31,8 +31,10 @@
   cursor: pointer;
   font-size: 18px;
   font-family: montserrat, helvetica neue, Helvetica, Arial, sans-serif;
-  background-color: #2b2d2fc0;
+  /* background-color: #2b2d2fc0; */
+  background-color: rgba(135, 135, 141, 0.8);
   border-radius: 5px;
+  border: 1px solid white;
   color: white;
   width: 150px;
   text-align: center;
@@ -163,7 +165,7 @@
   height: 44px;
   border-radius: 10px;
   border: none;
-  background-color: #CD4D95;
+  background-color: #593bb2;
   cursor: pointer;
   position: absolute;
   top: 16.3px;

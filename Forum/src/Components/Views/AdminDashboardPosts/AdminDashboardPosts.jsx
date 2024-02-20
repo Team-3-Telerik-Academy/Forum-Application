@@ -41,7 +41,7 @@ const AdminDashboardPosts = () => {
 
   return (
     <div className="dashboard">
-      <AdminDashboardHeader postsNavColor="#d98f40" postsFontColor="black" />
+      <AdminDashboardHeader postsNavColor="white" postsFontColor="black" />
       <div className="dashboard-main">
         <div className="search-box">
           <div className="panel-selected">

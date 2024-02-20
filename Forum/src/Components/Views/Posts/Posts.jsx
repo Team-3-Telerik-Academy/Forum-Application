@@ -12,7 +12,11 @@ import {
   handleDislikePost,
   handleLikePost,
 } from "../../../helpers/like-dislike-delete-functions";
-import { searchPostBy, setValue, sortPosts } from "../../../helpers/filter-sort-helpers";
+import {
+  searchPostBy,
+  setValue,
+  sortPosts,
+} from "../../../helpers/filter-sort-helpers";
 
 const Posts = () => {
   const navigate = useNavigate();
@@ -56,7 +60,9 @@ const Posts = () => {
 
   return (
     <div className="post-content">
-      <Header magnifiedGlassColor="#d98f40" inputColor={"#d98f40"} />
+      {/* <Header magnifiedGlassColor="#d98f40" inputColor={"#d98f40"} /> */}
+      <Header/>
+      {/* <Header magnifiedGlassColor="black" inputColor={"black"} /> */}
       <div className="title">
         <span>{type.charAt(0).toUpperCase() + type.slice(1)} category</span>
         <hr />

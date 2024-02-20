@@ -78,11 +78,6 @@ const Post = () => {
   };
 
   const addComment = () => {
-    if (userData.isBlocked) {
-      setCommentError("Blocked users can't create comments!");
-      return;
-    }
-
     addCommentPost(
       userData.username,
       id,
@@ -141,7 +136,7 @@ const Post = () => {
 
   return (
     <div id="single-post-view">
-      <Header magnifiedGlassColor="#d98f40" inputColor={"#d98f40"} />
+      <Header inputColor={"#CD4D95"} />
       <div id="single-post-title">
         {error && <div className="error">{error}</div>}
         <div id="title-and-buttons">
@@ -158,26 +153,26 @@ const Post = () => {
           )}
           <span id="single-post-buttons">
             {post?.likedBy && post?.likedBy[userData?.username] ? (
-              <Button onClick={dislikePostHandle} color={"#d98f40"}>
+              <Button onClick={dislikePostHandle} color={"#CD4D95"}>
                 Dislike
               </Button>
             ) : (
-              <Button onClick={likePostHandle} color={"#d98f40"}>
+              <Button onClick={likePostHandle} color={"#CD4D95"}>
                 Like
               </Button>
             )}
-            {userData?.username === postAuthor?.username && (
+            {userData?.username === postAuthor?.username ? (
               <>
                 {toPostEdit ? (
-                  <Button onClick={editPostHandle} color={"#d98f40"}>
+                  <Button onClick={editPostHandle} color={"#CD4D95"}>
                     Done
                   </Button>
                 ) : (
-                  <Button onClick={() => setToPostEdit(true)} color={"#d98f40"}>
+                  <Button onClick={() => setToPostEdit(true)} color={"#CD4D95"}>
                     Edit
                   </Button>
                 )}
-                <Button onClick={deletePostHandle} color={"#d98f40"}>
+                <Button onClick={deletePostHandle} color={"#CD4D95"}>
                   Delete
                 </Button>
                 {!post?.tags && (
@@ -185,29 +180,30 @@ const Post = () => {
                     width={"115px"}
                     onClick={() => setAddTag(true)}
                     id={"add-tag-button"}
-                    color={"#d98f40"}
+                    color={"#CD4D95"}
                   >
                     Add New Tag
                   </Button>
                 )}
               </>
-            )}
-            {userData?.admin && (
-              <>
-                <Button onClick={deletePostHandle} color={"#d98f40"}>
-                  Delete
-                </Button>
-                {!post?.tags && (
-                  <Button
-                    width={"115px"}
-                    onClick={() => setAddTag(true)}
-                    id={"add-tag-button"}
-                    color={"#d98f40"}
-                  >
-                    Add New Tag
+            ) : (
+              userData?.admin && (
+                <>
+                  <Button onClick={deletePostHandle} color={"#CD4D95"}>
+                    Delete
                   </Button>
-                )}
-              </>
+                  {!post?.tags && (
+                    <Button
+                      width={"115px"}
+                      onClick={() => setAddTag(true)}
+                      id={"add-tag-button"}
+                      color={"#d98f40"}
+                    >
+                      Add New Tag
+                    </Button>
+                  )}
+                </>
+              )
             )}
           </span>
         </div>
@@ -241,7 +237,7 @@ const Post = () => {
             <Button
               onClick={addNewTag}
               id={"add-first-tag-button"}
-              color={"#d98f40"}
+              color={"#CD4D95"}
             >
               Add
             </Button>
@@ -315,7 +311,7 @@ const Post = () => {
           cols="30"
           rows="10"
         ></textarea>
-        <Button onClick={addComment} color={"#d98f40"}>
+        <Button onClick={addComment} color={"#CD4D95"}>
           Add Comment
         </Button>
       </div>

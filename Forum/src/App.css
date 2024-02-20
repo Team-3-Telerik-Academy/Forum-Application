@@ -1,6 +1,12 @@
 #root {
   min-width: 1280px;
   height: 100%;
+  background-image: url("/src/Images/background.png");
+  /* background-image: url("/src/Images/1.png"); */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  /* background-color: rgba(0, 0, 0, 0.9); */
 }
 
 body {

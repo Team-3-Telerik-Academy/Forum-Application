@@ -5,7 +5,7 @@
     justify-content: center;
     height: 100vh;
     width: 100vw;
-    background-color: rgba(0, 0, 0, 0.9);
+    /* background-color: rgba(0, 0, 0, 0.9); */
     font-family: "Gill Sans Ultra Bold", "Helvetica Neue Ultra Bold",
         "Futura Bold", "Arial Black", sans-serif;
     gap: 20px;
@@ -18,7 +18,9 @@
     justify-content: center;
     height: 35vh;
     width: 20vw;
-    background-color: #2C2F34;
+    /* background-color: #2C2F34; */
+    border: 0.5px solid white;
+    background-color: #171544;
     padding: 6vh;
     border-radius: 10px;
     gap: 10px;
@@ -31,13 +33,13 @@
     border: none;
     padding: 10px;
     color: white;
-    background-color: #191919;
+    background-color: #e0b1cb3f;
     font-family: "Gill Sans Ultra Bold", "Helvetica Neue Ultra Bold",
         "Futura Bold", "Arial Black", sans-serif;
 }
 
 #sign-up input:focus {
-    border: 1px solid #89c623;
+    border: 1px solid white;
     outline: none;
 }
 

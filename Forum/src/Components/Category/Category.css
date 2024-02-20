@@ -17,6 +17,12 @@
     margin-bottom: 10px;
 }
 
+#category-content {
+    border: 1px solid white;
+    border-radius: 10px;
+    /* box-shadow: 0px 0px 5px 0px white; */
+}
+
 #posts {
     margin-top: 5px;
     font-size: 2.2vh;
@@ -28,10 +34,13 @@
     cursor: pointer;
     font-family: "Gill Sans Ultra Bold", "Helvetica Neue Ultra Bold",
         "Futura Bold", "Arial Black", sans-serif;
+    opacity: 0.8;
+    transition: all 0.3s ease-in-out;
 }
 
 #image-content:hover {
-    opacity: 0.8;
+    opacity: 1.5;
+    transform: scale(1.05);
 }
 
 #image-content img {

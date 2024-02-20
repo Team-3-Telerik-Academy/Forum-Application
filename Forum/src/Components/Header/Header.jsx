@@ -95,7 +95,7 @@ const Header = ({ magnifiedGlassColor, inputColor }) => {
       {user && (
         <div id="search">
           <input
-            onFocus={(e) => (e.target.style.border = `3px solid ${inputColor}`)}
+            onFocus={(e) => (e.target.style.border = `3px solid #593bb2`)}
             onBlur={(e) => (e.target.style.border = "")}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -105,7 +105,7 @@ const Header = ({ magnifiedGlassColor, inputColor }) => {
             placeholder="Trends, posts, #tags"
           />
           <div
-            style={{ backgroundColor: magnifiedGlassColor }}
+            // style={{ backgroundColor: magnifiedGlassColor }}
             id="magnifying-glass"
           >
             <img
@@ -147,7 +147,7 @@ const Header = ({ magnifiedGlassColor, inputColor }) => {
         </div>
       ) : (
         <div className="button-content">
-          <NavLink style={{ backgroundColor: "#CD4D95" }} to={"/sign-in"}>
+          <NavLink style={{ backgroundColor: "#593bb2" }} to={"/sign-in"}>
             Sign in
           </NavLink>
           <NavLink style={{ backgroundColor: "#89C623" }} to={"/sign-up"}>

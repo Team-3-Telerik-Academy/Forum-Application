@@ -19,7 +19,8 @@ const AdminDashboardHeader = ({
         to="/admin-dashboard"
         style={{
           backgroundColor: usersNavColor ? usersNavColor : "#000000E6",
-          color: usersFontColor ? usersFontColor : "#d98f40",
+          // color: usersFontColor ? usersFontColor : "#d98f40",
+          color: usersFontColor ? usersFontColor : "white",
         }}
         className="nav-link-dashboard"
       >
@@ -30,7 +31,7 @@ const AdminDashboardHeader = ({
           backgroundColor: blockedUsersNavColor
             ? blockedUsersNavColor
             : "#000000E6",
-          color: blockedUsersFontColor ? blockedUsersFontColor : "#d98f40",
+          color: blockedUsersFontColor ? blockedUsersFontColor : "white",
         }}
         to="/admin-dashboard-blocked-users"
         className="nav-link-dashboard"
@@ -41,7 +42,7 @@ const AdminDashboardHeader = ({
         to="/admin-dashboard-posts"
         style={{
           backgroundColor: postsNavColor ? postsNavColor : "#000000E6",
-          color: postsFontColor ? postsFontColor : "#d98f40",
+          color: postsFontColor ? postsFontColor : "white",
         }}
         className="nav-link-dashboard"
       >

@@ -119,7 +119,7 @@ const Comment = ({ comment, commentId }) => {
               <span>{comment.dislikes}</span>
             </div>
           </div>
-          {userData?.username === author?.username && (
+          {userData?.username === author?.username ? (
             <>
               <Button
                 id="edit-comment-button"
@@ -138,12 +138,9 @@ const Comment = ({ comment, commentId }) => {
                 Delete
               </Button>
             </>
-          )}
-          {userData?.admin && (
-            <Button id={'delete-comment-admin'} onClick={() => deleteComment(commentId)} color={"#d98f40"}>
-              Delete
-            </Button>
-          )}
+          ) : userData?.admin && <Button id={'delete-comment-admin'} onClick={() => deleteComment(commentId)} color={"#d98f40"}>
+          Delete
+        </Button>}
           <span>
             {author?.firstName} {author?.lastName}
           </span>

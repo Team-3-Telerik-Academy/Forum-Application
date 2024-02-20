@@ -7,7 +7,12 @@
     border-radius: 5px;
     width: 50%;
     position: relative;
-    background-color: #2b2d2f;
+    /* background-color: #2b2d2f; */
+    /* border: 2px solid #d98f40;
+    box-shadow: 0px 0px 10px 0px #d98f40a8; */
+    border: 2px solid #755dba;
+    box-shadow: 0px 0px 10px 0px #593bb2a2;
+    background-color: #171544;
 }
 
 #change-info-right-side #upload-profile-picture {
@@ -39,9 +44,11 @@
     top: 20%;
     left: 26%;
     border-radius: 5px;
-    border: 2px solid #d98f40;
+    /* border: 2px solid #d98f40; */
+    /* border: 2px solid #40344c;
+    box-shadow: 0px 0px 10px 0px #d98f4085; */
+    box-shadow: 0px 0px 5px 0px #593bb2a2;
     padding: 10px;
-    box-shadow: 0px 0px 10px 0px #d98f4085;
 }
 
 #change-info-right-side span {

@@ -42,7 +42,7 @@ const AdminDashboardBlockedUsers = () => {
 
   return (
     <div className="dashboard">
-      <AdminDashboardHeader blockedUsersNavColor="#d98f40" blockedUsersFontColor="black" />
+      <AdminDashboardHeader blockedUsersNavColor="white" blockedUsersFontColor="black" />
       <div className="dashboard-main">
         <div className="search-box">
           <div className="panel-selected">

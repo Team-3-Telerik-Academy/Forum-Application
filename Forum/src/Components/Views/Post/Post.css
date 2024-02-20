@@ -1,9 +1,10 @@
 #single-post-view {
     width: 100%;
     height: 90vh;
-    background-color: rgba(0, 0, 0, 0.9);
+    /* background-color: rgba(0, 0, 0, 0.9); */
     padding-bottom: 60px;
     overflow: scroll;
+    /* background-color: rgba(0, 0, 0, 0.5); */
 }
 
 #single-post-view textarea {
@@ -12,7 +13,8 @@
 
 #single-post-view textarea:focus {
     outline: none;
-    border: 1px solid #d98f40;
+    /* border: 1px solid #d98f40; */
+    border: 2px solid #755dba;
 }
 
 #single-post-view hr {
@@ -35,7 +37,15 @@
 
 #single-post-title {
     color: #aaaaaa;
-    background-color: #2b2d2f;
+    /* background-color: rgb(13, 7, 92); */
+    border: 2px solid #755dba;
+    box-shadow: 0px 0px 10px 0px #593bb2a2;
+    background-color: #171544;
+    /* border: 2px solid #cd4d96;
+    box-shadow: 0px 0px 10px 0px #e0b1cbb8; */
+    /* border: 2px solid #d98f40;
+    box-shadow: 0px 0px 10px 0px #d98f40a8; */
+    /* background-color: #2b2d2f; */
     width: 80%;
     border-radius: 5px;
     font-size: 20px;
@@ -94,7 +104,7 @@
     width: 65px;
     height: 30px;
     border-radius: 5px;
-    background-color: #d98f40;
+    /* background-color: #d98f40; */
     color: white;
     font-size: 15px;
     font-family: montserrat, helvetica neue, Helvetica, Arial, sans-serif;
@@ -107,7 +117,12 @@
 
 #single-post-content {
     color: white;
-    background-color: #2b2d2f;
+    /* background-color: #2b2d2f; */
+    /* border: 2px solid #d98f40;
+    box-shadow: 0px 0px 10px 0px #d98f40a8; */
+    border: 2px solid #755dba;
+    box-shadow: 0px 0px 10px 0px #593bb2a2;
+    background-color: #171544;
     width: 80.7%;
     border-radius: 5px;
     font-size: 20px;
@@ -220,7 +235,7 @@
     width: 150px;
     height: 40px;
     border-radius: 5px;
-    background-color: #d98f40;
+    /* background-color: #d98f40; */
     color: white;
     font-size: 16px;
     font-family: montserrat, helvetica neue, Helvetica, Arial, sans-serif;
@@ -237,7 +252,11 @@
     padding: 10px;
     margin-top: 20px;
     margin-bottom: 20px;
-    background-color: #2b2d2f;
+    /* background-color: #2b2d2f; */
+    background-color: transparent;
+    /* border: 2px solid #d98f40; */
+    box-shadow: 0px 0px 10px 0px #593bb2a2;
+    background-color: #171544;
     color: white;
     font-size: 16px;
     font-family: montserrat, helvetica neue, Helvetica, Arial, sans-serif;
@@ -246,5 +265,5 @@
 
 #single-post-create-comment textarea:focus {
     outline: none;
-    border: 1px solid #d98f40;
+    border: 2px solid #755dba;
 }
