@@ -6,6 +6,14 @@ import AppContext from "../../AppContext/AppContext";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../config/firebase-config";
 
+/**
+ * Higher-order component that provides authentication and authorization for admin users.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {ReactNode} props.children - The child components to render if the user is authenticated and authorized.
+ * @returns {ReactNode} - The rendered child components if the user is authenticated and authorized, or redirects to the sign-in or home page.
+ */
 const AuthenticatedAdmin = ({ children }) => {
   const [user, loading] = useAuthState(auth);
   const { userData } = useContext(AppContext);

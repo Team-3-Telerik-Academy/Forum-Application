@@ -11,6 +11,16 @@ import AppContext from "../../AppContext/AppContext";
 import PropTypes from "prop-types";
 import "./Tag.css";
 
+/**
+ * Renders a Tag component.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {string} props.postId - The ID of the post.
+ * @param {string} props.postAuthor - The author of the post.
+ * @param {function} props.changePost - A function to trigger post change.
+ * @returns {JSX.Element} The rendered Tag component.
+ */
 const Tag = ({ postId, postAuthor, changePost }) => {
   const [tags, setTags] = useState(null);
   const [tag, setTag] = useState("");

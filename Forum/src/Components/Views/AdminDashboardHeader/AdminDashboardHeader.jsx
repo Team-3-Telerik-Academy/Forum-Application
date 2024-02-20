@@ -3,6 +3,19 @@ import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
+/**
+ * Renders the header component for the admin dashboard.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {string} [props.usersNavColor=""] - The background color of the "Users" navigation link.
+ * @param {string} [props.usersFontColor=""] - The font color of the "Users" navigation link.
+ * @param {string} [props.blockedUsersNavColor=""] - The background color of the "Blocked users" navigation link.
+ * @param {string} [props.blockedUsersFontColor=""] - The font color of the "Blocked users" navigation link.
+ * @param {string} [props.postsNavColor=""] - The background color of the "Posts" navigation link.
+ * @param {string} [props.postsFontColor=""] - The font color of the "Posts" navigation link.
+ * @returns {JSX.Element} The rendered AdminDashboardHeader component.
+ */
 const AdminDashboardHeader = ({
   usersNavColor = "",
   usersFontColor = "",

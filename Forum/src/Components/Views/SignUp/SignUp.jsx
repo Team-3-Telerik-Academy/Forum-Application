@@ -9,6 +9,12 @@ import {
 import { registerUser } from "../../../services/auth.service";
 import Successfully from "../../Successfully/Successfully";
 
+/**
+ * Sign up component for user registration.
+ *
+ * @component
+ * @returns {JSX.Element} The sign up form.
+ */
 const SignUp = () => {
   const navigate = useNavigate();
   const {setContext } = useContext(AppContext);

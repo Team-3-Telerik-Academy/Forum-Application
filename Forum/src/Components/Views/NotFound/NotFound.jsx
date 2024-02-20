@@ -1,6 +1,11 @@
 import { NavLink } from 'react-router-dom';
 import './NotFound.css';
 
+/**
+ * Renders the NotFound component.
+ * 
+ * @returns {JSX.Element} The rendered NotFound component.
+ */
 const NotFound = () => {
   return (
     <div id='not-found-background'>

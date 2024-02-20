@@ -5,6 +5,11 @@ import { useEffect, useState } from "react";
 import { blockUser } from "../../../services/users.service";
 import { isAdmin } from "../../../services/users.service";
 
+/**
+ * Renders the admin dashboard component.
+ * 
+ * @returns {JSX.Element} The admin dashboard component.
+ */
 const AdminDashboard = () => {
   const [users, setUsers] = useState(null);
   const [selected, setSelected] = useState("firstName");

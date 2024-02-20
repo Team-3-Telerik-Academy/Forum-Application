@@ -4,6 +4,11 @@ import { useContext, useState } from "react";
 import AppContext from "../../../AppContext/AppContext";
 import { loginUser } from "../../../services/auth.service";
 
+/**
+ * Renders the SignIn component.
+ * 
+ * @returns {JSX.Element} The rendered SignIn component.
+ */
 const SignIn = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();

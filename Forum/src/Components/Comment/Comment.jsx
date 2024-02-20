@@ -14,6 +14,15 @@ import {
 import Button from "../Button/Button";
 import { getUserByUsername } from "../../services/users.service";
 
+/**
+ * Renders a comment component.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Object} props.comment - The comment object.
+ * @param {string} props.commentId - The comment ID.
+ * @returns {JSX.Element} The rendered Comment component.
+ */
 const Comment = ({ comment, commentId }) => {
   const [editedComment, setEditedComment] = useState("");
   const [isCommentEdited, setIsCommentEdited] = useState(null);

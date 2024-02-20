@@ -18,6 +18,11 @@ import AppContext from "../../../AppContext/AppContext";
 import Comment from "../../Comment/Comment";
 import Tag from "../../Tag/Tag";
 
+/**
+ * Renders the Post component.
+ *
+ * @returns {JSX.Element} The rendered Post component.
+ */
 const Post = () => {
   const [post, setPost] = useState(null);
   const [toPostEdit, setToPostEdit] = useState(false);

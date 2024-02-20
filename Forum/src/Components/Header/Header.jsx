@@ -6,6 +6,11 @@ import { logoutUser } from "../../services/auth.service";
 import { getAllPosts } from "../../services/posts.service";
 import { getAllUsers } from "../../services/users.service";
 
+/**
+ * Header component for the forum application.
+ *
+ * @returns {JSX.Element} The rendered Header component.
+ */
 const Header = () => {
   const { user, userData, setAppState } = useContext(AppContext);
   const navigate = useNavigate();

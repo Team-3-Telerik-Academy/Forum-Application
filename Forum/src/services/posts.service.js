@@ -12,6 +12,11 @@ import {
 import { db } from "../config/firebase-config";
 import { updateUserPosts } from "./users.service";
 
+/**
+ * Converts a Firebase snapshot of posts into an array of post objects.
+ * @param {Object} snapshot - The Firebase snapshot containing the posts data.
+ * @returns {Array} - An array of post objects.
+ */
 export const fromPostsDocument = (snapshot) => {
   try {
     const postsDocument = snapshot.val();
@@ -39,6 +44,12 @@ export const fromPostsDocument = (snapshot) => {
   }
 };
 
+/**
+ * Converts a Firebase snapshot of comments into an array of comment objects.
+ * @param {Object} snapshot - The Firebase snapshot of comments.
+ * @returns {Array} - An array of comment objects.
+ * @throws {Error} - If the snapshot value is null or undefined, or if a comment is null or undefined.
+ */
 export const fromCommentsDocument = (snapshot) => {
   try {
     const commentsDocument = snapshot.val();
@@ -67,6 +78,16 @@ export const fromCommentsDocument = (snapshot) => {
   }
 };
 
+/**
+ * Adds a new post to the database.
+ * 
+ * @param {string} title - The title of the post.
+ * @param {string} content - The content of the post.
+ * @param {string} category - The category of the post.
+ * @param {string} username - The username of the author.
+ * @returns {Promise<Object>} - A promise that resolves to the newly added post.
+ * @throws {Error} - If an error occurs while adding the post.
+ */
 export const addPost = async (title, content, category, username) => {
   try {
     const result = await push(ref(db, "posts"), {
@@ -88,6 +109,13 @@ export const addPost = async (title, content, category, username) => {
   }
 };
 
+/**
+ * Edits a post with the specified postId, title, and content.
+ * @param {string} postId - The ID of the post to edit.
+ * @param {string} title - The new title for the post.
+ * @param {string} content - The new content for the post.
+ * @returns {Promise<void>} - A promise that resolves when the post is successfully edited.
+ */
 export const editPost = async (postId, title, content) => {
   try {
     const postToEdit = ref(db, `/posts/${postId}`);
@@ -97,6 +125,14 @@ export const editPost = async (postId, title, content) => {
   }
 };
 
+/**
+ * Deletes a post from the admin panel.
+ * 
+ * @param {string} id - The ID of the post to delete.
+ * @param {Array} posts - The array of posts.
+ * @param {Function} setFn - The function to update the posts array.
+ * @returns {Promise<void>} - A promise that resolves when the post is deleted.
+ */
 export const adminPanelDeletePost = async (id, posts, setFn) => {
   const postToDelete = ref(db, `/posts/${id}`);
   const author = await get(ref(db, `/posts/${id}/author`));
@@ -107,6 +143,13 @@ export const adminPanelDeletePost = async (id, posts, setFn) => {
   await remove(postToDelete);
 };
 
+/**
+ * Deletes a post and its associated comments and likes.
+ * @param {string} postId - The ID of the post to be deleted.
+ * @param {string} username - The username of the user who owns the post.
+ * @returns {Promise<void>} - A promise that resolves when the post and its associated data are successfully deleted.
+ * @throws {Error} - If an error occurs during the deletion process.
+ */
 export const deletePost = async (postId, username) => {
   try {
     const postComments = await get(ref(db, `/posts/${postId}/comments`));
@@ -137,6 +180,12 @@ export const deletePost = async (postId, username) => {
   }
 };
 
+/**
+ * Retrieves a post by its ID.
+ * @param {string} id - The ID of the post to retrieve.
+ * @returns {Promise<Object>} - A promise that resolves to the retrieved post object.
+ * @throws {Error} - If the post with the specified ID does not exist.
+ */
 export const getPostById = async (id) => {
   try {
     const result = await get(ref(db, `posts/${id}`));
@@ -156,6 +205,12 @@ export const getPostById = async (id) => {
   }
 };
 
+/**
+ * Retrieves the liked posts of a user.
+ * @param {string} username - The username of the user.
+ * @returns {Promise<Array<Object>>} - A promise that resolves to an array of liked posts.
+ * @throws {Error} - If the user does not exist.
+ */
 export const getLikedPosts = async (username) => {
   try {
     const snapshot = await get(ref(db, `users/${username}`));
@@ -189,6 +244,11 @@ export const getLikedPosts = async (username) => {
   }
 };
 
+/**
+ * Retrieves posts by author from the database.
+ * @param {string} username - The username of the author.
+ * @returns {Promise<Array>} - A promise that resolves to an array of posts.
+ */
 export const getPostsByAuthor = async (username) => {
   try {
     const snapshot = await get(
@@ -203,6 +263,11 @@ export const getPostsByAuthor = async (username) => {
   }
 };
 
+/**
+ * Retrieves posts by category from the database.
+ * @param {string} category - The category of the posts to retrieve.
+ * @returns {Promise<Array>} - A promise that resolves to an array of posts.
+ */
 export const getPostsByCategory = async (category) => {
   try {
     const snapshot = await get(
@@ -221,6 +286,10 @@ export const getPostsByCategory = async (category) => {
   }
 };
 
+/**
+ * Retrieves all posts from the database.
+ * @returns {Promise<Array>} A promise that resolves to an array of posts.
+ */
 export const getAllPosts = async () => {
   try {
     const snapshot = await get(ref(db, "posts"));
@@ -235,6 +304,12 @@ export const getAllPosts = async () => {
   }
 };
 
+/**
+ * Retrieves the tags of a post from the database.
+ * @param {string} id - The ID of the post.
+ * @returns {Promise<Object<string>>} The tags of the post.
+ * @throws {Error} If the post with the given ID does not exist.
+ */
 export const getTagsOfAPost = async (id) => {
   try {
     const result = await get(ref(db, `posts/${id}/tags`));
@@ -250,6 +325,12 @@ export const getTagsOfAPost = async (id) => {
   }
 };
 
+/**
+ * Adds a tag to a post.
+ * @param {string} postId - The ID of the post.
+ * @param {string} tag - The tag to be added.
+ * @returns {Promise<void>} - A promise that resolves when the tag is added successfully.
+ */
 export const addTagPost = async (
   postId,
   tag
@@ -263,6 +344,13 @@ export const addTagPost = async (
   }
 };
 
+/**
+ * Edits a tag post.
+ * @param {string} postId - The ID of the post.
+ * @param {string} tagId - The ID of the tag.
+ * @param {string} content - The new content for the tag.
+ * @returns {Promise<void>} - A promise that resolves when the tag post is edited successfully.
+ */
 export const editTagPost = async (postId, tagId, content) => {
   try {
     const tagToEdit = ref(db, `/posts/${postId}/tags/${tagId}`);
@@ -272,6 +360,14 @@ export const editTagPost = async (postId, tagId, content) => {
   }
 };
 
+/**
+ * Deletes a tag from a post.
+ * 
+ * @param {string} postId - The ID of the post.
+ * @param {string} tagId - The ID of the tag to be deleted.
+ * @returns {Promise<void>} - A promise that resolves when the tag is successfully deleted.
+ * @throws {Error} - If an error occurs while deleting the tag.
+ */
 export const deleteTagPost = async (postId, tagId) => {
   try {
     const tagToDelete = ref(db, `/posts/${postId}/tags/${tagId}`);
@@ -281,6 +377,17 @@ export const deleteTagPost = async (postId, tagId) => {
   }
 };
 
+/**
+ * Adds a comment to a post.
+ * 
+ * @param {string} username - The username of the user adding the comment.
+ * @param {string} postId - The ID of the post to add the comment to.
+ * @param {string} comment - The content of the comment.
+ * @param {string} firstName - The first name of the user adding the comment.
+ * @param {string} lastName - The last name of the user adding the comment.
+ * @returns {Promise} A promise that resolves when the comment is successfully added.
+ * @throws {Error} If an error occurs while adding the comment.
+ */
 export const addCommentPost = async (
   username,
   postId,
@@ -310,6 +417,14 @@ export const addCommentPost = async (
   }
 };
 
+/**
+ * Edits a comment post.
+ * 
+ * @param {string} postId - The ID of the post.
+ * @param {string} commentId - The ID of the comment.
+ * @param {string} content - The new content of the comment.
+ * @returns {Promise<void>} - A promise that resolves when the comment post is edited successfully.
+ */
 export const editCommentPost = async (postId, commentId, content) => {
   try {
     const commentToEdit = ref(db, `/posts/${postId}/comments/${commentId}`);
@@ -319,6 +434,15 @@ export const editCommentPost = async (postId, commentId, content) => {
   }
 };
 
+/**
+ * Deletes a comment post.
+ * 
+ * @param {string} postId - The ID of the post.
+ * @param {string} commentId - The ID of the comment.
+ * @param {string} username - The username of the user.
+ * @returns {Promise<void>} - A promise that resolves when the comment post is deleted.
+ * @throws {Error} - If an error occurs during the deletion process.
+ */
 export const deleteCommentPost = async (postId, commentId, username) => {
   try {
     const commentToDelete = ref(db, `/posts/${postId}/comments/${commentId}`);
@@ -332,6 +456,12 @@ export const deleteCommentPost = async (postId, commentId, username) => {
   }
 };
 
+/**
+ * Retrieves the comments of a post from the database.
+ * @param {string} id - The ID of the post.
+ * @returns {Promise<Object>} - A promise that resolves to the comments of the post.
+ * @throws {Error} - If the post with the given ID does not exist.
+ */
 export const getCommentsOfAPost = async (id) => {
   try {
     const result = await get(ref(db, `posts/${id}/comments`));
@@ -347,6 +477,15 @@ export const getCommentsOfAPost = async (id) => {
   }
 };
 
+/**
+ * Updates the likes and dislikes of a comment in the database.
+ * 
+ * @param {string} postId - The ID of the post containing the comment.
+ * @param {string} username - The username of the user performing the action.
+ * @param {string} commentId - The ID of the comment to be liked.
+ * @returns {Promise<void>} - A promise that resolves when the update is complete.
+ * @throws {Error} - If there is an error updating the comment likes.
+ */
 export const likeComment = async (postId, username, commentId) => {
   try {
     const updateCommentLikes = {};
@@ -380,6 +519,14 @@ export const likeComment = async (postId, username, commentId) => {
   }
 };
 
+/**
+ * Decreases the like count of a comment and removes the user's like from the comment.
+ * @param {string} postId - The ID of the post containing the comment.
+ * @param {string} username - The username of the user who liked the comment.
+ * @param {string} commentId - The ID of the comment.
+ * @returns {Promise<void>} - A promise that resolves when the comment likes are updated successfully.
+ * @throws {Error} - If an error occurs while updating the comment likes.
+ */
 export const stopLikingComment = async (postId, username, commentId) => {
   try {
     const updateCommentLikes = {};
@@ -399,6 +546,14 @@ export const stopLikingComment = async (postId, username, commentId) => {
   }
 };
 
+/**
+ * Dislikes a comment on a post.
+ * @param {string} postId - The ID of the post.
+ * @param {string} username - The username of the user disliking the comment.
+ * @param {string} commentId - The ID of the comment.
+ * @returns {Promise<void>} - A promise that resolves when the comment is disliked.
+ * @throws {Error} - If an error occurs during the process.
+ */
 export const dislikeComment = async (postId, username, commentId) => {
   try {
     const updateCommentDislikes = {};
@@ -432,6 +587,14 @@ export const dislikeComment = async (postId, username, commentId) => {
   }
 };
 
+/**
+ * Decreases the dislike count of a comment and removes the user's dislike from the comment.
+ * @param {string} postId - The ID of the post containing the comment.
+ * @param {string} username - The username of the user who disliked the comment.
+ * @param {string} commentId - The ID of the comment.
+ * @returns {Promise<void>} - A promise that resolves when the comment dislikes are updated successfully.
+ * @throws {Error} - If an error occurs while updating the comment dislikes.
+ */
 export const stopDislikingComment = async (postId, username, commentId) => {
   try {
     const updateCommentDislikes = {};
@@ -451,6 +614,14 @@ export const stopDislikingComment = async (postId, username, commentId) => {
   }
 };
 
+/**
+ * Increases the like count of a post and updates the user's liked posts.
+ * 
+ * @param {string} username - The username of the user liking the post.
+ * @param {string} postId - The ID of the post being liked.
+ * @returns {Promise<void>} - A promise that resolves when the like count and user's liked posts are updated.
+ * @throws {Error} - If an error occurs while updating the like count or user's liked posts.
+ */
 export const likePost = async (username, postId) => {
   try {
     const updateLikes = {};
@@ -468,6 +639,13 @@ export const likePost = async (username, postId) => {
   }
 };
 
+/**
+ * Decreases the like count of a post and removes the user's like from the post.
+ * Also updates the user's liked posts count.
+ * @param {string} username - The username of the user disliking the post.
+ * @param {string} postId - The ID of the post to be disliked.
+ * @returns {Promise<void>} - A promise that resolves when the update is completed.
+ */
 export const dislikePost = async (username, postId) => {
   try {
     const updateLikes = {};

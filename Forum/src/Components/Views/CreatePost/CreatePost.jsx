@@ -6,6 +6,11 @@ import { addPost } from "../../../services/posts.service";
 import Successfully from "../../Successfully/Successfully";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Renders a component for creating a new post.
+ *
+ * @returns {JSX.Element} The CreatePost component.
+ */
 const CreatePost = () => {
   const { userData } = useContext(AppContext);
   const [post, setPost] = useState({

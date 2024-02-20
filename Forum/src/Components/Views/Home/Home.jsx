@@ -8,6 +8,11 @@ import { getAllPosts } from "../../../services/posts.service";
 import HomePostsTemplate from "../../HomePostsTemplate/HomePostsTemplate";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Renders the Home component.
+ * 
+ * @returns {JSX.Element} The rendered Home component.
+ */
 const Home = () => {
   const { user } = useContext(AppContext);
   const [trending, setTrending] = useState(null);

@@ -19,6 +19,11 @@ import {
 import UploadAvatar from "../../UploadAvatar/UploadAvatar";
 import AppContext from "../../../AppContext/AppContext";
 
+/**
+ * Renders the Profile component.
+ *
+ * @returns {JSX.Element} The rendered Profile component.
+ */
 const Profile = () => {
   const { userData } = useContext(AppContext);
   const [user, setUser] = useState(null);
@@ -53,7 +58,6 @@ const Profile = () => {
     if (userData) {
       getUserData(userData?.uid).then((result) => {
         setUser(result.val()[Object.keys(result.val())[0]]);
-        console.log(result.val()[Object.keys(result.val())[0]]);
       });
     }
   }, [postsChange, editProfile, userData]);

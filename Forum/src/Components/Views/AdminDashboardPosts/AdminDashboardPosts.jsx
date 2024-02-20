@@ -3,6 +3,12 @@ import { getAllPosts } from "../../../services/posts.service";
 import { useEffect, useState } from "react";
 import { adminPanelDeletePost } from "../../../services/posts.service";
 
+/**
+ * Renders the admin dashboard for managing posts.
+ *
+ * @component
+ * @returns {JSX.Element} AdminDashboardPosts component
+ */
 const AdminDashboardPosts = () => {
   const [posts, setPosts] = useState(null);
   const [selected, setSelected] = useState("author");

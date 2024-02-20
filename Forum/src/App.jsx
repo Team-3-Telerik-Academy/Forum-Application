@@ -21,6 +21,12 @@ import Profile from "./Components/Views/Profile/Profile";
 import Authenticated from "./Components/hoc/Authenticated";
 import AuthenticatedAdmin from "./Components/hoc/AuthenticatedAdmin";
 
+/**
+ * The main component of the application.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered App component.
+ */
 const App = () => {
   const [appState, setAppState] = useState({
     user: null,

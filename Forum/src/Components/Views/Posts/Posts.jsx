@@ -18,6 +18,11 @@ import {
   sortPosts,
 } from "../../../helpers/filter-sort-helpers";
 
+/**
+ * Renders the Posts component.
+ *
+ * @returns {JSX.Element} The rendered Posts component.
+ */
 const Posts = () => {
   const navigate = useNavigate();
   const { type } = useParams();

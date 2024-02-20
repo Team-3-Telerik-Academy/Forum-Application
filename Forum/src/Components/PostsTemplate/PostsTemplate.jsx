@@ -2,6 +2,19 @@ import PropTypes from "prop-types";
 import "./PostsTemplate.css";
 import { NavLink } from "react-router-dom";
 
+/**
+ * Renders a template for displaying a post.
+ *
+ * @component
+ * @param {Object} post - The post object containing post details.
+ * @param {string} post.id - The unique identifier of the post.
+ * @param {string} post.title - The title of the post.
+ * @param {string} post.author - The author of the post.
+ * @param {Date} post.createdOn - The date and time when the post was created.
+ * @param {number} post.likes - The number of likes the post has received.
+ * @param {Object} post.comments - The comments associated with the post.
+ * @returns {JSX.Element} The rendered template for displaying a post.
+ */
 const PostsTemplate = ({ post }) => {
   return (
     <NavLink to={`/post/${post.id}`}>

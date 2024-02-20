@@ -1,6 +1,19 @@
 import PropTypes from "prop-types";
 import "./Sort.css";
 
+/**
+ * Sort component for sorting and searching posts.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {string} props.selected - The currently selected sort option.
+ * @param {function} props.handleChange - The function to handle sort option change.
+ * @param {string} props.selectedValue - The currently selected search option.
+ * @param {function} props.setSelectedValue - The function to handle search option change.
+ * @param {string} props.inputValue - The current search input value.
+ * @param {function} props.handleInputValue - The function to handle search input change.
+ * @returns {JSX.Element} The rendered Sort component.
+ */
 const Sort = ({
   selected,
   handleChange,

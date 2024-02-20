@@ -13,6 +13,15 @@ import "./UploadAvatar.css";
 
 const storage = getStorage();
 
+/**
+ * UploadAvatar component for uploading and managing user avatars.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Object} props.user - The user object containing user information.
+ * @param {Function} props.updateInfo - The function to update user information.
+ * @returns {JSX.Element} The UploadAvatar component.
+ */
 const UploadAvatar = ({ user, updateInfo }) => {
   const fileInput = useRef();
 

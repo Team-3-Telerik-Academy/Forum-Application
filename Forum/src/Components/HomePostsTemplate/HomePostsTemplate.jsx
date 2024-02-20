@@ -1,6 +1,16 @@
 import PropTypes from 'prop-types';
 import './HomePostsTemplate.css';
 
+/**
+ * Renders a template for displaying a home post.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Object} props.post - The post object containing post details.
+ * @param {Function} props.goToSinglePost - The function to navigate to a single post.
+ * @param {Object} props.cursor - The CSS cursor style for the post title.
+ * @returns {JSX.Element} The rendered HomePostsTemplate component.
+ */
 const HomePostsTemplate = ({post, goToSinglePost, cursor}) => {
   return (
     <div className="single-post">

@@ -3,6 +3,11 @@ import { getBlockedUsers } from "../../../services/users.service";
 import { unblockUser } from "../../../services/users.service";
 import { useEffect, useState } from "react";
 
+/**
+ * Renders the admin dashboard for blocked users.
+ * 
+ * @returns {JSX.Element} The rendered admin dashboard component.
+ */
 const AdminDashboardBlockedUsers = () => {
   const [users, setUsers] = useState(null);
   const [selected, setSelected] = useState("firstName");

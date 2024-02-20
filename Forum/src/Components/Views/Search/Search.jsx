@@ -17,6 +17,11 @@ import {
   sortPosts,
 } from "../../../helpers/filter-sort-helpers";
 
+/**
+ * Renders the Search component.
+ *
+ * @returns {JSX.Element} The rendered Search component.
+ */
 const Search = () => {
   const [posts, setPosts] = useState(null);
   const [filteredPosts, setFilteredPosts] = useState(null);
