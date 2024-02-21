@@ -22,7 +22,7 @@ export const getUserByUsername = async (username) => {
 
 /**
  * Unblock a user.
- * 
+ *
  * @param {Array} users - The array of users.
  * @param {Function} fn - The function to update the users list.
  * @param {Object} user - The user object to unblock.
@@ -49,17 +49,22 @@ export const unblockUser = async (users, fn, user) => {
     posts,
     comments,
   } = user;
-  await createUserUsername(
-    username,
-    firstName,
-    lastName,
-    uid,
-    email,
-    createdOn,
-    likedPosts,
-    posts,
-    comments
-  );
+  // await createUserUsername(
+  //   username,
+  //   firstName,
+  //   lastName,
+  //   uid,
+  //   email,
+  //   createdOn,
+  //   likedPosts,
+  //   posts,
+  //   comments
+  // );
+
+  await update(ref(db, `users/${username}`), {
+    // isBlocked: !isBlocked,
+    isBlocked: false,
+  });
   fn([...users].filter((user) => user.username !== username));
   return remove(ref(db, `blockedUsers/${username}`));
 };
@@ -72,26 +77,13 @@ export const unblockUser = async (users, fn, user) => {
  * @returns {Promise<Array>} - A promise that resolves to an array of filtered users.
  */
 export const blockUser = async (users, user, fn) => {
-  const {
-    username,
-    firstName,
-    lastName,
-    uid,
-    email,
-    isBlocked,
-  } = user;
-  await createBlockedUsers(
-    username,
-    firstName,
-    lastName,
-    uid,
-    email
-  );
+  const { username, firstName, lastName, uid, email, isBlocked } = user;
+  await createBlockedUsers(username, firstName, lastName, uid, email);
   if (isBlocked) {
     return null;
   }
   await update(ref(db, `users/${username}`), {
-    isBlocked: !user.isBlocked,
+    isBlocked: true,
   });
   const filterUsers = await getAllUsers();
   return fn(Object.values(filterUsers));
@@ -223,7 +215,7 @@ export const updateUserPosts = (username, postId, title) => {
 
 /**
  * Checks if a user is an admin and performs necessary actions.
- * 
+ *
  * @param {string} username - The username of the user.
  * @param {Function} fn - The callback function to be executed.
  * @param {object} user - The user object containing user details.
